@@ -12,7 +12,7 @@ import os
 import shutil
 import unittest
 
-from cla_common import models
+from .. import models
 
 
 class TestCore(unittest.TestCase):
@@ -21,7 +21,7 @@ class TestCore(unittest.TestCase):
         pass
 
     def test_something(self):
-        pass
+        self.assertTrue(True)
 
     def tearDown(self):
         pass
