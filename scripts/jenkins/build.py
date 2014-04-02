@@ -41,3 +41,4 @@ run("find . -name '*.pyc' -delete")
 
 # run tests
 run("%s/coverage run --source cla_common runtests.py" % bin_path)
+run("%s/coverage xml -o xunit.xml" % bin_path)

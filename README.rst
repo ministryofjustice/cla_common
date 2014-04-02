@@ -5,7 +5,7 @@ cla_common
 .. image:: https://badge.fury.io/py/cla_common.png
     :target: https://badge.fury.io/py/cla_common
 
-.. image:: http://ec2-54-194-212-120.eu-west-1.compute.amazonaws.com/buildStatus/icon?job=CLA Common
+.. image:: http://jenkins.dsd.io/buildStatus/icon?job=CLA Common
     :target: https://travis-ci.org/ministryofjustice/cla_common
 
 .. image:: https://coveralls.io/repos/ministryofjustice/cla_common/badge.png?branch=master
