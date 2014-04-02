@@ -19,7 +19,7 @@ try:
             "cla_common",
         ],
         SITE_ID=1,
-        NOSE_ARGS=['-s', '--with-xunit', '--xunit-file xunit.xml'],
+        NOSE_ARGS=['-s', '--with-xunit', '--xunit-file=xunit.xml'],
     )
 
     from django_nose import NoseTestSuiteRunner
