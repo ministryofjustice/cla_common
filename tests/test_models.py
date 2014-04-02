@@ -12,7 +12,7 @@ import os
 import shutil
 import unittest
 
-from core import models
+from cla_common import models
 
 
 class TestCore(unittest.TestCase):

@@ -11,12 +11,12 @@ try:
                 "ENGINE": "django.db.backends.sqlite3",
             }
         },
-        ROOT_URLCONF="core.urls",
+        ROOT_URLCONF="cla_common.urls",
         INSTALLED_APPS=[
             "django.contrib.auth",
             "django.contrib.contenttypes",
             "django.contrib.sites",
-            "core",
+            "cla_common",
         ],
         SITE_ID=1,
         NOSE_ARGS=['-s'],

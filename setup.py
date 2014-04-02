@@ -4,14 +4,14 @@
 import os
 import sys
 
-import core
+import cla_common
 
 try:
     from setuptools import setup
 except ImportError:
     from distutils.core import setup
 
-version = core.__version__
+version = cla_common.__version__
 
 if sys.argv[-1] == 'publish':
     os.system('python setup.py sdist upload')
@@ -32,12 +32,12 @@ setup(
     author_email='kotecha.ravi@gmail.com',
     url='https://github.com/ministryofjustice/cla_common',
     packages=[
-        'core',
+        'cla_common',
     ],
     include_package_data=True,
     install_requires=[
     ],
-    license="BSD",
+    license="MIT",
     zip_safe=False,
     keywords='cla_common',
     classifiers=[
