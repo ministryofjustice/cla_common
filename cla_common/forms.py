@@ -2,7 +2,9 @@ import itertools
 from django import forms
 from django.forms import models
 from django.forms.fields import ChoiceField
+from django.forms.forms import BaseForm
 from django.utils.encoding import force_text
+import inspect
 
 
 class CollectionChoiceIterator(object):
@@ -50,8 +52,14 @@ class AdvancedCollectionChoiceField(ChoiceField):
 
     choices = property(_get_choices, ChoiceField._set_choices)
 
+def get_default_form_kwargs(form=BaseForm):
+    args, _, _, _ = inspect.getargspec(form.__init__)
+    return set(args)
+
 
 class MultipleFormsForm(forms.Form):
+    default_kwargs = get_default_form_kwargs()
+
     forms_list = ()
     formset_list = ()
 
@@ -66,7 +74,7 @@ class MultipleFormsForm(forms.Form):
                 'prefix': prefix,
                 'initial': initial.get(prefix, {})
             })
-            form_kwargs = self.get_form_kwargs(**form_kwargs)
+            form_kwargs = self.get_form_kwargs(form_class, **form_kwargs)
 
             form = form_class(*args, **form_kwargs)
             self.forms.append((prefix, form))
@@ -82,11 +90,12 @@ class MultipleFormsForm(forms.Form):
 
             self.formsets.append((prefix, formset))
 
+        super_kwargs = {k: v for k,v in kwargs.items() if k in self.default_kwargs }
+        super(MultipleFormsForm, self).__init__(*args, **super_kwargs)
 
-        super(MultipleFormsForm, self).__init__(*args, **kwargs)
-
-    def get_form_kwargs(self, **kwargs):
-        return kwargs
+    def get_form_kwargs(self, form_class, **kwargs):
+        all_kwargs = self.default_kwargs.union(getattr(form_class, 'extra_kwargs', set()))
+        return dict([(k,v) for k,v in kwargs.items() if k in all_kwargs])
 
     def is_valid(self, *args, **kwargs):
         return all(
