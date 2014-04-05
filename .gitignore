@@ -44,3 +44,5 @@ output/*/index.html
 docs/_build
 
 *.iml
+
+xunit.xml
