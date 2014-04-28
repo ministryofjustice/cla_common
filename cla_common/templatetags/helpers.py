@@ -33,7 +33,8 @@ def as_date(date_string):
 
 @register.filter()
 def field_from_name(form, name):
-    return form[name]
+    if name in form.fields:
+        return form[name]
 
 
 @register.filter()
