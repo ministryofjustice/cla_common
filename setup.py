@@ -29,12 +29,7 @@ setup(
     author='MOJ',
     author_email='kotecha.ravi@gmail.com',
     url='https://github.com/ministryofjustice/cla_common',
-    packages=[
-        'cla_common',
-        'cla_common.templatetags',
-        'cla_common.static',
-        'cla_common.templates',
-    ],
+    packages=find_packages(),
     include_package_data=True,
     install_requires=[
         'python-dateutil'
