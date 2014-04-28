@@ -4,12 +4,10 @@
 import os
 import sys
 
+from setuptools import find_packages, setup
+
 import cla_common
 
-try:
-    from setuptools import setup
-except ImportError:
-    from distutils.core import setup
 
 version = cla_common.__version__
 
@@ -31,9 +29,7 @@ setup(
     author='MOJ',
     author_email='kotecha.ravi@gmail.com',
     url='https://github.com/ministryofjustice/cla_common',
-    packages=[
-        'cla_common',
-    ],
+    packages=find_packages(),
     include_package_data=True,
     install_requires=[
         'python-dateutil'
