@@ -10,7 +10,7 @@ Tests for `cla_common` forms module.
 
 import unittest
 
-from .. import forms as f
+from cla_common import forms as f
 from django import forms
 
 
