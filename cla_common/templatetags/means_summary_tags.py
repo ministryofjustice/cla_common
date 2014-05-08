@@ -130,6 +130,12 @@ class MeansSummaryFormatter(object):
                     #     counter=index
                     # ),
                     _('Property {counter}: You own {val}% of the property'.format(counter=index, val=prop.get('share'))),
+                    text_yesno(
+                        prop.get('disputed'),
+                        'Property {counter}: This is a disputed property',
+                        "Property {counter}: This is not a disputed property",
+                        counter=index
+                    ),
                 ]
 
         if your_savings:
