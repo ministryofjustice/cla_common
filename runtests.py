@@ -20,6 +20,7 @@ try:
         ],
         SITE_ID=1,
         NOSE_ARGS=['-s', '--with-xunit', '--xunit-file=xunit.xml'],
+        SECRET_KEY='whocares'
     )
 
     from django_nose import NoseTestSuiteRunner
