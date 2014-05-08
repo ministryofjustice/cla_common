@@ -71,11 +71,13 @@ class MeansSummaryFormatterTestCase(unittest.TestCase):
                 {
                     'value': 100000,
                     'mortgage_left': 100,
-                    'share': 30
+                    'share': 30,
+                    'disputed': True
                 }, {
                     'value': 200000,
                     'mortgage_left': 0,
-                    'share': 20
+                    'share': 20,
+                    'disputed': False
                 }
             ],
             'you': {
@@ -105,9 +107,11 @@ class MeansSummaryFormatterTestCase(unittest.TestCase):
             'Property 1: Your property is worth &pound1000.00',
             'Property 1: You have &pound;1.00 left to pay on the mortgage',
             'Property 1: You own 30% of the property',
+            'Property 1: This is a disputed property',
             'Property 2: Your property is worth &pound2000.00',
             'Property 2: You have no outstanding mortgage on the property',
             'Property 2: You own 20% of the property',
+            'Property 2: This is not a disputed property',
             'You have &pound;1.11 saved in a bank or building society',
             'You have &pound;2.22 in investments, shares, ISAs',
             "You have valuable items worth &pound;3.33",
