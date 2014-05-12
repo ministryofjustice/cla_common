@@ -7,17 +7,17 @@ STATE_CHOICES = (
 )
 
 TITLE_CHOICES = (
-            ('mr', 'Mr'),
-            ('mrs', 'Mrs'),
-            ('miss', 'Miss'),
-            ('ms', 'Ms'),
-            ('dr', 'Dr')
-        )
+    ('mr', 'Mr'),
+    ('mrs', 'Mrs'),
+    ('miss', 'Miss'),
+    ('ms', 'Ms'),
+    ('dr', 'Dr')
+)
 
-CASE_STATE_OPEN = 0
-CASE_STATE_CLOSED = 1
-CASE_STATE_REJECTED = 2
-CASE_STATE_ACCEPTED = 3
+CASE_STATE_OPEN = 'open'
+CASE_STATE_CLOSED = 'closed'
+CASE_STATE_REJECTED = 'rejected'
+CASE_STATE_ACCEPTED = 'accepted'
 CASE_STATE_CHOICES = (
     (CASE_STATE_OPEN, 'OPEN'),
     (CASE_STATE_CLOSED, 'CLOSED'),
