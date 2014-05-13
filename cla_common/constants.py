@@ -1,26 +1,37 @@
-STATE_MAYBE = 0
+from extended_choices import Choices
 
-STATE_CHOICES = (
-    (STATE_MAYBE, 'Maybe'),
-    (1, 'Yes'),
-    (2, 'No'),
+
+ELIGIBILITY_STATES = Choices(
+    # constant, db_id, friendly string
+    ('MAYBE', 'maybe', 'Maybe'),
+    ('YES', 'yes', 'Yes'),
+    ('NO', 'no', 'No'),
 )
 
-TITLE_CHOICES = (
-    ('mr', 'Mr'),
-    ('mrs', 'Mrs'),
-    ('miss', 'Miss'),
-    ('ms', 'Ms'),
-    ('dr', 'Dr')
+
+TITLES = Choices(
+    # constant, db_id, friendly string
+    ('MR', 'mr', 'Mr'),
+    ('MRS', 'mrs', 'Mrs'),
+    ('MISS', 'miss', 'Miss'),
+    ('MS', 'ms', 'Ms'),
+    ('DR', 'dr', 'Dr')
 )
 
-CASE_STATE_OPEN = 'open'
-CASE_STATE_CLOSED = 'closed'
-CASE_STATE_REJECTED = 'rejected'
-CASE_STATE_ACCEPTED = 'accepted'
-CASE_STATE_CHOICES = (
-    (CASE_STATE_OPEN, 'OPEN'),
-    (CASE_STATE_CLOSED, 'CLOSED'),
-    (CASE_STATE_REJECTED, 'REJECTED'),
-    (CASE_STATE_ACCEPTED, 'ACCEPTED')
+CASE_STATES = Choices(
+    # constant, db_id, friendly string
+    ('OPEN', 'open', 'Open'),
+    ('CLOSED', 'closed', 'Closed'),
+    ('REJECTED', 'rejected', 'Rejected'),
+    ('ACCEPTED', 'accepted', 'Accepted'),
 )
+# CASE_STATE_OPEN = 'open'
+# CASE_STATE_CLOSED = 'closed'
+# CASE_STATE_REJECTED = 'rejected'
+# CASE_STATE_ACCEPTED = 'accepted'
+# CASE_STATE_CHOICES = (
+#     (CASE_STATE_OPEN, 'OPEN'),
+#     (CASE_STATE_CLOSED, 'CLOSED'),
+#     (CASE_STATE_REJECTED, 'REJECTED'),
+#     (CASE_STATE_ACCEPTED, 'ACCEPTED')
+# )

@@ -32,7 +32,8 @@ setup(
     packages=find_packages(),
     include_package_data=True,
     install_requires=[
-        'python-dateutil'
+        'python-dateutil',
+        'django-extended-choices'
     ],
     license="MIT",
     zip_safe=False,
