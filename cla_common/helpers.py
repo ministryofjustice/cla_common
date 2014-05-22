@@ -11,9 +11,9 @@ class MoneyInterval(object):
     per_interval_value = None  # in pennies
 
     #            interval_name, user_copy_name, multiply_factor (to get monthly value)
-    _intervals = [('per_week', _('Per Week'), 4),
-                 ('per_month', _('Per Month'), 1),
-                 ('per_year', _('Per Year'), 1.0/12.0)
+    _intervals = [('per_week', _('Per Week'), 52.0/12.0),
+                  ('per_4week', _('4 Weekly'), 13.0/12.0),
+                  ('per_month', _('Per Month'), 1)
                  ]
     _intervals_dict = {}
     for i in _intervals:
