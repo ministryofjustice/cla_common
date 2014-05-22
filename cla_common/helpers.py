@@ -1,3 +1,10 @@
+from decimal import Decimal
+
+from django.utils.translation import ugettext_lazy as _
+
+TWO_DP = Decimal('.01')
+ZERO_DP = Decimal('1')
+
 class MoneyInterval(object):
     value = None # in pennies
     interval_period = None
@@ -17,8 +24,8 @@ class MoneyInterval(object):
     def __init__(self, interval_period=None):
         self.interval_period = interval_period
 
-    #def set_as_pounds(self, per_interval_value=None):
-    #    self.set_as_pennies(int(Decimal(per_interval_value).quantize(ZERO_DP))*100)
+    def set_as_pounds(self, per_interval_value=None):
+        self.set_as_pennies(int(Decimal(per_interval_value).quantize(ZERO_DP))*100)
 
     def set_as_pennies(self, per_interval_value=None):
         self.per_interval_value = per_interval_value
