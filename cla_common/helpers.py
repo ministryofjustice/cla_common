@@ -13,7 +13,8 @@ class MoneyInterval(object):
     #            interval_name, user_copy_name, multiply_factor (to get monthly value)
     _intervals = [('per_week', _('Per Week'), 52.0/12.0),
                   ('per_4week', _('4 Weekly'), 13.0/12.0),
-                  ('per_month', _('Per Month'), 1)
+                  ('per_month', _('Per Month'), 1.0),
+                  ('per_year', _('Per Year'), 1.0/12.0)
                  ]
     _intervals_dict = {}
     for i in _intervals:
@@ -22,7 +23,14 @@ class MoneyInterval(object):
                                  }
 
     def __init__(self, interval_period=None):
+        
+        if interval_period not in self._intervals_dict.keys():
+            raise ValueError("Invalid interval period")
+        
         self.interval_period = interval_period
+
+    def is_valid_interval_period(self, interval_period):
+        return interval_period in self._intervals_dict
 
     def set_as_pounds(self, per_interval_value=None):
         self.set_as_pennies(int(Decimal(per_interval_value).quantize(ZERO_DP))*100)
@@ -48,3 +56,8 @@ class MoneyInterval(object):
         multiply_factor = float(MoneyInterval._intervals_dict[self.interval_period]['multiply_factor'])
         per_month = float(self.per_interval_value) * multiply_factor
         return int(per_month)
+
+    def as_dict(self):
+        return {    'interval_period' : self.interval_period,
+                    'per_interval_value' : self.per_interval_value
+                }
