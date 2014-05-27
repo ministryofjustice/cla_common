@@ -27,12 +27,13 @@ class MoneyInterval(object):
         if (not pennies and not pounds) or (pennies and pounds):
             raise ValueError("Amount needs to be set")
 
+        self.interval_period = interval_period
+
         if pennies:
             self._set_as_pennies(pennies)
         else:
             self._set_as_pennies(int(Decimal(pounds).quantize(ZERO_DP))*100)
 
-        self.interval_period = interval_period
 
     def is_valid_interval_period(self, interval_period):
         return interval_period in self._intervals_dict
