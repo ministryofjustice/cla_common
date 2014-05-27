@@ -17,7 +17,7 @@ class MoneyInterval(object):
                   ('per_year', _('Per Year'), 1.0/12.0)
                  ]
 
-    _intervals_dict = {i[0]: {'user_copy_name': i[1], 'multipy_factor': i[2]} for i in _intervals}
+    _intervals_dict = {i[0]: {'user_copy_name': i[1], 'multiply_factor': i[2]} for i in _intervals}
 
     def __init__(self, interval_period, pennies=None, pounds=None):
         
