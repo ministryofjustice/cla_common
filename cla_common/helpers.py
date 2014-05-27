@@ -24,12 +24,12 @@ class MoneyInterval(object):
         if interval_period not in self._intervals_dict.keys():
             raise ValueError("Invalid interval period")
         
-        if (not pennies and not pounds) or (pennies and pounds):
+        if (pennies==None and pounds==None) or (pennies!=None and pounds!=None):
             raise ValueError("Amount needs to be set")
 
         self.interval_period = interval_period
 
-        if pennies:
+        if pennies!=None:
             self._set_as_pennies(pennies)
         else:
             self._set_as_pennies(int(Decimal(pounds).quantize(ZERO_DP))*100)
