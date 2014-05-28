@@ -195,7 +195,7 @@ add_introspection_rules([
             #"max_value": ["max_value", {"default": None}],
         },
     ),
-], ["^money_interval\.fields\.MoneyIntervalField"])
+], ["^cla_common\.money_interval\.fields\.MoneyIntervalField"])
 
 
 
