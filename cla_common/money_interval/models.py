@@ -5,6 +5,7 @@ from django.utils.translation import ugettext_lazy as _
 TWO_DP = Decimal('.01')
 ZERO_DP = Decimal('1')
 
+
 class MoneyInterval(object):
     value = None # in pennies
     interval_period = None
@@ -20,10 +21,10 @@ class MoneyInterval(object):
     _intervals_dict = {i[0]: {'user_copy_name': i[1], 'multiply_factor': i[2]} for i in _intervals}
 
     def __init__(self, interval_period, pennies=None, pounds=None):
-        
+
         if interval_period not in self._intervals_dict.keys():
             raise ValueError("Invalid interval period")
-        
+
         if (pennies==None and pounds==None) or (pennies!=None and pounds!=None):
             raise ValueError("Amount needs to be set")
 
@@ -49,7 +50,7 @@ class MoneyInterval(object):
         @return: list of tuples for dropdown widget
         """
         return [(i[0], i[1]) for i in MoneyInterval._intervals]
-    
+
     def as_monthly(self):
         """
         @param interval_value: Decimal
@@ -64,3 +65,9 @@ class MoneyInterval(object):
         return {    'interval_period' : self.interval_period,
                     'per_interval_value' : self.per_interval_value
                 }
+
+    @classmethod
+    def from_dict(cls, d):
+        return cls(
+            d['interval_period'], pennies=d['per_interval_value']
+        )

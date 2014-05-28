@@ -36,6 +36,16 @@ def default_dict(data, key):
     return value or {}
 
 
+def money_interval_str(value):
+    if not value or not value['per_interval_value']:
+        return ""
+
+    return u"%s %s" % (
+        in_pounds(value['per_interval_value']),
+        value['interval_period'].replace('_', ' ')
+    )
+
+
 class MeansSummaryFormatter(object):
     def get_your_details(self, data):
         if not data:
@@ -214,12 +224,13 @@ class MeansSummaryFormatter(object):
 
         items = []
         if your_income:
+            earnigns = money_interval_str(your_income.get('earnings'))
             items += [
                 text_yesno(
-                    your_income.get('earnings'),
+                    earnigns,
                     'Your earnings: &pound;{val}',
                     "You don't have earnings",
-                    val=in_pounds(your_income.get('earnings'))
+                    val=earnigns
                 ),
                 text_yesno(
                     your_income.get('self_employed'),
@@ -235,12 +246,13 @@ class MeansSummaryFormatter(object):
             ]
 
         if partners_income:
+            earnigns = money_interval_str(partners_income.get('earnings'))
             items += [
                 text_yesno(
-                    partners_income.get('earnings'),
+                    earnigns,
                     "Your partner's earnings: &pound;{val}",
                     "Your partner doesn't have earnings",
-                    val=in_pounds(partners_income.get('earnings'))
+                    val=earnigns
                 ),
                 text_yesno(
                     partners_income.get('self_employed'),

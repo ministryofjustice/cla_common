@@ -163,14 +163,20 @@ class MeansSummaryFormatterTestCase(unittest.TestCase):
         data = {
             'you': {
                 'income': {
-                    'earnings': 111,
+                    'earnings': {
+                        'interval_period': u'per_month',
+                        'per_interval_value': 111
+                    },
                     'self_employed': True,
                     'other_income': 222
                 }
             },
             'partner': {
                 'income': {
-                    'earnings': 333,
+                    'earnings': {
+                        'interval_period': u'per_month',
+                        'per_interval_value': 333
+                    },
                     'self_employed': False,
                     'other_income': 444
                 }
@@ -184,10 +190,10 @@ class MeansSummaryFormatterTestCase(unittest.TestCase):
         self.assertEqual(section['step'], "your_income")
         self.assertEqual([unicode(s) for s in section['items']],
             [
-            "Your earnings: &pound;1.11",
+            "Your earnings: &pound;1.11 per month",
             "You are self employed",
             "Your other income: &pound;2.22",
-            "Your partner's earnings: &pound;3.33",
+            "Your partner's earnings: &pound;3.33 per month",
             "Your partner is not self employed",
             "Your partner's other income: &pound;4.44",
             "You have one child aged 15 and under",
@@ -199,12 +205,18 @@ class MeansSummaryFormatterTestCase(unittest.TestCase):
         data = {
             'you': {
                 'income': {
-                    'earnings': 0
+                    'earnings': {
+                        'interval_period': u'per_month',
+                        'per_interval_value': 0
+                    },
                 }
             },
             'partner': {
                 'income': {
-                    'earnings': 0
+                    'earnings': {
+                        'interval_period': u'per_month',
+                        'per_interval_value': 0
+                    },
                 }
             }
         }
