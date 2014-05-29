@@ -25,6 +25,7 @@ CASE_STATES = Choices(
     ('REJECTED', 'rejected', 'Rejected'),
     ('ACCEPTED', 'accepted', 'Accepted'),
 )
+
 # CASE_STATE_OPEN = 'open'
 # CASE_STATE_CLOSED = 'closed'
 # CASE_STATE_REJECTED = 'rejected'
@@ -35,3 +36,8 @@ CASE_STATES = Choices(
 #     (CASE_STATE_REJECTED, 'REJECTED'),
 #     (CASE_STATE_ACCEPTED, 'ACCEPTED')
 # )
+
+CASELOGTYPE_ACTION_KEYS = Choices(
+    # constant, db_id, friendly string
+    ('DECLINE_SPECIALISTS', 'decline_specialists', 'Deline Specialists'),
+)
