@@ -40,4 +40,5 @@ CASE_STATES = Choices(
 CASELOGTYPE_ACTION_KEYS = Choices(
     # constant, db_id, friendly string
     ('DECLINE_SPECIALISTS', 'decline_specialists', 'Deline Specialists'),
+    ('DEFER_ASSIGNMENT', 'defer_assign', 'Defer Specialist Assignment'),
 )
