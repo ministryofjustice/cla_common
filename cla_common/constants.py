@@ -39,7 +39,8 @@ CASE_STATES = Choices(
 
 CASELOGTYPE_ACTION_KEYS = Choices(
     # constant, db_id, friendly string
-    ('DECLINE_SPECIALISTS', 'decline_specialists', 'Deline Specialists'),
+    ('DECLINE_SPECIALISTS', 'decline_specialists', 'Decline Specialists'),
+    ('DEFER_ASSIGNMENT', 'defer_assign', 'Defer Specialist Assignment'),
     ('PROVIDER_REJECT_CASE', 'provider:reject_case', 'Provider rejects the case'),
     ('PROVIDER_ACCEPT_CASE', 'provider:accept_case', 'Provider accepts the case'),
     ('PROVIDER_CLOSE_CASE', 'provider:close_case', 'Provider closes the case'),
