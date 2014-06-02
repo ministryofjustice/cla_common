@@ -65,7 +65,7 @@ class MoneyIntervalField(forms.MultiValueField):
     def widget_attrs(self, widget):
         attrs = super(MoneyIntervalField, self).widget_attrs(widget)
 
-        if isinstance(widget, forms.NumberInput):
+        if isinstance(widget, MoneyIntervalWidget):
             if self.min_value is not None:
                 attrs['min'] = self.min_value
             if self.max_value is not None:
