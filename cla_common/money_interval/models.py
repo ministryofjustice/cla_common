@@ -33,7 +33,7 @@ class MoneyInterval(object):
         if pennies!=None:
             self._set_as_pennies(pennies)
         else:
-            self._set_as_pennies(int(Decimal(pounds).quantize(ZERO_DP))*100)
+            self._set_as_pennies(int(Decimal(pounds*100).quantize(ZERO_DP)))
 
 
     def is_valid_interval_period(self, interval_period):
