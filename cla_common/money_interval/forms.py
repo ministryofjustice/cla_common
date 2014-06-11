@@ -7,12 +7,18 @@ from .models import MoneyInterval
 class MoneyIntervalWidget(widgets.MultiWidget):
 
     def __init__(self, attrs=None):
+        if not attrs:
+          attrs = {}
+
+        new_class = attrs.get('class', '') + ' InlineField'
+        select_attrs = {'class': new_class.strip()}
+        select_attrs.update(attrs)
 
         intervals = MoneyInterval.get_intervals_for_widget()
 
         _widgets = (
             widgets.NumberInput(attrs=attrs),
-            widgets.Select(attrs=attrs, choices=intervals)
+            widgets.Select(attrs=select_attrs, choices=intervals)
         )
         super(MoneyIntervalWidget, self).__init__(_widgets, attrs)
 
@@ -27,7 +33,8 @@ class MoneyIntervalWidget(widgets.MultiWidget):
         if len(rendered_widgets) == 2:
             # the string added here separates the two inputs and is
             # HTML so OK add tags etc.
-            rendered_widgets.insert(1, " per ")
+            rendered_widgets.insert(1, "<span class=\"FormRow-label FormRow-label--inline\">per</span>")
+            print rendered_widgets[2]
         return u''.join(rendered_widgets)
 
 
