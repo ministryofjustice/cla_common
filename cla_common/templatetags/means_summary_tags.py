@@ -8,12 +8,17 @@ register = template.Library()
 
 
 def text_yesno(value, true_str, false_str, **format_kwargs):
-    text = true_str if value else false_str
+
+    if isinstance(value, dict) and 'per_interval_value' in value:
+        text = true_str if value['per_interval_value'] > 0 else false_str
+    else:
+        text = true_str if value else false_str
 
     default_format_kwargs = {
         'val': value
     }
     default_format_kwargs.update(format_kwargs)
+
     return _(text.format(**default_format_kwargs))
 
 
@@ -37,7 +42,7 @@ def default_dict(data, key):
 
 
 def money_interval_str(value):
-    if not value or not value['per_interval_value']:
+    if not isinstance(value, dict) or 'per_interval_value' not in value:
         return ""
 
     return u"%s %s" % (
@@ -224,13 +229,14 @@ class MeansSummaryFormatter(object):
 
         items = []
         if your_income:
-            earnigns = money_interval_str(your_income.get('earnings'))
+            earnings = money_interval_str(your_income.get('earnings'))
+            other_income = money_interval_str(your_income.get('other_income'))
             items += [
                 text_yesno(
-                    earnigns,
+                    your_income.get('earnings'),
                     'Your earnings: &pound;{val}',
                     "You don't have earnings",
-                    val=earnigns
+                    val=earnings
                 ),
                 text_yesno(
                     your_income.get('self_employed'),
@@ -241,18 +247,19 @@ class MeansSummaryFormatter(object):
                     your_income.get('other_income'),
                     'Your other income: &pound;{val}',
                     "You don't have any other income",
-                    val=in_pounds(your_income.get('other_income'))
+                    val=other_income
                 ),
             ]
 
         if partners_income:
-            earnigns = money_interval_str(partners_income.get('earnings'))
+            earnings = money_interval_str(partners_income.get('earnings'))
+            other_income = money_interval_str(partners_income.get('other_income'))
             items += [
                 text_yesno(
-                    earnigns,
+                    partners_income.get('earnings'),
                     "Your partner's earnings: &pound;{val}",
                     "Your partner doesn't have earnings",
-                    val=earnigns
+                    val=earnings
                 ),
                 text_yesno(
                     partners_income.get('self_employed'),
@@ -263,7 +270,7 @@ class MeansSummaryFormatter(object):
                     partners_income.get('other_income'),
                     "Your partner's other income: &pound;{val}",
                     "Your partner doesn't have any other income",
-                    val=in_pounds(partners_income.get('other_income'))
+                    val=other_income
                 ),
             ]
 
@@ -305,19 +312,23 @@ class MeansSummaryFormatter(object):
 
         if your_allowances:
             items += [
-                _('Your mortgage or rent: &pound;{val}'.format(val=in_pounds(your_allowances.get('mortgage_or_rent')))),
-                _('Your National Insurance and tax: &pound;{val}'.format(val=in_pounds(your_allowances.get('income_tax_and_ni')))),
-                _('Your maintenance: &pound;{val}'.format(val=in_pounds(your_allowances.get('maintenance')))),
-                _('Your childcare: &pound;{val}'.format(val=in_pounds(your_allowances.get('childcare')))),
+                _('Your mortgage: &pound;{val}'.format(val=money_interval_str(your_allowances.get('mortgage')))),
+                _('Your rent: &pound;{val}'.format(val=money_interval_str(your_allowances.get('rent')))),
+                _('Your national insurance: &pound;{val}'.format(val=money_interval_str(your_allowances.get('national_insurance')))),
+                _('Your income tax: &pound;{val}'.format(val=money_interval_str(your_allowances.get('income_tax')))),
+                _('Your maintenance: &pound;{val}'.format(val=money_interval_str(your_allowances.get('maintenance')))),
+                _('Your childcare: &pound;{val}'.format(val=money_interval_str(your_allowances.get('childcare')))),
                 _('Your payments being made towards a contribution order: &pound;{val}'.format(val=in_pounds(your_allowances.get('criminal_legalaid_contributions')))),
             ]
 
         if partners_allowances:
             items += [
-                _("Your partner's mortgage or rent: &pound;{val}".format(val=in_pounds(partners_allowances.get('mortgage_or_rent')))),
-                _("Your partner's National Insurance and tax: &pound;{val}".format(val=in_pounds(partners_allowances.get('income_tax_and_ni')))),
-                _("Your partner's maintenance: &pound;{val}".format(val=in_pounds(partners_allowances.get('maintenance')))),
-                _("Your partner's childcare: &pound;{val}".format(val=in_pounds(partners_allowances.get('childcare')))),
+                _("Your partner's mortgage: &pound;{val}".format(val=money_interval_str(partners_allowances.get('mortgage')))),
+                _("Your partner's rent: &pound;{val}".format(val=money_interval_str(partners_allowances.get('rent')))),
+                _("Your partner's national insurance: &pound;{val}".format(val=money_interval_str(partners_allowances.get('national_insurance')))),
+                _("Your partner's income tax: &pound;{val}".format(val=money_interval_str(partners_allowances.get('income_tax')))),
+                _("Your partner's maintenance: &pound;{val}".format(val=money_interval_str(partners_allowances.get('maintenance')))),
+                _("Your partner's childcare: &pound;{val}".format(val=money_interval_str(partners_allowances.get('childcare')))),
                 _("Your partner's payments being made towards a contribution order: &pound;{val}".format(val=in_pounds(partners_allowances.get('criminal_legalaid_contributions')))),
             ]
 

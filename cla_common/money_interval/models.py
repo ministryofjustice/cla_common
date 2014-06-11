@@ -63,7 +63,8 @@ class MoneyInterval(object):
 
     def as_dict(self):
         return {    'interval_period' : self.interval_period,
-                    'per_interval_value' : self.per_interval_value
+                    'per_interval_value' : self.per_interval_value,
+                    'per_month' : self.as_monthly()
                 }
 
     @classmethod

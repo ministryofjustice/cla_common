@@ -168,7 +168,10 @@ class MeansSummaryFormatterTestCase(unittest.TestCase):
                         'per_interval_value': 111
                     },
                     'self_employed': True,
-                    'other_income': 222
+                    'other_income': {
+                        'interval_period': u'per_month',
+                        'per_interval_value': 222
+                    }
                 }
             },
             'partner': {
@@ -178,7 +181,10 @@ class MeansSummaryFormatterTestCase(unittest.TestCase):
                         'per_interval_value': 333
                     },
                     'self_employed': False,
-                    'other_income': 444
+                    'other_income': {
+                        'interval_period': u'per_month',
+                        'per_interval_value': 444
+                    }
                 }
             },
             'dependants_young': 1,
@@ -192,10 +198,10 @@ class MeansSummaryFormatterTestCase(unittest.TestCase):
             [
             "Your earnings: &pound;1.11 per month",
             "You are self employed",
-            "Your other income: &pound;2.22",
+            "Your other income: &pound;2.22 per month",
             "Your partner's earnings: &pound;3.33 per month",
             "Your partner is not self employed",
-            "Your partner's other income: &pound;4.44",
+            "Your partner's other income: &pound;4.44 per month",
             "You have one child aged 15 and under",
             "You have 9 children aged 16 and over",
             ]
@@ -243,19 +249,23 @@ class MeansSummaryFormatterTestCase(unittest.TestCase):
         data = {
             'you': {
                 'deductions': {
-                    'mortgage_or_rent': 111,
-                    'income_tax_and_ni': 222,
-                    'maintenance': 333,
-                    'childcare': 444,
+                    'mortgage': {'per_interval_value':110, 'interval_period':'per_month'},
+                    'rent': {'per_interval_value':1, 'interval_period':'per_month'},
+                    'income_tax': {'per_interval_value':202, 'interval_period':'per_month'},
+                    'national_insurance': {'per_interval_value':20, 'interval_period':'per_month'},
+                    'maintenance': {'per_interval_value':333, 'interval_period':'per_month'},
+                    'childcare': {'per_interval_value':444, 'interval_period':'per_month'},
                     'criminal_legalaid_contributions': 555
                 }
             },
             'partner': {
                 'deductions': {
-                    'mortgage_or_rent': 666,
-                    'income_tax_and_ni': 777,
-                    'maintenance': 888,
-                    'childcare': 999,
+                    'mortgage': {'per_interval_value':333, 'interval_period':'per_month'},
+                    'rent': {'per_interval_value':333, 'interval_period':'per_month'},
+                    'income_tax': {'per_interval_value':666, 'interval_period':'per_month'},
+                    'national_insurance': {'per_interval_value':111, 'interval_period':'per_month'},
+                    'maintenance': {'per_interval_value':888, 'interval_period':'per_month'},
+                    'childcare': {'per_interval_value':999, 'interval_period':'per_month'},
                     'criminal_legalaid_contributions': 987
                 }
             }
@@ -264,17 +274,22 @@ class MeansSummaryFormatterTestCase(unittest.TestCase):
         section = self.formatter.get_your_allowances(data)
         self.assertEqual(section['header'], "Your expenses")
         self.assertEqual(section['step'], "your_allowances")
+
         self.assertEqual([unicode(s) for s in section['items']],
             [
-            "Your mortgage or rent: &pound;1.11",
-            "Your National Insurance and tax: &pound;2.22",
-            "Your maintenance: &pound;3.33",
-            "Your childcare: &pound;4.44",
+            "Your mortgage: &pound;1.10 per month",
+            "Your rent: &pound;0.01 per month",
+            "Your national insurance: &pound;0.20 per month",
+            "Your income tax: &pound;2.02 per month",
+            "Your maintenance: &pound;3.33 per month",
+            "Your childcare: &pound;4.44 per month",
             "Your payments being made towards a contribution order: &pound;5.55",
-            "Your partner's mortgage or rent: &pound;6.66",
-            "Your partner's National Insurance and tax: &pound;7.77",
-            "Your partner's maintenance: &pound;8.88",
-            "Your partner's childcare: &pound;9.99",
+            "Your partner's mortgage: &pound;3.33 per month",
+            "Your partner's rent: &pound;3.33 per month",
+            "Your partner's national insurance: &pound;1.11 per month",
+            "Your partner's income tax: &pound;6.66 per month",
+            "Your partner's maintenance: &pound;8.88 per month",
+            "Your partner's childcare: &pound;9.99 per month",
             "Your partner's payments being made towards a contribution order: &pound;9.87",
             ]
         )
@@ -283,10 +298,12 @@ class MeansSummaryFormatterTestCase(unittest.TestCase):
         data = {
             'you': {
                 'deductions': {
-                    'mortgage_or_rent': 0,
-                    'income_tax_and_ni': 0,
-                    'maintenance': 0,
-                    'childcare': 0,
+                    'mortgage': {'per_interval_value':0, 'interval_period':'per_month'},
+                    'rent': {'per_interval_value':0, 'interval_period':'per_month'},
+                    'income_tax': {'per_interval_value':0, 'interval_period':'per_month'},
+                    'national_insurance': {'per_interval_value':0, 'interval_period':'per_month'},
+                    'maintenance': {'per_interval_value':0, 'interval_period':'per_month'},
+                    'childcare': {'per_interval_value':0, 'interval_period':'per_month'},
                     'criminal_legalaid_contributions': 0
                 }
             }
@@ -295,10 +312,12 @@ class MeansSummaryFormatterTestCase(unittest.TestCase):
         section = self.formatter.get_your_allowances(data)
         self.assertEqual([unicode(s) for s in section['items']],
             [
-            "Your mortgage or rent: &pound;0.00",
-            "Your National Insurance and tax: &pound;0.00",
-            "Your maintenance: &pound;0.00",
-            "Your childcare: &pound;0.00",
+            "Your mortgage: &pound;0.00 per month",
+            "Your rent: &pound;0.00 per month",
+            "Your national insurance: &pound;0.00 per month",
+            "Your income tax: &pound;0.00 per month",
+            "Your maintenance: &pound;0.00 per month",
+            "Your childcare: &pound;0.00 per month",
             "Your payments being made towards a contribution order: &pound;0.00",
             ]
         )
