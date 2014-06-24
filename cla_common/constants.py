@@ -3,7 +3,7 @@ from extended_choices import Choices
 
 ELIGIBILITY_STATES = Choices(
     # constant, db_id, friendly string
-    ('MAYBE', 'maybe', 'Maybe'),
+    ('UNKNOWN', 'unknown', 'Unknown'),
     ('YES', 'yes', 'Yes'),
     ('NO', 'no', 'No'),
 )

@@ -34,7 +34,6 @@ class MoneyIntervalWidget(widgets.MultiWidget):
             # the string added here separates the two inputs and is
             # HTML so OK add tags etc.
             rendered_widgets.insert(1, "<span class=\"FormRow-label FormRow-label--inline\">per</span>")
-            print rendered_widgets[2]
         return u''.join(rendered_widgets)
 
 
