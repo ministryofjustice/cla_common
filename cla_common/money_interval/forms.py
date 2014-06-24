@@ -24,8 +24,10 @@ class MoneyIntervalWidget(widgets.MultiWidget):
 
     def decompress(self, value):
         if value and isinstance(value, dict):
-            return [value['per_interval_value'], value['interval_period']]
-        return [None, None]
+            return [value['per_interval_value'] if 'per_interval_value' in value else None,
+                    value['interval_period'] if 'interval_period' in value else None]
+        else:
+            return [None,None]
 
     def format_output(self, rendered_widgets):
 
@@ -36,13 +38,17 @@ class MoneyIntervalWidget(widgets.MultiWidget):
             rendered_widgets.insert(1, "<span class=\"FormRow-label FormRow-label--inline\">per</span>")
         return u''.join(rendered_widgets)
 
-
+ 
 class MoneyIntervalField(forms.MultiValueField):
     widget = MoneyIntervalWidget
 
     def __init__(self, max_value=2500000, min_value=0, step=None, *args, **kwargs):
         self.max_value, self.min_value, self.step = max_value, min_value, step or '0.01'
 
+        if 'initial' not in kwargs:
+            kwargs['initial'] = {'interval_period':'per_month'}
+
+        #intervals = MoneyInterval.get_intervals_for_widget()
         fields = [
             forms.DecimalField(max_value=max_value, min_value=min_value, decimal_places=2),
             forms.CharField(),
@@ -73,10 +79,10 @@ class MoneyIntervalField(forms.MultiValueField):
 
         if isinstance(widget, MoneyIntervalWidget):
             if self.min_value is not None:
-                attrs['min'] = self.min_value
+                widget.widgets[0].attrs['min'] = self.min_value
             if self.max_value is not None:
-                attrs['max'] = self.max_value
+                widget.widgets[0].attrs['max'] = self.max_value
             if self.step is not None:
-                attrs['step'] = self.step
+                widget.widgets[0].attrs['step'] = self.step
 
         return attrs

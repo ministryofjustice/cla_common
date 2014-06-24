@@ -32,5 +32,6 @@ class MoneyIntervalDRFField(WritableField):
 class MoneyIntervalModelSerializerMixin(object):
     def __init__(self, *args, **kwargs):
         # add a model serializer which is used throughout this project
+        self.field_mapping = self.field_mapping.copy() # ouch
         self.field_mapping[MoneyIntervalField] = MoneyIntervalDRFField
         super(MoneyIntervalModelSerializerMixin, self).__init__(*args, **kwargs)
