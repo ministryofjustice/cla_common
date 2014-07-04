@@ -12,6 +12,10 @@ class MoneyIntervalDRFField(WritableField):
     def field_to_native(self, obj, field_name):
 
         moneyIntervalField = getattr(obj, field_name)
+
+        if not moneyIntervalField:
+            return None
+
         return {
             'interval_period' : moneyIntervalField.interval_period,
             'per_interval_value' : moneyIntervalField.per_interval_value,
