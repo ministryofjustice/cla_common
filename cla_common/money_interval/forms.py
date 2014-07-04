@@ -32,10 +32,6 @@ class MoneyIntervalWidget(widgets.MultiWidget):
     def format_output(self, rendered_widgets):
 
         # there should be a number input and a dropdown
-        if len(rendered_widgets) == 2:
-            # the string added here separates the two inputs and is
-            # HTML so OK add tags etc.
-            rendered_widgets.insert(1, "<span class=\"FormRow-label FormRow-label--inline\">per</span>")
         return u''.join(rendered_widgets)
 
  
