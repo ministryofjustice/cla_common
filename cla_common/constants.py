@@ -26,6 +26,12 @@ CASE_STATES = Choices(
     ('ACCEPTED', 'accepted', 'Accepted'),
 )
 
+MATTER_TYPE_LEVELS = Choices(
+    # constant, db_id, friendly string
+    ('ONE', 1, '1'),
+    ('TWO', 2, '2'),
+)
+
 # CASE_STATE_OPEN = 'open'
 # CASE_STATE_CLOSED = 'closed'
 # CASE_STATE_REJECTED = 'rejected'
