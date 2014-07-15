@@ -18,15 +18,6 @@ TITLES = Choices(
     ('DR', 'dr', 'Dr')
 )
 
-# NOT IN USE ANY MORE, HERE JUST FOR BACKWARD COMPATIBILITY
-# WILL NEED TO BE DELETED
-CASE_STATES = Choices(
-    # constant, db_id, friendly string
-    ('OPEN', 'open', 'Open'),
-    ('CLOSED', 'closed', 'Closed'),
-    ('REJECTED', 'rejected', 'Rejected'),
-    ('ACCEPTED', 'accepted', 'Accepted'),
-)
 
 REQUIRES_ACTION_BY = Choices(
     # constant, db_id, friendly string
