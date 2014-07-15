@@ -18,6 +18,8 @@ TITLES = Choices(
     ('DR', 'dr', 'Dr')
 )
 
+# NOT IN USE ANY MORE, HERE JUST FOR BACKWARD COMPATIBILITY
+# WILL NEED TO BE DELETED
 CASE_STATES = Choices(
     # constant, db_id, friendly string
     ('OPEN', 'open', 'Open'),
@@ -26,22 +28,27 @@ CASE_STATES = Choices(
     ('ACCEPTED', 'accepted', 'Accepted'),
 )
 
+REQUIRES_ACTION_BY = Choices(
+    # constant, db_id, friendly string
+
+    # the Operator needs to take some actions (e.g. call the client)
+    ('OPERATOR', 'operator', 'Operator'),
+
+    # the Operator Manager needs to take some actions
+    ('OPERATOR_MANAGER', 'operator_manager', 'Operator Manager'),
+
+    # the Specialist needs to accept or reject the case
+    ('PROVIDER_REVIEW', '1_provider_review', 'Provider Review'),
+
+    # the Specialist has accepted the case and the Case needs further work
+    ('PROVIDER', '2_provider', 'Provider'),
+)
+
 MATTER_TYPE_LEVELS = Choices(
     # constant, db_id, friendly string
     ('ONE', 1, '1'),
     ('TWO', 2, '2'),
 )
-
-# CASE_STATE_OPEN = 'open'
-# CASE_STATE_CLOSED = 'closed'
-# CASE_STATE_REJECTED = 'rejected'
-# CASE_STATE_ACCEPTED = 'accepted'
-# CASE_STATE_CHOICES = (
-#     (CASE_STATE_OPEN, 'OPEN'),
-#     (CASE_STATE_CLOSED, 'CLOSED'),
-#     (CASE_STATE_REJECTED, 'REJECTED'),
-#     (CASE_STATE_ACCEPTED, 'ACCEPTED')
-# )
 
 CASELOGTYPE_ACTION_KEYS = Choices(
     # constant, db_id, friendly string
