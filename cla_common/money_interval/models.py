@@ -89,5 +89,3 @@ class MoneyInterval(object):
         return cls(
             d['interval_period'], pennies=d['per_interval_value']
         )
-
-

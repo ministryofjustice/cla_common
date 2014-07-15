@@ -17,15 +17,18 @@ class MoneyIntervalDRFField(WritableField):
             return None
 
         return {
-            'interval_period' : moneyIntervalField.interval_period,
-            'per_interval_value' : moneyIntervalField.per_interval_value,
+            'interval_period': moneyIntervalField.interval_period,
+            'per_interval_value': moneyIntervalField.per_interval_value,
         }
 
     def from_native(self, value):
-        # TODO remove word earnings and find it as field
+        if not value:
+            return None
+
         if isinstance(value, dict):
             mi = MoneyInterval(
-                value['interval_period'], pennies=value['per_interval_value']
+                value['interval_period'],
+                pennies=value.get('per_interval_value', 0)
             )
         else:
             # TODO - remove - only here for mock test - temporary
