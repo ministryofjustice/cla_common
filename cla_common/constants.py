@@ -234,3 +234,10 @@ ADAPTATION_LANGUAGES = [('ASSAMESE', 'Assamese'),
                         ('YORUBA', 'Yoruba'),
                         ('ZULU', 'Zulu')
                     ]
+
+DIAGNOSIS_SCOPE = Choices(
+    # constant, db_id, friendly string
+    ('INSCOPE', 'INSCOPE', 'In Scope'),
+    ('OUTOFSCOPE', 'OUTOFSCOPE', 'Out of Scope'),
+    ('UNKNOWN', 'UNKNOWN', 'Unknown (Diagnosis not complete)'),
+)
