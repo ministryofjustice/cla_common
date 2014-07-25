@@ -23,7 +23,6 @@ class MoneyInterval(object):
                        for i in _intervals}
 
     def __init__(self, interval_period, pennies=None, pounds=None):
-
         if interval_period not in self._intervals_dict.keys():
             raise ValueError("Invalid interval period")
 

@@ -26,9 +26,13 @@ class MoneyIntervalDRFField(WritableField):
             return None
 
         if isinstance(value, dict):
+            interval_period, per_interval_value = value.get('interval_period'), value.get('per_interval_value')
+            if not (interval_period and per_interval_value):
+                return None
+
             mi = MoneyInterval(
-                value['interval_period'],
-                pennies=value.get('per_interval_value', 0)
+                interval_period,
+                pennies=per_interval_value or 0
             )
         else:
             # TODO - remove - only here for mock test - temporary
