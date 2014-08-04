@@ -241,3 +241,10 @@ DIAGNOSIS_SCOPE = Choices(
     ('OUTOFSCOPE', 'OUTOFSCOPE', 'Out of Scope'),
     ('UNKNOWN', 'UNKNOWN', 'Unknown (Diagnosis not complete)'),
 )
+
+CONTACT_SAFETY = Choices(
+    # constant, db_id, friendly string
+    ('SAFE', 'SAFE', 'Safe to contact'),
+    ('DONT_CALL', 'DONT_CALL', 'Not safe to call'),
+    ('NO_MESSAGE', 'DONT_CALL', 'Not safe to leave a message'),
+)
