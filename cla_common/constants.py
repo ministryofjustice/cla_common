@@ -248,3 +248,11 @@ CONTACT_SAFETY = Choices(
     ('DONT_CALL', 'DONT_CALL', 'Not safe to call'),
     ('NO_MESSAGE', 'NO_MESSAGE', 'Not safe to leave a message'),
 )
+
+
+EXEMPT_USER_REASON = Choices(
+    # constant, db_id, friendly string
+    ('ECHI', 'ECHI', 'Client is a child'),
+    ('EDET', 'EDET', 'Client is in detention'),
+    ('EPRE', 'EPRE', '12 month exemption'),
+)
