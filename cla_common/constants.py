@@ -264,3 +264,23 @@ ECF_STATEMENT = Choices(
     ('PROBLEM_NOT_SUITABLE', 'PROBLEM_NOT_SUITABLE', 'Problem not suitable for ECF message'),
     ('CLIENT_TERMINATED', 'CLIENT_TERMINATED', 'Could not provide - client terminated call'),
 )
+
+
+FEEDBACK_ISSUE = Choices(
+    # constant, db_id, friendly string
+    ('ADVISOR_CONDUCT','ADVISOR_CONDUCT', 'Advisor conduct'),
+    ('ACCESS_PROBLEMS','ACCESS_PROBLEMS', 'Access problems'),
+    ('ALREADY_RECEIVING_ADVICE','ALREADY_RECEIVING_ADVICE', 'Already receiving/received advice'),
+    ('WRONG_CATEGORY','WRONG_CATEGORY', 'Category of law is incorrect'),
+    ('DELAY_ADVISING_LACK_OF_FOLLOWUP_INFORMATION','DELAY_ADVISING_LACK_OF_FOLLOWUP_INFORMATION', 'Delay in advising (lack of follow up information)'),
+    ('DELAY_ADVISING_OTHER','DELAY_ADVISING_OTHER', 'Delay in advising (other)'),
+    ('INCORRECT_ELIGIBILITY_CALCULATION', 'INCORRECT_ELIGIBILITY_CALCULATION', 'Incorrect eligibility calculation'),
+    ('INCORRECT_DIAGNOSIS', 'INCORRECT_DIAGNOSIS', 'Incorrect diagnosis (out of scope)'),
+    ('INCORRECT_INFO_DIAGNOSIS', 'INCORRECT_INFO_DIAGNOSIS', 'Incorrect information provided (diagnosis)'),
+    ('INCORRECT_XFER_PROVIDER', 'INCORRECT_XFER_PROVIDER', 'Incorrect transferring of calls (provider)'),
+    ('INCORRECT_XFER_BACKDOOR', 'INCORRECT_XFER_BACKDOOR', 'Incorrect transferring of calls (front/back)'),
+    ('INCORRECT_OR_MISSING_PERSONAL_DETAILS', 'INCORRECT_OR_MISSING_PERSONAL_DETAILS', 'Incorrect/missing contact details or DOB'),
+    ('OTHER_DATA_ENTRY_ERROR', 'OTHER_DATA_ENTRY_ERROR', 'Other data entry errors'),
+    ('SYSTEM_ERROR', 'SYSTEM_ERROR', 'System Error'),
+    ('OTHER', 'OTHER', 'Other'),
+)
