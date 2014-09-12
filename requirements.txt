@@ -2,5 +2,4 @@ django==1.6.6
 wheel==0.22.0
 # Additional requirements go here
 
-
 -e .
