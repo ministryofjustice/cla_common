@@ -270,21 +270,21 @@ ECF_STATEMENT = Choices(
 
 FEEDBACK_ISSUE = Choices(
     # constant, db_id, friendly string
-    ('ADVISOR_CONDUCT','ADVISOR_CONDUCT', 'Advisor conduct'),
-    ('ACCESS_PROBLEMS','ACCESS_PROBLEMS', 'Access problems'),
-    ('ALREADY_RECEIVING_ADVICE','ALREADY_RECEIVING_ADVICE', 'Already receiving/received advice'),
-    ('WRONG_CATEGORY','WRONG_CATEGORY', 'Category of law is incorrect'),
-    ('DELAY_ADVISING_LACK_OF_FOLLOWUP_INFORMATION','DELAY_ADVISING_LACK_OF_FOLLOWUP_INFORMATION', 'Delay in advising (lack of follow up information)'),
-    ('DELAY_ADVISING_OTHER','DELAY_ADVISING_OTHER', 'Delay in advising (other)'),
-    ('INCORRECT_ELIGIBILITY_CALCULATION', 'INCORRECT_ELIGIBILITY_CALCULATION', 'Incorrect eligibility calculation'),
-    ('INCORRECT_DIAGNOSIS', 'INCORRECT_DIAGNOSIS', 'Incorrect diagnosis (out of scope)'),
-    ('INCORRECT_INFO_DIAGNOSIS', 'INCORRECT_INFO_DIAGNOSIS', 'Incorrect information provided (diagnosis)'),
-    ('INCORRECT_XFER_PROVIDER', 'INCORRECT_XFER_PROVIDER', 'Incorrect transferring of calls (provider)'),
-    ('INCORRECT_XFER_BACKDOOR', 'INCORRECT_XFER_BACKDOOR', 'Incorrect transferring of calls (front/back)'),
-    ('INCORRECT_OR_MISSING_PERSONAL_DETAILS', 'INCORRECT_OR_MISSING_PERSONAL_DETAILS', 'Incorrect/missing contact details or DOB'),
-    ('OTHER_DATA_ENTRY_ERROR', 'OTHER_DATA_ENTRY_ERROR', 'Other data entry errors'),
-    ('SYSTEM_ERROR', 'SYSTEM_ERROR', 'System Error'),
-    ('OTHER', 'OTHER', 'Other'),
+    ('ADVISOR_CONDUCT','ADCO', 'Advisor conduct'),
+    ('ACCESS_PROBLEMS','ACPR', 'Access problems'),
+    ('ALREADY_RECEIVING_ADVICE','ARRA', 'Already receiving/received advice'),
+    ('WRONG_CATEGORY','COLI', 'Category of law is incorrect'),
+    ('DELAY_ADVISING_LACK_OF_FOLLOWUP_INFORMATION','DLAY', 'Delay in advising (lack of follow up information)'),
+    ('DELAY_ADVISING_OTHER','DLAO', 'Delay in advising (other)'),
+    ('INCORRECT_ELIGIBILITY_CALCULATION', 'INEL', 'Incorrect eligibility calculation'),
+    ('INCORRECT_DIAGNOSIS', 'INDI', 'Incorrect diagnosis (out of scope)'),
+    ('INCORRECT_INFO_DIAGNOSIS', 'INIP', 'Incorrect information provided (diagnosis)'),
+    ('INCORRECT_XFER_PROVIDER', 'INTC', 'Incorrect transferring of calls (provider)'),
+    ('INCORRECT_XFER_BACKDOOR', 'INFB', 'Incorrect transferring of calls (front/back)'),
+    ('INCORRECT_OR_MISSING_PERSONAL_DETAILS', 'IMCD', 'Incorrect/missing contact details or DOB'),
+    ('OTHER_DATA_ENTRY_ERROR', 'ODDE', 'Other data entry errors'),
+    ('SYSTEM_ERROR', 'SESE', 'System Error'),
+    ('OTHER', 'OTHR', 'Other'),
 )
 
 SOCKETIO_CLIENT_CONFIG = {
