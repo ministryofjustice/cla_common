@@ -1,3 +1,5 @@
+from os import environ as env
+
 from extended_choices import Choices
 
 
@@ -284,3 +286,7 @@ FEEDBACK_ISSUE = Choices(
     ('SYSTEM_ERROR', 'SYSTEM_ERROR', 'System Error'),
     ('OTHER', 'OTHER', 'Other'),
 )
+
+SOCKETIO_CLIENT_CONFIG = {
+    'SOCKETIO_SERVER_URL': env.get('SOCKETIO_SERVER_URL', 'http://localhost:8005')
+}
