@@ -14,6 +14,7 @@ class MoneyInterval(object):
 
     # interval_name, user_copy_name, multiply_factor (to get monthly value)
     _intervals = [('per_week', _('per week'), 52.0 / 12.0),
+                  ('per_2week', _('2 weekly'), 26.0 / 12.0),
                   ('per_4week', _('4 weekly'), 13.0 / 12.0),
                   ('per_month', _('per month'), 1.0),
                   ('per_year', _('per year'), 1.0 / 12.0)
