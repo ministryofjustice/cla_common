@@ -5,6 +5,8 @@ from dateutil import parser
 from django import template
 from django.template.defaultfilters import stringfilter
 
+from cla_common.money_interval.models import MoneyInterval
+
 register = template.Library()
 
 
@@ -43,3 +45,12 @@ def any_true(l):
         return any(l)
     else:
         return bool(l)
+
+
+@register.filter()
+def mi_as_monthly(data):
+    if not data:
+        return data
+
+    mi = MoneyInterval.from_dict(data)
+    return mi.as_monthly()
