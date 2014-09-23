@@ -262,12 +262,12 @@ EXEMPT_USER_REASON = Choices(
 ECF_OPTIONS = [
     {
         'key': 'XFER_TO_RECORDED_MESSAGE',
-        'label': 'Read the following statement',
+        'label': 'Transferring inbound call to recorded message? Read out the following statement:',
         'text': '"On closing this call you will hear a recorded message which will contain information to highlight limited circumstances in which legal aid may still be available to you. Thank you [client name] for calling Civil Legal Advice. Goodbye"'
     },
     {
         'key': 'READ_OUT_MESSAGE',
-        'label': 'Read the following statement',
+        'label': 'Outbound call? Read out the following statement:',
         'text': '"Legal aid may be available in exceptional circumstances to people whose cases are out of scope where a refusal to fund would breach Human Rights or enforceable European law. You could seek advice from a legal advisor about whether an application might succeed in your case and how to make one. Thank you for calling Civil Legal Advice. Goodbye"'
     },
     {
