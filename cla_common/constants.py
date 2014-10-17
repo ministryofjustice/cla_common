@@ -251,6 +251,11 @@ CONTACT_SAFETY = Choices(
     ('NO_MESSAGE', 'NO_MESSAGE', 'Not safe to leave a message'),
 )
 
+EMAIL_SAFETY = Choices(
+    # constant, db_id, friendly string
+    ('SAFE', 'SAFE', 'Safe to email'),
+    ('DONT_EMAIL', 'DONT_EMAIL', 'Not safe to email'),
+)
 
 EXEMPT_USER_REASON = Choices(
     # constant, db_id, friendly string
