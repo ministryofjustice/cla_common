@@ -312,6 +312,16 @@ FEEDBACK_ISSUE = Choices(
     ('OTHER', 'OTHR', 'Other'),
 )
 
+
 SOCKETIO_CLIENT_CONFIG = {
     'SOCKETIO_SERVER_URL': env.get('SOCKETIO_SERVER_URL', 'http://localhost:8005')
 }
+
+
+CASE_SOURCE = Choices(
+    # constant, db_id, friendly string
+    ('PHONE', 'PHONE', 'Phone'),
+    ('VOICEMAIL', 'VOICEMAIL', 'Voicemail'),
+    ('SMS', 'SMS', 'Sms'),
+    ('WEB', 'WEB', 'Web')
+)
