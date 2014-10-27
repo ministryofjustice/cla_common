@@ -1,4 +1,5 @@
 import datetime
+from itertools import ifilter, imap, islice, takewhile
 import requests
 
 from django.core.cache import cache
@@ -13,15 +14,15 @@ def current_datetime():
 
 
 def in_the_past(time):
-    return not time > current_datetime()
+    return current_datetime() > time
 
 
 def before_9am(time):
-    return not time.time() >= datetime.time(9, 0)
+    return time.time() < datetime.time(9, 0)
 
 
 def after_8pm(time):
-    return not time.time() < datetime.time(20, 0)
+    return time.time() >= datetime.time(20, 0)
 
 
 def on_sunday(time):
@@ -64,7 +65,7 @@ def on_saturday(time):
 
 
 def after_1230(time):
-    return not time.time() < datetime.time(12, 30)
+    return time.time() >= datetime.time(12, 30)
 
 
 def is_today(time):
@@ -77,44 +78,35 @@ def too_late(time):
     return time.time() <= (now + one_hour).time()
 
 
-def available(time):
-    return not (
-        in_the_past(time) or
-        (before_9am(time) or after_8pm(time)) or
-        on_sunday(time) or
-        on_bank_holiday(time) or
-        (on_saturday(time) and after_1230(time)) or
-        (is_today(time) and too_late(time)))
+def available(dt, ignore_time=False):
+    if not (in_the_past(dt) or on_sunday(dt) or on_bank_holiday(dt)):
+        return ignore_time or not (
+            (before_9am(dt) or after_8pm(dt)) or
+            (on_saturday(dt) and after_1230(dt)) or
+            (is_today(dt) and too_late(dt)))
+    return False
 
 
-def available_days(num):
-    nine_am = datetime.time(9)
-    today = datetime.datetime.combine(current_datetime().date(), nine_am)
-    one_day = datetime.timedelta(days=1)
-    while num:
-        if available(today):
-            value = date_format(today, 'Ymd')
-            display = date_format(today, 'l jS')
-            yield (value, display)
-            num -= 1
-        today = today + one_day
-
-
-def every_interval(time, end, mins=15):
-    interval = datetime.timedelta(minutes=mins)
-    while time < end:
+def every_interval(time, days=0, hours=0, minutes=0):
+    interval = datetime.timedelta(days=days, hours=hours, minutes=minutes)
+    while True:
         yield time
         time += interval
 
 
+def available_days(num):
+    days = every_interval(current_datetime(), days=1)
+    available_day = lambda day: available(day, ignore_time=True)
+    return list(islice(ifilter(available_day, days), num))
+
+
 def time_slots(day=None):
     if not day:
-        day = datetime.date(1, 1, 1)  # Monday
-
+        day = datetime.date(9999, 1, 1)  # a weekday in the future
     start = datetime.datetime.combine(day, datetime.time(9))
-    end = datetime.datetime.combine(day, datetime.time(20))
-
-    return list(filter(available, every_interval(start, end=end, mins=15)))
+    same_day = lambda x: x.date() == day
+    every_15m = takewhile(same_day, every_interval(start, minutes=15))
+    return list(ifilter(available, every_15m))
 
 
 def today_slots(*args):
@@ -124,13 +116,3 @@ def today_slots(*args):
 def tomorrow_slots(*args):
     tomorrow = current_datetime() + datetime.timedelta(days=1)
     return time_slots(tomorrow.date())
-
-
-def time_choices(times):
-
-    def time_choice(time):
-        return (
-            time_format(time, 'Hi'),
-            time_format(time, 'g:i A'))
-
-    return map(time_choice, times)
