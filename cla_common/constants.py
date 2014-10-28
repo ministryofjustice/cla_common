@@ -325,3 +325,75 @@ CASE_SOURCE = Choices(
     ('SMS', 'SMS', 'Sms'),
     ('WEB', 'WEB', 'Web')
 )
+
+
+GENDERS = Choices(
+    # constant, db_id, friendly string
+    ('MALE', 'Male', 'Male'),
+    ('FEMALE', 'Female', 'Female'),
+    ('PNS', 'Prefer not to say', 'Prefer not to say'),
+)
+
+
+ETHNICITIES = Choices(
+    # constant, db_id, friendly string
+    ('ASIAN_BANGLADESHI', 'Asian or Asian British Bangladeshi', 'Asian or Asian British Bangladeshi'),
+    ('ASIAN_INDIAN', 'Asian or Asian British Indian', 'Asian or Asian British Indian'),
+    ('ASIAN_OTHER', 'Asian or Asian British Other', 'Asian or Asian British Other'),
+    ('ASIAN_PAKISTANI', 'Asian or Asian British Pakistani', 'Asian or Asian British Pakistani'),
+    ('BLACK_AFRICAN', 'Black or Black British African', 'Black or Black British African'),
+    ('BLACK_CARIBBEAN', 'Black or Black British Caribbean', 'Black or Black British Caribbean'),
+    ('BLACK_OTHER', 'Black or Black British Other', 'Black or Black British Other'),
+    ('CHINESE', 'Chinese', 'Chinese'),
+    ('MIXED_OTHER', 'Mixed Other', 'Mixed Other'),
+    ('MIXED_ASIAN', 'Mixed White and Asian', 'Mixed White and Asian'),
+    ('MIXED_BLACK_AFRICAN', 'Mixed White and Black African', 'Mixed White and Black African'),
+    ('MIXED_BLACK_CARIBBEAN', 'Mixed White and Black Caribbean', 'Mixed White and Black Caribbean'),
+    ('OTHER', 'Other', 'Other'),
+    ('PNS', 'Prefer not to say', 'Prefer not to say'),
+    ('WHITE_BRITISH', 'White British', 'White British'),
+    ('WHITE_IRISH', 'White Irish', 'White Irish'),
+    ('GYPSY', 'Gypsy/Traveller', 'Gypsy/Traveller'),
+    ('NOT_ASKED', 'Client Not Asked', 'Client Not Asked'),
+)
+
+
+RELIGIONS = Choices(
+    # constant, db_id, friendly string
+    ('CHRISTIAN', 'Christian', 'Christian'),
+    ('BUDDHIST', 'Buddhist', 'Buddhist'),
+    ('HINDU', 'Hindu', 'Hindu'),
+    ('JEWISH', 'Jewish', 'Jewish'),
+    ('MUSLIM', 'Muslim', 'Muslim'),
+    ('SIKH', 'Sikh', 'Sikh'),
+    ('OTHER', 'other ', 'other '),
+    ('NO_RELIGION', 'No religion', 'No religion'),
+    ('PNS', 'Prefer not to say', 'Prefer not to say'),
+)
+
+
+SEXUAL_ORIENTATIONS = Choices(
+    # constant, db_id, friendly string
+    ('BISEXUAL', 'Bisexual', 'Bisexual'),
+    ('GAY_MAN', 'Gay man', 'Gay man'),
+    ('GAY_WOMAN', 'Gay woman', 'Gay woman'),
+    ('OTHER', 'Other', 'Other'),
+    ('HETEROSEXUAL', 'Heterosexual', 'Heterosexual'),
+    ('PNS', 'Prefer Not To Say', 'Prefer Not To Say'),
+)
+
+
+DISABILITIES = Choices(
+    # constant, db_id, friendly string
+    ('NCD', 'NCD - Not Considered Disabled', 'NCD - Not Considered Disabled'),
+    ('MHC', 'MHC - Mental Health Condition', 'MHC - Mental Health Condition'),
+    ('LDD', 'LDD - Learning Disability/Difficulty', 'LDD - Learning Disability/Difficulty'),
+    ('ILL', 'ILL - Long-Standing Illness Or Health Condition', 'ILL - Long-Standing Illness Or Health Condition'),
+    ('OTH', 'OTH - Other', 'OTH - Other'),
+    ('UKN', 'UKN - Unknown', 'UKN - Unknown'),
+    ('MOB', 'MOB - Mobility impairmentDEA - Deaf', 'MOB - Mobility impairmentDEA - Deaf'),
+    ('HEA', 'HEA - Hearing impaired ', 'HEA - Hearing impaired '),
+    ('VIS', 'VIS - Visually impaired', 'VIS - Visually impaired'),
+    ('BLI', 'BLI - Blind', 'BLI - Blind'),
+    ('PNS', 'PNS - Prefer not to say', 'PNS - Prefer not to say'),
+)
