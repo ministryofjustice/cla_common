@@ -64,6 +64,10 @@ def on_saturday(time):
     return time.weekday() == 5
 
 
+def on_weekday(time):
+    return time.weekday() < 5
+
+
 def after_1230(time):
     return time.time() >= datetime.time(12, 30)
 
@@ -116,3 +120,50 @@ def today_slots(*args):
 def tomorrow_slots(*args):
     tomorrow = current_datetime() + datetime.timedelta(days=1)
     return time_slots(tomorrow.date())
+
+
+class Hours(object):
+
+    def __init__(self, start, end):
+        self.start = start
+        self.end = end
+
+    def __contains__(self, dt):
+        return self.start <= dt.time() < self.end
+
+
+class OpeningHours(object):
+
+    def __init__(
+            self,
+            weekday=None,
+            saturday=None,
+            sunday=None,
+            bank_holiday=None,
+            **kwargs):
+
+        def date_matcher(key):
+            date = datetime.datetime.strptime(key, '%Y-%m-%d').date()
+            return lambda dt: dt.date() == date
+
+        hours = lambda args: args and Hours(*args)
+
+        self.day_hours = [
+            (date_matcher(key), hours(val)) for key, val in kwargs.iteritems()
+        ]
+
+        self.day_hours.append((on_bank_holiday, hours(bank_holiday)))
+        self.day_hours.append((on_sunday, hours(sunday)))
+        self.day_hours.append((on_saturday, hours(saturday)))
+        self.day_hours.append((on_weekday, hours(weekday)))
+
+    def __contains__(self, dt):
+
+        for (on_day, hours) in self.day_hours:
+            if on_day(dt):
+                if hours is None:
+                    return False
+                if dt not in hours:
+                    return False
+
+        return True
