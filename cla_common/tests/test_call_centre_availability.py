@@ -1,4 +1,4 @@
-from datetime import datetime
+from datetime import datetime, time
 import unittest
 from contextlib import contextmanager
 
@@ -6,7 +6,8 @@ from django.forms import ValidationError
 import django
 
 from .. import call_centre_availability
-from ..call_centre_availability import available, time_slots
+from ..call_centre_availability import available, time_slots, Hours, \
+    OpeningHours
 from ..call_centre_availability.forms import AvailableDaysField, \
     TodaySlotsSelect
 
@@ -105,6 +106,34 @@ class CallCentreAvailabilityTestCase(unittest.TestCase):
         with override_current_time(self.now):
             slots = time_slots(self.now.date())
             self.assertEqual(len(slots), 0)
+
+    def test_hours_class(self):
+        hours = Hours(time(9, 0), time(20, 0))
+
+        self.assertTrue(self.now in hours)
+
+        after_8pm = datetime(2014, 10, 23, 22, 0)
+        self.assertFalse(after_8pm in hours)
+
+        before_9am = datetime(2014, 10, 24, 7, 0)
+        self.assertFalse(before_9am in hours)
+
+    def test_openinghours_class(self):
+        openinghours = OpeningHours(
+            weekday=(time(9, 0), time(20, 0)),
+            saturday=(time(9, 0), time(12, 30)))
+
+        bank_holiday_9am = datetime(2014, 12, 25, 9, 0)
+        self.assertFalse(bank_holiday_9am in openinghours)
+
+        sunday_morning = datetime(2014, 10, 26, 10, 0)
+        self.assertFalse(sunday_morning in openinghours)
+
+        saturday_after_1230pm = datetime(2014, 10, 25, 12, 30)
+        self.assertFalse(saturday_after_1230pm in openinghours)
+
+        friday_afternoon = datetime(2014, 10, 24, 13, 0)
+        self.assertTrue(friday_afternoon in openinghours)
 
 
 class CallCentreAvailabilityFormsTestCase(django.test.TestCase):
