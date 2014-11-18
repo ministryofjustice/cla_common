@@ -418,3 +418,13 @@ DISABILITIES = Choices(
     ('UKN', 'UKN - Unknown', 'UKN - Unknown'),
     ('OTH', 'OTH - Other', 'OTH - Other'),
 )
+
+
+SPECIFIC_BENEFITS = Choices(
+    # constant, db_id, friendly string
+    ('UNIVERSAL_CREDIT', 'universal_credit', 'Universal credit'),
+    ('INCOME_SUPPORT', 'income_support', 'Income Support'),
+    ('JOB_SEEKERS_ALLOWANCE', 'job_seekers_allowance', 'Income-based Job Seekers Allowance'),
+    ('PENSION_CREDIT', 'pension_credit', 'Guarantee State Pension Credit'),
+    ('EMPLOYMENT_SUPPORT', 'employment_support', 'Income-related Employment and Support Allowance'),
+)
