@@ -405,18 +405,18 @@ SEXUAL_ORIENTATIONS = Choices(
 
 DISABILITIES = Choices(
     # constant, db_id, friendly string
-    ('PNS', 'PNS - Prefer not to say', 'PNS - Prefer not to say'),
-    ('NCD', 'NCD - Not Considered Disabled', 'NCD - Not Considered Disabled'),
-    ('MOB', 'MOB - Mobility impairment', 'MOB - Mobility impairment'),
-    ('HEA', 'HEA - Hearing impaired', 'HEA - Hearing impaired'),
-    ('DEA', 'DEA - Deaf', 'DEA - Deaf'),
-    ('VIS', 'VIS - Visually impaired', 'VIS - Visually impaired'),
-    ('BLI', 'BLI - Blind', 'BLI - Blind'),
-    ('LDD', 'LDD - Learning Disability/Difficulty', 'LDD - Learning Disability/Difficulty'),
-    ('MHC', 'MHC - Mental Health Condition', 'MHC - Mental Health Condition'),
-    ('ILL', 'ILL - Long-Standing Illness Or Health Condition', 'ILL - Long-Standing Illness Or Health Condition'),
-    ('UKN', 'UKN - Unknown', 'UKN - Unknown'),
-    ('OTH', 'OTH - Other', 'OTH - Other'),
+    ('PNS', 'PNS - Prefer not to say', 'Prefer not to say'),
+    ('NCD', 'NCD - Not Considered Disabled', 'Not Considered Disabled'),
+    ('MOB', 'MOB - Mobility impairment', 'Mobility impairment'),
+    ('HEA', 'HEA - Hearing impaired', 'Hearing impaired'),
+    ('DEA', 'DEA - Deaf', 'Deaf'),
+    ('VIS', 'VIS - Visually impaired', 'Visually impaired'),
+    ('BLI', 'BLI - Blind', 'Blind'),
+    ('LDD', 'LDD - Learning Disability/Difficulty', 'Learning Disability/Difficulty'),
+    ('MHC', 'MHC - Mental Health Condition', 'Mental Health Condition'),
+    ('ILL', 'ILL - Long-Standing Illness Or Health Condition', 'Long-Standing Illness Or Health Condition'),
+    ('UKN', 'UKN - Unknown', 'Unknown'),
+    ('OTH', 'OTH - Other', 'Other'),
 )
 
 
