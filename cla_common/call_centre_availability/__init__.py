@@ -158,12 +158,38 @@ class OpeningHours(object):
         self.day_hours.append((on_weekday, hours(weekday)))
 
     def __contains__(self, dt):
+        return self.available(dt)
+
+    def available(self, dt, ignore_time=False):
+        if is_today(dt) and too_late(dt):
+            return False
 
         for (on_day, hours) in self.day_hours:
             if on_day(dt):
                 if hours is None:
                     return False
-                if dt not in hours:
+                if not ignore_time and dt not in hours:
                     return False
 
         return True
+
+    def time_slots(self, day=None):
+        if not day:
+            day = datetime.date(9999, 1, 1)  # a weekday in the future
+        start = datetime.datetime.combine(day, datetime.time(0))
+        same_day = lambda dt: dt.date() == day
+        available = lambda dt: self.available(dt)
+        slots = takewhile(same_day, every_interval(start, minutes=15))
+        return lambda: list(ifilter(available, slots))
+
+    def today_slots(self):
+        return self.time_slots(current_datetime().date())
+
+    def tomorrow_slots(self):
+        tomorrow = current_datetime() + datetime.timedelta(days=1)
+        return self.time_slots(tomorrow.date())
+
+    def available_days(self, num_days=6):
+        days = every_interval(current_datetime(), days=1)
+        available_day = lambda day: self.available(day, ignore_time=True)
+        return lambda: list(islice(ifilter(available_day, days), num_days))

@@ -8,8 +8,6 @@ import django
 from .. import call_centre_availability
 from ..call_centre_availability import available, time_slots, Hours, \
     OpeningHours
-from ..call_centre_availability.forms import AvailableDaysField, \
-    TodaySlotsSelect
 
 
 class MonkeyPatch(object):
@@ -41,6 +39,11 @@ def mock_bank_holidays():
     return [datetime(2014, 12, 25, 0, 0)]
 
 
+TEST_OPENING_HOURS = OpeningHours(
+    weekday=(time(9, 0), time(20, 0)),
+    saturday=(time(9, 0), time(12, 30)))
+
+
 def pretty(time):
     return '{0:%a, %d %b %I:%M %p}'.format(time)
 
@@ -70,6 +73,12 @@ class CallCentreAvailabilityTestCase(unittest.TestCase):
             pretty(self.now))
         with override_current_time(self.now):
             self.assertFalse(available(time), fail_msg)
+
+    def assertDateEqual(self, dt1, dt2):
+        self.assertEqual(dt1.date(), dt2.date())
+
+    def assertTimeEqual(self, dt1, dt2):
+        self.assertEqual(dt1.time(), dt2.time())
 
     def test_weekday_9am(self):
         self.assertAvailable(datetime(2014, 10, 23, 9, 0))
@@ -119,9 +128,7 @@ class CallCentreAvailabilityTestCase(unittest.TestCase):
         self.assertFalse(before_9am in hours)
 
     def test_openinghours_class(self):
-        openinghours = OpeningHours(
-            weekday=(time(9, 0), time(20, 0)),
-            saturday=(time(9, 0), time(12, 30)))
+        openinghours = TEST_OPENING_HOURS
 
         bank_holiday_9am = datetime(2014, 12, 25, 9, 0)
         self.assertFalse(bank_holiday_9am in openinghours)
@@ -135,38 +142,30 @@ class CallCentreAvailabilityTestCase(unittest.TestCase):
         friday_afternoon = datetime(2014, 10, 24, 13, 0)
         self.assertTrue(friday_afternoon in openinghours)
 
+    def test_available_days(self):
+        expected_days = [
+            datetime(2014, 10, 23),
+            datetime(2014, 10, 24),
+            datetime(2014, 10, 25),
+            # 26th is a sunday
+            datetime(2014, 10, 27),
+            datetime(2014, 10, 28),
+            datetime(2014, 10, 29)]
 
-class CallCentreAvailabilityFormsTestCase(django.test.TestCase):
-
-    def setUp(self):
-        self.bank_holiday_patch = MonkeyPatch(
-            call_centre_availability,
-            'bank_holidays',
-            mock_bank_holidays)
-        self.now = datetime(2014, 10, 22, 9, 0)
-
-    def tearDown(self):
-        self.bank_holiday_patch.undo()
-
-    def test_available_days_field(self):
         with override_current_time(self.now):
-            f = AvailableDaysField()
-            self.assertEqual('20141022', f.clean('20141022'))
-            self.assertEqual('20141023', f.clean('20141023'))
-            self.assertEqual('20141024', f.clean('20141024'))
-            self.assertEqual('20141025', f.clean('20141025'))
-            self.assertRaises(ValidationError, f.clean, '20141026')
-            self.assertEqual('20141027', f.clean('20141027'))
-            self.assertEqual('20141028', f.clean('20141028'))
-            self.assertRaises(ValidationError, f.clean, '20141029')
+            openinghours = TEST_OPENING_HOURS
+            days = openinghours.available_days()
+            for expected, actual in zip(expected_days, days()):
+                self.assertDateEqual(expected, actual)
 
-    def test_today_slots_select(self):
+    def test_today_slots(self):
+        expected_slots = [
+            datetime(2014, 10, 25, 11, 45),
+            datetime(2014, 10, 25, 12, 0),
+            datetime(2014, 10, 25, 12, 15)]
+
         with override_current_time(datetime(2014, 10, 25, 10, 30)):
-            w = TodaySlotsSelect()
-            self.assertHTMLEqual(
-                w.render('time_today', '1215'),
-                """<select name="time_today">
-<option value="1145">11:45 AM</option>
-<option value="1200">12:00 PM</option>
-<option value="1215" selected="selected">12:15 PM</option>
-</select>""")
+            openinghours = TEST_OPENING_HOURS
+            slots = openinghours.today_slots()
+            for expected, actual in zip(expected_slots, slots()):
+                self.assertTimeEqual(expected, actual)
