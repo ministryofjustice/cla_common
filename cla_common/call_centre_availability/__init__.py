@@ -180,7 +180,7 @@ class OpeningHours(object):
         same_day = lambda dt: dt.date() == day
         available = lambda dt: self.available(dt)
         slots = takewhile(same_day, every_interval(start, minutes=15))
-        return lambda: list(ifilter(available, slots))
+        return list(ifilter(available, slots))
 
     def today_slots(self):
         return self.time_slots(current_datetime().date())
@@ -192,4 +192,4 @@ class OpeningHours(object):
     def available_days(self, num_days=6):
         days = every_interval(current_datetime(), days=1)
         available_day = lambda day: self.available(day, ignore_time=True)
-        return lambda: list(islice(ifilter(available_day, days), num_days))
+        return list(islice(ifilter(available_day, days), num_days))
