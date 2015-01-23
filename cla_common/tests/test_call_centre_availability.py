@@ -155,7 +155,7 @@ class CallCentreAvailabilityTestCase(unittest.TestCase):
         with override_current_time(self.now):
             openinghours = TEST_OPENING_HOURS
             days = openinghours.available_days()
-            for expected, actual in zip(expected_days, days()):
+            for expected, actual in zip(expected_days, days):
                 self.assertDateEqual(expected, actual)
 
     def test_today_slots(self):
@@ -167,5 +167,5 @@ class CallCentreAvailabilityTestCase(unittest.TestCase):
         with override_current_time(datetime(2014, 10, 25, 10, 30)):
             openinghours = TEST_OPENING_HOURS
             slots = openinghours.today_slots()
-            for expected, actual in zip(expected_slots, slots()):
+            for expected, actual in zip(expected_slots, slots):
                 self.assertTimeEqual(expected, actual)
