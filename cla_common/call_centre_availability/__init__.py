@@ -107,9 +107,9 @@ def is_today(time):
 
 
 def too_late(time):
-    one_hour = datetime.timedelta(minutes=60)
+    lead_time = datetime.timedelta(minutes=120)
     now = current_datetime()
-    return time.time() <= (now + one_hour).time()
+    return time.time() <= (now + lead_time).time()
 
 
 def available(dt, ignore_time=False):
