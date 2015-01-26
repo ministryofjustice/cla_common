@@ -2,7 +2,6 @@ import datetime
 from itertools import ifilter, imap, islice, takewhile
 import requests
 
-from django.core.cache import cache
 
 
 BANK_HOLIDAYS_URL = 'https://www.gov.uk/bank-holidays/england-and-wales.json'
@@ -37,22 +36,53 @@ def get_date(bank_holiday):
     return parse_date(bank_holiday['date'])
 
 
-def load_bank_holidays():
-    holidays = requests.get(BANK_HOLIDAYS_URL).json()['events']
-    return map(get_date, holidays)
+class BankHolidays(object):
 
+    def __init__(self):
+        self._cache = None
+        self.init_cache()
 
-def cache_bank_holidays(bank_holidays):
-    one_year = 365 * 24 * 60 * 60
-    cache.set('bank_holidays', bank_holidays, one_year)
+    def init_cache(self):
+        from django.core.cache import cache
+        self._cache = cache
+
+    @property
+    def url(self):
+        return BANK_HOLIDAYS_URL
+
+    @property
+    def dates(self):
+        dates = self._cached_dates
+
+        if not dates:
+            dates = self._parse_dates(self._load_dates())
+            self._cached_dates = dates
+
+        return dates
+
+    @property
+    def _cached_dates(self):
+        if self._cache:
+            return self._cache.get('bank_holidays')
+
+    @_cached_dates.setter
+    def _cached_dates(self, dates):
+        if self._cache:
+            one_year = 365 * 24 * 60 * 60
+            self._cache.set('bank_holidays', dates, one_year)
+
+    def _load_dates(self):
+        return requests.get(self.url).json()['events']
+
+    def _parse_dates(self, events):
+        return map(get_date, events)
+
+    def __contains__(self, day):
+        return day in self.dates
 
 
 def bank_holidays():
-    bank_holidays = cache.get('bank_holidays')
-    if not bank_holidays:
-        bank_holidays = load_bank_holidays()
-        cache_bank_holidays(bank_holidays)
-    return bank_holidays
+    return BankHolidays()
 
 
 def on_bank_holiday(time):
