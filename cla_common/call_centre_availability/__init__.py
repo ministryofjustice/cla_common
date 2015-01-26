@@ -6,6 +6,8 @@ import requests
 
 BANK_HOLIDAYS_URL = 'https://www.gov.uk/bank-holidays/england-and-wales.json'
 
+SLOT_INTERVAL_MINS = 30
+
 
 def current_datetime():
     # this function is to make unit testing simpler
@@ -139,7 +141,8 @@ def time_slots(day=None):
         day = datetime.date(9999, 1, 1)  # a weekday in the future
     start = datetime.datetime.combine(day, datetime.time(9))
     same_day = lambda x: x.date() == day
-    slots = takewhile(same_day, every_interval(start, minutes=30))
+    slots = takewhile(
+        same_day, every_interval(start, minutes=SLOT_INTERVAL_MINS))
     return list(ifilter(available, slots))
 
 
@@ -209,7 +212,8 @@ class OpeningHours(object):
         start = datetime.datetime.combine(day, datetime.time(0))
         same_day = lambda dt: dt.date() == day
         available = lambda dt: self.available(dt)
-        slots = takewhile(same_day, every_interval(start, minutes=30))
+        slots = takewhile(
+            same_day, every_interval(start, minutes=SLOT_INTERVAL_MINS))
         return list(ifilter(available, slots))
 
     def today_slots(self):
