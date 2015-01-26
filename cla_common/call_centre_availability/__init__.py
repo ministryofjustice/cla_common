@@ -139,8 +139,8 @@ def time_slots(day=None):
         day = datetime.date(9999, 1, 1)  # a weekday in the future
     start = datetime.datetime.combine(day, datetime.time(9))
     same_day = lambda x: x.date() == day
-    every_15m = takewhile(same_day, every_interval(start, minutes=15))
-    return list(ifilter(available, every_15m))
+    slots = takewhile(same_day, every_interval(start, minutes=30))
+    return list(ifilter(available, slots))
 
 
 def today_slots(*args):
@@ -209,7 +209,7 @@ class OpeningHours(object):
         start = datetime.datetime.combine(day, datetime.time(0))
         same_day = lambda dt: dt.date() == day
         available = lambda dt: self.available(dt)
-        slots = takewhile(same_day, every_interval(start, minutes=15))
+        slots = takewhile(same_day, every_interval(start, minutes=30))
         return list(ifilter(available, slots))
 
     def today_slots(self):
