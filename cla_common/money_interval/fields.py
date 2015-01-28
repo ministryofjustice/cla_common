@@ -3,8 +3,6 @@ from django.core import exceptions, validators
 from django.db import models
 from django.utils.translation import ugettext_lazy as _
 
-from south.modelsinspector import add_introspection_rules
-
 from cla_common.money_interval.models import MoneyInterval
 
 
@@ -186,17 +184,17 @@ class MoneyIntervalField(models.BigIntegerField):
     # our FuzzyDate object, which is something we support.
 
 
-add_introspection_rules([
-    (
-        [MoneyIntervalField], # Class(es) these apply to
-        [],         # Positional arguments (not used)
-        {           # Keyword argument
-            #"min_value": ["min_value", {"default": None}],
-            #"max_value": ["max_value", {"default": None}],
-        },
-    ),
-], ["^cla_common\.money_interval\.fields\.MoneyIntervalField"])
-
-
-
-
+try:
+    from south.modelsinspector import add_introspection_rules
+    add_introspection_rules([
+        (
+            [MoneyIntervalField], # Class(es) these apply to
+            [],         # Positional arguments (not used)
+            {           # Keyword argument
+                #"min_value": ["min_value", {"default": None}],
+                #"max_value": ["max_value", {"default": None}],
+            },
+        ),
+    ], ["^cla_common\.money_interval\.fields\.MoneyIntervalField"])
+except ImportError:
+    pass
