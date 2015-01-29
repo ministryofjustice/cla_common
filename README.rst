@@ -16,8 +16,6 @@ common code for CLA
 Documentation
 -------------
 
-The full documentation is at https://cla_common.readthedocs.org.
-
 Quickstart
 ----------
 
@@ -29,7 +27,17 @@ Then use it in a project::
 
     import cla_common
 
-Features
---------
+Making a new release
+--------------------
 
-* TODO
+1. Make a feature branch
+2. Make your changes
+3. submit a PR
+4. check if the build job / tests pass on jenkins
+5. merge it (ask for a code review if you did anything scary)
+6. pull cla_common's develop branch
+7. $ bumpversion patch
+8. $ git push && git push --tags
+ 
+
+   
