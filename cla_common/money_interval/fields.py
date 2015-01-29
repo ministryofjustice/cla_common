@@ -60,6 +60,20 @@ class MoneyIntervalFieldCreator(object):
             obj.__dict__[self.field.name] = value
 
 
+class MoneyIntervalAutoMixin(object):
+    def contribute_to_class(self, cls, name):
+        if name not in [f.name for f in cls._meta.local_fields]:
+            return super(MoneyIntervalAutoMixin, self).contribute_to_class(cls, name)
+
+
+class MoneyIntervalAutoCharField(MoneyIntervalAutoMixin, models.CharField):
+    pass
+
+
+class MoneyIntervalAutoBigIntegerField(MoneyIntervalAutoMixin, models.BigIntegerField):
+    pass
+
+
 class MoneyIntervalField(models.BigIntegerField):
     """
     Stores money to nearest penny as integer. e.g. £10.22 would be 1022
@@ -92,7 +106,7 @@ class MoneyIntervalField(models.BigIntegerField):
         # fields appears *before* the actual 'value' field (i.e. self) in
         # the models _meta.fields - to achieve this, we need to change it's
         # creation_counter class variable.
-        interval_period_field = models.CharField(max_length=50,
+        interval_period_field = MoneyIntervalAutoCharField(max_length=50,
             choices=MoneyInterval.get_intervals_for_widget(), editable=False,
             null=True, blank=True)
         # setting the counter to the same value as the date field itself will
@@ -101,7 +115,7 @@ class MoneyIntervalField(models.BigIntegerField):
         interval_period_field.creation_counter = self.creation_counter
         cls.add_to_class(_interval_period_field_name(name), interval_period_field)
 
-        per_interval_value_field = models.BigIntegerField(editable=False,
+        per_interval_value_field = MoneyIntervalAutoBigIntegerField(editable=False,
                                                           null=True, blank=True)
         # setting the counter to the same value as the date field itself will
         # ensure the precision field appear first - it is added first after all,
