@@ -169,3 +169,14 @@ class CallCentreAvailabilityTestCase(unittest.TestCase):
             slots = openinghours.today_slots()
             for expected, actual in zip(expected_slots, slots):
                 self.assertTimeEqual(expected, actual)
+
+
+    def test_provider_hours(self):
+        fake_now = datetime(2099, 1, 1, 10, 0)
+        with override_current_time(fake_now):
+            PROVIDER_HOURS = {
+                'weekday': (time(9, 0), time(17, 0))
+            }
+
+            OH = OpeningHours(**PROVIDER_HOURS)
+            self.assertTrue(fake_now in OH)
