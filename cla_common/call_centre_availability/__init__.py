@@ -3,7 +3,6 @@ from itertools import ifilter, imap, islice, takewhile
 import requests
 
 
-
 BANK_HOLIDAYS_URL = 'https://www.gov.uk/bank-holidays/england-and-wales.json'
 
 SLOT_INTERVAL_MINS = 30
@@ -109,18 +108,22 @@ def is_today(time):
 
 
 def too_late(time):
-    lead_time = datetime.timedelta(minutes=120)
-    now = current_datetime()
-    return time.time() <= (now + lead_time).time()
+    start = current_datetime() + datetime.timedelta(hours=2)
+    return time.time() < start.time()
 
 
 def available(dt, ignore_time=False):
     if not (in_the_past(dt) or on_sunday(dt) or on_bank_holiday(dt)):
         return ignore_time or not (
             (before_9am(dt) or after_8pm(dt)) or
-            (on_saturday(dt) and after_1230(dt)) or
-            (is_today(dt) and too_late(dt)))
+            (on_saturday(dt) and after_1230(dt)))
     return False
+
+
+def can_schedule_callback(dt):
+    if is_today(dt) and too_late(dt):
+        return False
+    return available(dt)
 
 
 def every_interval(time, days=0, hours=0, minutes=0):
@@ -140,10 +143,12 @@ def time_slots(day=None):
     if not day:
         day = datetime.date(9999, 1, 1)  # a weekday in the future
     start = datetime.datetime.combine(day, datetime.time(9))
+    today = current_datetime()
     same_day = lambda x: x.date() == day
     slots = takewhile(
         same_day, every_interval(start, minutes=SLOT_INTERVAL_MINS))
-    return list(ifilter(available, slots))
+    is_available = lambda slot: can_schedule_callback(slot)
+    return list(ifilter(is_available, slots))
 
 
 def today_slots(*args):
@@ -194,9 +199,6 @@ class OpeningHours(object):
         return self.available(dt)
 
     def available(self, dt, ignore_time=False):
-        if is_today(dt) and too_late(dt):
-            return False
-
         for (on_day, hours) in self.day_hours:
             if on_day(dt):
                 if hours is None:
@@ -206,12 +208,18 @@ class OpeningHours(object):
 
         return True
 
+    def can_schedule_callback(self, dt):
+        if is_today(dt) and too_late(dt):
+            return False
+        return self.available(dt)
+
     def time_slots(self, day=None):
         if not day:
             day = datetime.date(9999, 1, 1)  # a weekday in the future
         start = datetime.datetime.combine(day, datetime.time(0))
+        today = current_datetime()
         same_day = lambda dt: dt.date() == day
-        available = lambda dt: self.available(dt)
+        available = lambda dt: self.can_schedule_callback(dt)
         slots = takewhile(
             same_day, every_interval(start, minutes=SLOT_INTERVAL_MINS))
         return list(ifilter(available, slots))
@@ -224,6 +232,7 @@ class OpeningHours(object):
         return self.time_slots(tomorrow.date())
 
     def available_days(self, num_days=6):
-        days = every_interval(current_datetime(), days=1)
+        start = current_datetime() + datetime.timedelta(days=1)
+        days = every_interval(start, days=1)
         available_day = lambda day: self.available(day, ignore_time=True)
         return list(islice(ifilter(available_day, days), num_days))

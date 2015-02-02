@@ -96,11 +96,6 @@ class CallCentreAvailabilityTestCase(unittest.TestCase):
     def test_sunday(self):
         self.assertNotAvailable(datetime(2014, 10, 26, 9, 0))
 
-    def test_today_within_2hr(self):
-        self.now = datetime(2014, 10, 23, 12, 0)
-        self.assertNotAvailable(datetime(2014, 10, 23, 13, 0))
-        self.assertAvailable(datetime(2014, 10, 23, 14, 30))
-
     def test_bank_holiday(self):
         self.assertNotAvailable(datetime(2014, 12, 25, 9, 0))
 
@@ -160,19 +155,18 @@ class CallCentreAvailabilityTestCase(unittest.TestCase):
 
     def test_today_slots(self):
         expected_slots = [
-            datetime(2014, 10, 25, 11, 45),
-            datetime(2014, 10, 25, 12, 0),
-            datetime(2014, 10, 25, 12, 15)]
+            datetime(2014, 10, 25, 11, 30),
+            datetime(2014, 10, 25, 12, 0)]
 
-        with override_current_time(datetime(2014, 10, 25, 10, 30)):
+        with override_current_time(datetime(2014, 10, 25, 9, 30)):
             openinghours = TEST_OPENING_HOURS
             slots = openinghours.today_slots()
+            self.assertEqual(len(expected_slots), len(slots))
             for expected, actual in zip(expected_slots, slots):
                 self.assertTimeEqual(expected, actual)
 
-
     def test_provider_hours(self):
-        fake_now = datetime(2099, 1, 1, 10, 0)
+        fake_now = datetime(2099, 1, 1, 12, 0)
         with override_current_time(fake_now):
             PROVIDER_HOURS = {
                 'weekday': (time(9, 0), time(17, 0))
