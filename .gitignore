@@ -46,3 +46,4 @@ docs/_build
 *.iml
 
 xunit.xml
+.DS_Store
