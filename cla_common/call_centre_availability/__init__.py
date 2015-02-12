@@ -208,10 +208,12 @@ class OpeningHours(object):
 
         return True
 
-    def can_schedule_callback(self, dt):
+    def can_schedule_callback(self, dt, ignore_time=False):
+        if in_the_past(dt):
+            return False
         if is_today(dt) and too_late(dt):
             return False
-        return self.available(dt)
+        return self.available(dt, ignore_time=ignore_time)
 
     def time_slots(self, day=None):
         if not day:
@@ -220,9 +222,8 @@ class OpeningHours(object):
         today = current_datetime()
         same_day = lambda dt: dt.date() == day
         available = lambda dt: self.can_schedule_callback(dt)
-        slots = takewhile(
-            same_day, every_interval(start, minutes=SLOT_INTERVAL_MINS))
-        return list(ifilter(available, slots))
+        return list(ifilter(available, takewhile(same_day, every_interval(
+            start, minutes=SLOT_INTERVAL_MINS))))
 
     def today_slots(self):
         return self.time_slots(current_datetime().date())
@@ -234,5 +235,5 @@ class OpeningHours(object):
     def available_days(self, num_days=6):
         start = current_datetime() + datetime.timedelta(days=1)
         days = every_interval(start, days=1)
-        available_day = lambda day: self.available(day, ignore_time=True)
+        available_day = lambda day: self.can_schedule_callback(day, ignore_time=True)
         return list(islice(ifilter(available_day, days), num_days))
