@@ -10,6 +10,12 @@ ELIGIBILITY_STATES = Choices(
     ('NO', 'no', 'No'),
 )
 
+ELIGIBILITY_REASONS = Choices(
+    # constant, db_id, friendly string
+    ('DISPOSABLE_CAPITAL', 'DISPOSABLE_CAPITAL', 'Disposable capital too high'),
+    ('GROSS_INCOME', 'GROSS_INCOME', 'Gross income too high'),
+    ('DISPOSABLE_INCOME', 'DISPOSABLE_INCOME', 'Disposable income too high'),
+)
 
 TITLES = Choices(
     # constant, db_id, friendly string
