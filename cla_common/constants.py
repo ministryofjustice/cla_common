@@ -247,6 +247,7 @@ DIAGNOSIS_SCOPE = Choices(
     # constant, db_id, friendly string
     ('INSCOPE', 'INSCOPE', 'In Scope'),
     ('OUTOFSCOPE', 'OUTOFSCOPE', 'Out of Scope'),
+    ('INELIGIBLE', 'INELIGIBLE', 'Problem not covered'),
     ('UNKNOWN', 'UNKNOWN', 'Unknown (Diagnosis not complete)'),
     ('CONTACT', 'CONTACT', 'In Scope - skip means test'),
 )
