@@ -47,3 +47,6 @@ docs/_build
 
 xunit.xml
 .DS_Store
+
+# Pycharm
+.idea
