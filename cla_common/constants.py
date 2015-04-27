@@ -249,6 +249,7 @@ DIAGNOSIS_SCOPE = Choices(
     ('OUTOFSCOPE', 'OUTOFSCOPE', 'Out of Scope'),
     ('UNKNOWN', 'UNKNOWN', 'Unknown (Diagnosis not complete)'),
     ('CONTACT', 'CONTACT', 'In Scope - skip means test'),
+    ('INELIGIBLE', 'INELIGIBLE', 'Problem not covered'),
 )
 
 CONTACT_SAFETY = Choices(
