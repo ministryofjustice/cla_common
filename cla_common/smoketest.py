@@ -1,3 +1,4 @@
+import os
 import unittest
 
 
@@ -11,6 +12,8 @@ def smoketest(testcase_class):
     if result.wasSuccessful():
         status = 'success'
 
+    version = os.popen('git describe --abbrev=0').read().strip()
+
     def format_result(test):
         test, output = test
         return {
@@ -21,6 +24,7 @@ def smoketest(testcase_class):
 
     return {
         'result': {
+            'tag': version,
             'status': status,
             'tests_run': result.testsRun,
             'detail': {
