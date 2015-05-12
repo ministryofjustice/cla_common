@@ -436,3 +436,50 @@ SPECIFIC_BENEFITS = Choices(
     ('PENSION_CREDIT', 'pension_credit', 'Guarantee State Pension Credit'),
     ('EMPLOYMENT_SUPPORT', 'employment_support', 'Income-related Employment and Support Allowance'),
 )
+
+
+EXPRESSIONS_OF_DISSATISFACTION = Choices(
+    # constant, db_id, friendly string
+
+    # TODO: check if this list is complete/correct
+    ('INCORRECT', 'incorrect', 'Believes they\'ve been given incorrect information'),
+    ('CLA_SHOULD_HELP', 'cla_should_help', 'Believes CLA should be able to help with their problem'),
+    ('DELETION', 'deletion', 'Wants personal details deleted'),
+    ('RESPONSE', 'response', 'Unhappy with specialist advisor\'s response'),
+    ('DELAYED', 'delayed', 'Delay in getting correct advice'),
+    ('ATTITUDE', 'attitude', 'Unhappy with operator\'s attitude'),
+    ('ALT_HELP', 'alt_help', 'Alternative help not appropriate to client\'s issue'),
+    ('PUBLIC_TOOL', 'public_tool', 'Unhappy with public tool'),
+    ('ACCESSIBILITY', 'accessibility', 'Accessibility problems'),
+    ('SCOPE_REASSESS', 'scope_reassess', 'Scope reassessment requested'),
+    ('FIN_REASSESS', 'fin_reassess', 'Financial reassessment requested'),
+    ('PASS_TO_PUBLIC', 'pass_to_public', 'Threatens to pass the matter on to the media, '
+                                         'or other publilc  or regulatory body'),
+    ('DATA_PROTECTION', 'data_protection', 'Breach of Data Protection Act'),
+    ('DISCRIMINATION', 'discrimination', 'Discrimination'),
+    ('INCORRECTLY_REPORTED', 'incorrectly_reported', 'Believes CLA has incorrectly reported them under the '
+                                                     'Child, Young Person and Adult at '
+                                                     'Risk of Abuse Protection policies'),
+    ('OTHER', 'other', 'Any other negative view'),
+)
+EXPRESSIONS_OF_DISSATISFACTION_FLAGS = {
+    # constant: [allowed flags; currently only 'minor' and 'major' are permitted]
+
+    # TODO: check if this list is complete/correct
+    EXPRESSIONS_OF_DISSATISFACTION.INCORRECT: ('minor', 'major',),
+    EXPRESSIONS_OF_DISSATISFACTION.CLA_SHOULD_HELP: ('minor',),
+    EXPRESSIONS_OF_DISSATISFACTION.DELETION: ('minor',),
+    EXPRESSIONS_OF_DISSATISFACTION.RESPONSE: ('minor', 'major',),
+    EXPRESSIONS_OF_DISSATISFACTION.DELAYED: ('minor', 'major',),
+    EXPRESSIONS_OF_DISSATISFACTION.ATTITUDE: ('major',),
+    EXPRESSIONS_OF_DISSATISFACTION.ALT_HELP: ('minor',),
+    EXPRESSIONS_OF_DISSATISFACTION.PUBLIC_TOOL: ('minor',),
+    EXPRESSIONS_OF_DISSATISFACTION.ACCESSIBILITY: ('minor',),
+    EXPRESSIONS_OF_DISSATISFACTION.SCOPE_REASSESS: ('major',),
+    EXPRESSIONS_OF_DISSATISFACTION.FIN_REASSESS: ('major',),
+    EXPRESSIONS_OF_DISSATISFACTION.PASS_TO_PUBLIC: ('major',),
+    EXPRESSIONS_OF_DISSATISFACTION.DATA_PROTECTION: ('major',),
+    EXPRESSIONS_OF_DISSATISFACTION.DISCRIMINATION: ('major',),
+    EXPRESSIONS_OF_DISSATISFACTION.INCORRECTLY_REPORTED: ('major',),
+    EXPRESSIONS_OF_DISSATISFACTION.OTHER: ('minor',),  # TODO: shouldn't this allow major too as a catch-all?
+}
