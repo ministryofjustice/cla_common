@@ -250,6 +250,7 @@ DIAGNOSIS_SCOPE = Choices(
     ('UNKNOWN', 'UNKNOWN', 'Unknown (Diagnosis not complete)'),
     ('CONTACT', 'CONTACT', 'In Scope - skip means test'),
     ('INELIGIBLE', 'INELIGIBLE', 'Problem not covered'),
+    ('MEDIATION', 'MEDIATION', 'Advice for mediation'),
 )
 
 CONTACT_SAFETY = Choices(
