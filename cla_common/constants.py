@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 from os import environ as env
 
 from extended_choices import Choices
@@ -481,3 +482,17 @@ EXPRESSIONS_OF_DISSATISFACTION_FLAGS = {
     EXPRESSIONS_OF_DISSATISFACTION.OTHER: ('minor',),
     # TODO: shouldn't EXPRESSIONS_OF_DISSATISFACTION.OTHER allow 'major' too as a catch-all?
 }
+
+REASONS_FOR_CONTACTING = Choices(
+    # NB: these are duplicated (for translation) in cla_public so change both when necessary!
+
+    # constant, db_id, *english* friendly string
+    ('CANT_ANSWER', 'CANT_ANSWER', u'I don’t know how to answer a question'),
+    ('MISSING_PAPERWORK', 'MISSING_PAPERWORK', u'I don’t have the paperwork I need'),
+    ('PREFER_SPEAKING', 'PREFER_SPEAKING', u'I’d prefer to speak to someone'),
+    ('DIFFICULTY_ONLINE', 'DIFFICULTY_ONLINE', u'I have trouble using online services'),
+    ('HOW_SERVICE_HELPS', 'HOW_SERVICE_HELPS', u'I don’t understand how this service can help me'),
+    ('AREA_NOT_COVERED', 'AREA_NOT_COVERED', u'My problem area isn’t covered'),
+    ('PNS', 'PNS', u'I’d prefer not to say'),
+    ('OTHER', 'OTHER', u'Another reason'),
+)
