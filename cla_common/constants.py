@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 from os import environ as env
 
 from extended_choices import Choices
@@ -250,6 +251,7 @@ DIAGNOSIS_SCOPE = Choices(
     ('UNKNOWN', 'UNKNOWN', 'Unknown (Diagnosis not complete)'),
     ('CONTACT', 'CONTACT', 'In Scope - skip means test'),
     ('INELIGIBLE', 'INELIGIBLE', 'Problem not covered'),
+    ('MEDIATION', 'MEDIATION', 'Advice for mediation'),
 )
 
 CONTACT_SAFETY = Choices(
@@ -440,46 +442,57 @@ SPECIFIC_BENEFITS = Choices(
 
 EXPRESSIONS_OF_DISSATISFACTION = Choices(
     # constant, db_id, friendly string
-
-    # TODO: check if this list is complete/correct
-    ('INCORRECT', 'incorrect', 'Believes they\'ve been given incorrect information'),
-    ('CLA_SHOULD_HELP', 'cla_should_help', 'Believes CLA should be able to help with their problem'),
-    ('DELETION', 'deletion', 'Wants personal details deleted'),
-    ('RESPONSE', 'response', 'Unhappy with specialist advisor\'s response'),
-    ('DELAYED', 'delayed', 'Delay in getting correct advice'),
-    ('ATTITUDE', 'attitude', 'Unhappy with operator\'s attitude'),
-    ('ALT_HELP', 'alt_help', 'Alternative help not appropriate to client\'s issue'),
-    ('PUBLIC_TOOL', 'public_tool', 'Unhappy with public tool'),
-    ('ACCESSIBILITY', 'accessibility', 'Accessibility problems'),
-    ('SCOPE_REASSESS', 'scope_reassess', 'Scope reassessment requested'),
-    ('FIN_REASSESS', 'fin_reassess', 'Financial reassessment requested'),
+    ('INCORRECT', 'incorrect', 'Believes operator has given incorrect information'),
+    ('SCOPE_OR_MEANS', 'scope_or_means', 'Negative attitude about scope or means'),
+    ('DELETE', 'delete', 'Wants personal details deleted'),
+    ('ADVISOR_RESPONSE', 'advisor_response', 'No response from specialist advisor, or response delayed'),
+    ('OPERATOR_DELAY', 'operator_delay', 'Operator service - delay in advice'),
+    ('OPERATOR_ATTITUDE', 'operator_attitude', 'Unhappy with operator\'s attitude'),
+    ('ADVISOR_ATTITUDE', 'advisor_attitude', 'Unhappy with specialist\'s attitude'),
+    ('ALT_HELP', 'alt_help', 'Alternative help not appropriate or not available'),
+    ('PUBLIC_TOOL', 'public_tool', 'Unhappy with online service'),
+    ('ADAPTATIONS', 'adaptations', 'Problems with adaptations or adjustments'),
+    ('SCOPE_ASSESSMENT', 'scope_assessment', 'Scope reassessment requested'),
+    ('MEANS_ASSESSMENT', 'means_assessment', 'Financial reassessment requested'),
     ('PASS_TO_PUBLIC', 'pass_to_public', 'Threatens to pass the matter on to the media, '
-                                         'or other publilc  or regulatory body'),
-    ('DATA_PROTECTION', 'data_protection', 'Breach of Data Protection Act'),
-    ('DISCRIMINATION', 'discrimination', 'Discrimination'),
-    ('INCORRECTLY_REPORTED', 'incorrectly_reported', 'Believes CLA has incorrectly reported them under the '
-                                                     'Child, Young Person and Adult at '
-                                                     'Risk of Abuse Protection policies'),
-    ('OTHER', 'other', 'Any other negative view'),
+                                         'or other public or regulatory body'),
+    ('DATA_PROTECTION', 'data_protection', 'Breach of Data Protection Act/policy and confidentiality'),
+    ('DISCRIMINATION', 'discrimination', 'Discrimination from an operator or specialist'),
+    ('PLO_REFERRAL', 'plo_referral', 'Client unhappy with PLO referral'),
+    ('OTHER', 'other', 'Other'),
 )
 EXPRESSIONS_OF_DISSATISFACTION_FLAGS = {
     # constant: [allowed flags; currently only 'minor' and 'major' are permitted]
-
-    # TODO: check if this list is complete/correct
     EXPRESSIONS_OF_DISSATISFACTION.INCORRECT: ('minor', 'major',),
-    EXPRESSIONS_OF_DISSATISFACTION.CLA_SHOULD_HELP: ('minor',),
-    EXPRESSIONS_OF_DISSATISFACTION.DELETION: ('minor',),
-    EXPRESSIONS_OF_DISSATISFACTION.RESPONSE: ('minor', 'major',),
-    EXPRESSIONS_OF_DISSATISFACTION.DELAYED: ('minor', 'major',),
-    EXPRESSIONS_OF_DISSATISFACTION.ATTITUDE: ('major',),
+    EXPRESSIONS_OF_DISSATISFACTION.SCOPE_OR_MEANS: ('minor',),
+    EXPRESSIONS_OF_DISSATISFACTION.DELETE: ('minor',),
+    EXPRESSIONS_OF_DISSATISFACTION.ADVISOR_RESPONSE: ('minor', 'major',),
+    EXPRESSIONS_OF_DISSATISFACTION.OPERATOR_DELAY: ('minor', 'major',),
+    EXPRESSIONS_OF_DISSATISFACTION.OPERATOR_ATTITUDE: ('major',),
+    EXPRESSIONS_OF_DISSATISFACTION.ADVISOR_ATTITUDE: ('major',),
     EXPRESSIONS_OF_DISSATISFACTION.ALT_HELP: ('minor',),
     EXPRESSIONS_OF_DISSATISFACTION.PUBLIC_TOOL: ('minor',),
-    EXPRESSIONS_OF_DISSATISFACTION.ACCESSIBILITY: ('minor',),
-    EXPRESSIONS_OF_DISSATISFACTION.SCOPE_REASSESS: ('major',),
-    EXPRESSIONS_OF_DISSATISFACTION.FIN_REASSESS: ('major',),
+    EXPRESSIONS_OF_DISSATISFACTION.ADAPTATIONS: ('minor',),
+    EXPRESSIONS_OF_DISSATISFACTION.SCOPE_ASSESSMENT: ('major',),
+    EXPRESSIONS_OF_DISSATISFACTION.MEANS_ASSESSMENT: ('major',),
     EXPRESSIONS_OF_DISSATISFACTION.PASS_TO_PUBLIC: ('major',),
     EXPRESSIONS_OF_DISSATISFACTION.DATA_PROTECTION: ('major',),
     EXPRESSIONS_OF_DISSATISFACTION.DISCRIMINATION: ('major',),
-    EXPRESSIONS_OF_DISSATISFACTION.INCORRECTLY_REPORTED: ('major',),
-    EXPRESSIONS_OF_DISSATISFACTION.OTHER: ('minor',),  # TODO: shouldn't this allow major too as a catch-all?
+    EXPRESSIONS_OF_DISSATISFACTION.PLO_REFERRAL: ('major',),
+    EXPRESSIONS_OF_DISSATISFACTION.OTHER: ('minor',),
+    # TODO: shouldn't EXPRESSIONS_OF_DISSATISFACTION.OTHER allow 'major' too as a catch-all?
 }
+
+REASONS_FOR_CONTACTING = Choices(
+    # NB: these are duplicated (for translation) in cla_public so change both when necessary!
+
+    # constant, db_id, *english* friendly string
+    ('CANT_ANSWER', 'CANT_ANSWER', u'I don’t know how to answer a question'),
+    ('MISSING_PAPERWORK', 'MISSING_PAPERWORK', u'I don’t have the paperwork I need'),
+    ('PREFER_SPEAKING', 'PREFER_SPEAKING', u'I’d prefer to speak to someone'),
+    ('DIFFICULTY_ONLINE', 'DIFFICULTY_ONLINE', u'I have trouble using online services'),
+    ('HOW_SERVICE_HELPS', 'HOW_SERVICE_HELPS', u'I don’t understand how this service can help me'),
+    ('AREA_NOT_COVERED', 'AREA_NOT_COVERED', u'My problem area isn’t covered'),
+    ('PNS', 'PNS', u'I’d prefer not to say'),
+    ('OTHER', 'OTHER', u'Another reason'),
+)
