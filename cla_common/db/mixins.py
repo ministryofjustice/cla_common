@@ -34,7 +34,7 @@ class ModelDiffMixin(object):
         """
         return self.diff.get(field_name, None)
 
-    def save(*args, **kwargs):
+    def save(self, *args, **kwargs):
         """
         Saves the model and sets initial state
         """
