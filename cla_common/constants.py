@@ -443,8 +443,8 @@ SPECIFIC_BENEFITS = Choices(
 EXPRESSIONS_OF_DISSATISFACTION = Choices(
     # constant, db_id, friendly string
     ('INCORRECT', 'incorrect', 'Believes operator has given incorrect information'),
-    ('SCOPE', 'scope', 'Negative attitude about scope'),
-    ('MEANS', 'means', 'Negative attitude about means'),
+    ('SCOPE', 'scope', 'Unhappy with Operator Service determination (Scope)'),
+    ('MEANS', 'means', 'Unhappy with Operator Service determination (Means)'),
     ('DELETE', 'delete', 'Wants personal details deleted'),
     ('ADVISOR_RESPONSE', 'advisor_response', 'No response from specialist advisor, or response delayed'),
     ('OPERATOR_DELAY', 'operator_delay', 'Operator service - delay in advice'),
