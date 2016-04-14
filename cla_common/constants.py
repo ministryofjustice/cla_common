@@ -443,7 +443,8 @@ SPECIFIC_BENEFITS = Choices(
 EXPRESSIONS_OF_DISSATISFACTION = Choices(
     # constant, db_id, friendly string
     ('INCORRECT', 'incorrect', 'Believes operator has given incorrect information'),
-    ('SCOPE_OR_MEANS', 'scope_or_means', 'Negative attitude about scope or means'),
+    ('SCOPE', 'scope', 'Negative attitude about scope'),
+    ('MEANS', 'means', 'Negative attitude about means'),
     ('DELETE', 'delete', 'Wants personal details deleted'),
     ('ADVISOR_RESPONSE', 'advisor_response', 'No response from specialist advisor, or response delayed'),
     ('OPERATOR_DELAY', 'operator_delay', 'Operator service - delay in advice'),
@@ -464,7 +465,8 @@ EXPRESSIONS_OF_DISSATISFACTION = Choices(
 EXPRESSIONS_OF_DISSATISFACTION_FLAGS = {
     # constant: [allowed flags; currently only 'minor' and 'major' are permitted]
     EXPRESSIONS_OF_DISSATISFACTION.INCORRECT: ('minor', 'major',),
-    EXPRESSIONS_OF_DISSATISFACTION.SCOPE_OR_MEANS: ('minor',),
+    EXPRESSIONS_OF_DISSATISFACTION.SCOPE: ('minor',),
+    EXPRESSIONS_OF_DISSATISFACTION.MEANS: ('minor',),
     EXPRESSIONS_OF_DISSATISFACTION.DELETE: ('minor',),
     EXPRESSIONS_OF_DISSATISFACTION.ADVISOR_RESPONSE: ('minor', 'major',),
     EXPRESSIONS_OF_DISSATISFACTION.OPERATOR_DELAY: ('minor', 'major',),
