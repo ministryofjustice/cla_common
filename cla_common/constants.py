@@ -328,6 +328,14 @@ SOCKETIO_CLIENT_CONFIG = {
 }
 
 
+RESEARCH_CONTACT_VIA = Choices(
+    # constant, db_id, friendly string
+    ('EMAIL', 'EMAIL', 'Email'),
+    ('PHONE', 'PHONE', 'Phone'),
+    ('SMS', 'SMS', 'Sms')
+)
+
+
 CASE_SOURCE = Choices(
     # constant, db_id, friendly string
     ('PHONE', 'PHONE', 'Phone'),
