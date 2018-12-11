@@ -16,29 +16,25 @@ class AddressLookup(object):
         self.url = url
 
     def by_postcode(self, postcode):
-        params = {'postcode': postcode,
-                  'key': self.key,
-                  'output_srs': 'WGS84',
-                  'dataset': 'DPA',
-                  }
+        params = {"postcode": postcode, "key": self.key, "output_srs": "WGS84", "dataset": "DPA"}
         try:
             os_places_response = requests.get(self.url, params, timeout=3)
             os_places_response.raise_for_status()
         except requests.exceptions.ConnectTimeout as e:
-            log.error('OS Places request timed out: {}'.format(e))
+            log.error("OS Places request timed out: {}".format(e))
         except requests.exceptions.RequestException as e:
-            log.error('OS Places request error: {}'.format(e))
+            log.error("OS Places request error: {}".format(e))
         else:
             try:
-                return os_places_response.json().get('results', [])
+                return os_places_response.json().get("results", [])
             except ValueError as e:
-                log.warning('OS Places response JSON parse error: {}'.format(e))
+                log.warning("OS Places response JSON parse error: {}".format(e))
         return []
 
 
 class FormattedAddressLookup(AddressLookup):
     def format_address_from_result(self, raw_result):
-        dpa_result = raw_result.get('DPA')
+        dpa_result = raw_result.get("DPA")
         if dpa_result:
             return self.format_address_from_dpa_result(dpa_result)
 
