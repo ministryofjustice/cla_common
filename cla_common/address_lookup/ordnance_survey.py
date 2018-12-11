@@ -24,6 +24,8 @@ class AddressLookup(object):
         try:
             os_places_response = requests.get(self.url, params, timeout=3)
             os_places_response.raise_for_status()
+        except requests.exceptions.ConnectTimeout as e:
+            log.error('OS Places request timed out: {}'.format(e))
         except requests.exceptions.RequestException as e:
             log.error('OS Places request error: {}'.format(e))
         else:
