@@ -6,7 +6,7 @@ import requests
 log = logging.getLogger(__name__)
 
 
-class OsAddressLookup(object):
+class AddressLookup(object):
     def __init__(self, key, url=None):
         if not key:
             raise Exception("OS Places API key required")
@@ -15,7 +15,7 @@ class OsAddressLookup(object):
             url = "https://api.ordnancesurvey.co.uk/places/v1/addresses/postcode"
         self.url = url
 
-    def lookup_postcode(self, postcode):
+    def by_postcode(self, postcode):
         params = {'postcode': postcode,
                   'key': self.key,
                   'output_srs': 'WGS84',
@@ -34,7 +34,7 @@ class OsAddressLookup(object):
         return []
 
 
-class OsAddressLookupFormatted(OsAddressLookup):
+class FormattedAddressLookup(AddressLookup):
     def format_address_from_result(self, raw_result):
         dpa_result = raw_result.get('DPA')
         if dpa_result:
@@ -48,6 +48,6 @@ class OsAddressLookupFormatted(OsAddressLookup):
         formatted_components.append(raw_result.get("POSTCODE", '').upper())
         return '\n'.join([c for c in formatted_components if c])
 
-    def lookup_postcode(self, postcode):
-        os_places_results = super(OsAddressLookupFormatted, self).lookup_postcode(postcode)
+    def by_postcode(self, postcode):
+        os_places_results = super(FormattedAddressLookup, self).by_postcode(postcode)
         return [self.format_address_from_result(result) for result in os_places_results]
