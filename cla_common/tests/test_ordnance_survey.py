@@ -76,9 +76,9 @@ class TestAddressLookup(unittest.TestCase):
             self.assertEquals([], addresses)
 
     def test_address_formatting(self):
-        expected_result = ["52\nQueen Annes Gate\nLondon\nSW1H 9AG"]
+        expected_result = ["Ministry of Justice\n52 Queen Annes Gate\nLondon\nSW1H 9AG"]
 
         with requests_mock.Mocker() as rm:
             rm.get(self.os_url, json=self.prerecorded_api_response)
             formatted_addresses = FormattedAddressLookup(key=self.api_key).by_postcode(self.postcode)
-            self.assertEqual(formatted_addresses, expected_result)
+            self.assertEqual(expected_result, formatted_addresses)

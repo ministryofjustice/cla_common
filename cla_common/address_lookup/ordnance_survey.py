@@ -1,5 +1,6 @@
 # coding=utf-8
 import logging
+import re
 
 import requests
 
@@ -38,13 +39,40 @@ class FormattedAddressLookup(AddressLookup):
         if dpa_result:
             return self.format_address_from_dpa_result(dpa_result)
 
+    def format_address_from_dpa_result(self, raw_result):
+        address_format = [
+            {"fields": ["ORGANISATION_NAME"]},
+            {"fields": ["SUB_BUILDING_NAME"]},
+            {"fields": ["BUILDING_NAME"]},
+            {"fields": ["BUILDING_NUMBER", "THOROUGHFARE_NAME"]},
+            {"fields": ["DEPENDENT_LOCALITY"]},
+            {"fields": ["POST_TOWN"]},
+            {"fields": ["POSTCODE"], "transform": "upper"},
+        ]
+        formatted_lines = self.format_lines(address_format, raw_result)
+        return "\n".join([c for c in formatted_lines if c])
+
+    def format_lines(self, address_format, raw_result):
+        for line_format in address_format:
+            line_components = []
+            for field in line_format["fields"]:
+                line_components.append(raw_result.get(field, ""))
+            line_string = " ".join(line_components)
+            transform = line_format.get("transform")
+            if transform:
+                yield getattr(line_string, transform)()
+            else:
+                yield self.special_title_case(line_string)
+
     @staticmethod
-    def format_address_from_dpa_result(raw_result):
-        formatted_components = []
-        for key in ["BUILDING_NAME", "BUILDING_NUMBER", "THOROUGHFARE_NAME", "DEPENDENT_LOCALITY", "POST_TOWN"]:
-            formatted_components.append(raw_result.get(key, '').title())
-        formatted_components.append(raw_result.get("POSTCODE", '').upper())
-        return '\n'.join([c for c in formatted_components if c])
+    def special_title_case(original_string, exceptions=None):
+        if not exceptions:
+            exceptions = ["of", "the"]
+        word_list = re.split(" ", original_string.lower())
+        final = [word_list[0].capitalize()]
+        for word in word_list[1:]:
+            final.append(word if word in exceptions else word.title())
+        return " ".join(final)
 
     def by_postcode(self, postcode):
         os_places_results = super(FormattedAddressLookup, self).by_postcode(postcode)
