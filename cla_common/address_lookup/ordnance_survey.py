@@ -19,7 +19,7 @@ class AddressLookup(object):
     def by_postcode(self, postcode):
         params = {"postcode": postcode, "key": self.key, "output_srs": "WGS84", "dataset": "DPA"}
         try:
-            os_places_response = requests.get(self.url, params, timeout=3)
+            os_places_response = requests.get(self.url, params=params, timeout=3)
             os_places_response.raise_for_status()
         except requests.exceptions.ConnectTimeout as e:
             log.error("OS Places request timed out: {}".format(e))
@@ -60,9 +60,10 @@ class FormattedAddressLookup(AddressLookup):
             line_string = " ".join(line_components)
             transform = line_format.get("transform")
             if transform:
-                yield getattr(line_string, transform)()
+                transformed_line = getattr(line_string, transform)()
             else:
-                yield self.special_title_case(line_string)
+                transformed_line = self.special_title_case(line_string)
+            yield transformed_line.strip()
 
     @staticmethod
     def special_title_case(original_string, exceptions=None):
