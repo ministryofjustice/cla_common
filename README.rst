@@ -33,7 +33,7 @@ How to make changes
 4. Submit a pull request
 5. merge it (ask for a code review if you did anything scary)
 6. Once code is merged, pull develop branch
-7. Follow Semantic Versioning to increment cla_common/__init__.py `__version__` appropriately
+7. Follow Semantic Versioning to increment cla_common/__init__.py __version__ appropriately
 8. Commit and merge to master
 9. Tag master with your new version
 10. $ git push && git push --tags
