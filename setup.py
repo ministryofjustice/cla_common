@@ -19,13 +19,12 @@ if sys.argv[-1] == 'publish':
     sys.exit()
 
 readme = open('README.rst').read()
-history = open('HISTORY.rst').read().replace('.. :changelog:', '')
 
 setup(
     name='cla_common',
     version=version,
     description="""common code for CLA""",
-    long_description=readme + '\n\n' + history,
+    long_description=readme,
     author='MOJ',
     author_email='kotecha.ravi@gmail.com',
     url='https://github.com/ministryofjustice/cla_common',

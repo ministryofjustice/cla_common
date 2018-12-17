@@ -3,4 +3,3 @@ wheel==0.22.0
 # Additional requirements go here
 
 -e .
-bumpversion==0.5.1
