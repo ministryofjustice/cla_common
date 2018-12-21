@@ -27,3 +27,4 @@ jobs:
           command: |
             source env-ci/bin/activate
             coverage run --source cla_common runtests.py
+            coveralls
