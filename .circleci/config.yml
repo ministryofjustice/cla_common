@@ -1,0 +1,20 @@
+version: 2
+jobs:
+  test:
+    docker:
+      - image: circleci/python:2.7
+    steps:
+      - checkout
+      - restore_cache:
+          keys:
+            - pip-v2-{{ checksum "requirements.txt" }}-{{ checksum "requirements-test.txt" }}
+      - run
+          name: Install dependencies
+          command: pip install -r requirements-test.txt
+      - save_cache:
+          key: pip-v2-{{ checksum "requirements.txt" }}-{{ checksum "requirements-test.txt" }}
+          paths:
+            - "~/.cache/pip"
+      - run:
+          name: Run tests
+          command: coverage run --source cla_common runtests.py
