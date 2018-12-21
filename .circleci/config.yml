@@ -5,16 +5,25 @@ jobs:
       - image: circleci/python:2.7
     steps:
       - checkout
+      - run:
+          name: Setup Python environment
+          command: |
+            pip install virtualenv
+            virtualenv env-ci
       - restore_cache:
           keys:
             - pip-v2-{{ checksum "requirements.txt" }}-{{ checksum "requirements-test.txt" }}
       - run:
           name: Install dependencies
-          command: pip install -r requirements-test.txt
+          command: |
+            source env-ci/bin/activate
+            pip install -r requirements-test.txt
       - save_cache:
           key: pip-v2-{{ checksum "requirements.txt" }}-{{ checksum "requirements-test.txt" }}
           paths:
             - "~/.cache/pip"
       - run:
           name: Run tests
-          command: coverage run --source cla_common runtests.py
+          command: |
+            source env-ci/bin/activate
+            coverage run --source cla_common runtests.py
