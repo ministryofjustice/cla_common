@@ -8,7 +8,7 @@ jobs:
       - restore_cache:
           keys:
             - pip-v2-{{ checksum "requirements.txt" }}-{{ checksum "requirements-test.txt" }}
-      - run
+      - run:
           name: Install dependencies
           command: pip install -r requirements-test.txt
       - save_cache:
