@@ -1,6 +1,6 @@
 version: 2
 jobs:
-  build:
+  test:
     docker:
       - image: circleci/python:2.7
     steps:
@@ -28,3 +28,8 @@ jobs:
             source env-ci/bin/activate
             coverage run --source cla_common runtests.py
             coveralls
+workflows:
+  version: 2
+  test:
+    jobs:
+      - test
