@@ -2,11 +2,11 @@
 cla_common
 ==========
 
-.. image:: https://coveralls.io/repos/ministryofjustice/cla_common/badge.png?branch=master
+.. image:: https://coveralls.io/repos/ministryofjustice/cla_common/badge.svg?branch=master
     :target: https://coveralls.io/r/ministryofjustice/cla_common?branch=master
 
 .. image:: https://circleci.com/gh/ministryofjustice/cla_common.svg?style=shield
-    :target: https://circleci.com/gh/ministryofjustice/cla_common.svg?style=shield
+    :target: https://circleci.com/gh/ministryofjustice/cla_common
 
 Documentation
 -------------
