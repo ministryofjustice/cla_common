@@ -2,9 +2,11 @@
 cla_common
 ==========
 
-.. image:: https://coveralls.io/repos/ministryofjustice/cla_common/badge.png?branch=master
+.. image:: https://coveralls.io/repos/ministryofjustice/cla_common/badge.svg?branch=master
     :target: https://coveralls.io/r/ministryofjustice/cla_common?branch=master
 
+.. image:: https://circleci.com/gh/ministryofjustice/cla_common.svg?style=shield
+    :target: https://circleci.com/gh/ministryofjustice/cla_common
 
 Documentation
 -------------
@@ -29,7 +31,7 @@ How to make changes
 -------------------
 1. Create a feature branch
 2. Make your changes
-3. Check if the build job and tests pass on Jenkins
+3. Check if the build job and tests pass on CircleCI
 4. Submit a pull request
 5. merge it (ask for a code review if you did anything scary)
 6. Once code is merged, pull develop branch
