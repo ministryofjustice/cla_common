@@ -1,6 +1,6 @@
 -r requirements.txt
 
-coverage==3.7.1
+coverage==4.5.2
 coveralls==0.4.2
 flake8==3.6.0
 mock==1.0.1
