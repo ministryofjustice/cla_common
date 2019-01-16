@@ -1,5 +1,5 @@
 django==1.7.9
-wheel==0.22.0
+wheel==0.32.3
 # Additional requirements go here
 
 -e .
