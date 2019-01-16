@@ -32,7 +32,7 @@ setup(
     include_package_data=True,
     install_requires=[
         'python-dateutil',
-        'django-extended-choices==0.3.0',
+        'django-extended-choices==1.3',
         'requests',
     ],
     license="MIT",
