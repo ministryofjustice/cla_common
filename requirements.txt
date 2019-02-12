@@ -1,4 +1,4 @@
-django==1.7.9
+django==1.11.20
 wheel==0.22.0
 # Additional requirements go here
 
