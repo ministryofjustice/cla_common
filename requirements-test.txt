@@ -4,7 +4,7 @@ coverage==3.7.1
 coveralls==0.4.2
 flake8==3.6.0
 mock==1.0.1
-tox==1.7.2
+tox==3.11.0
 requests_mock==1.5.2
 
 # Additional test requirements go here
