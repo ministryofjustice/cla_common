@@ -44,6 +44,12 @@ REQUIRES_ACTION_BY = Choices(
     ('PROVIDER', '2_provider', 'Provider'),
 )
 
+CALLBACK_WINDOW_TYPES = Choices(
+    # constant, db_id, friendly string
+    ('HALF_HOUR_EITHER_SIDE', 'HALF_HOUR_EITHER_SIDE', 'Single time, with phone call up to 30 minutes before or after'),
+    ('HALF_HOUR_WINDOW', 'HALF_HOUR_WINDOW', 'Half hour time slot'),
+)
+
 MATTER_TYPE_LEVELS = Choices(
     # constant, db_id, friendly string
     ('ONE', 1, '1'),
