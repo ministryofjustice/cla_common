@@ -512,3 +512,21 @@ REASONS_FOR_CONTACTING = Choices(
     ('PNS', 'PNS', u'I’d prefer not to say'),
     ('OTHER', 'OTHER', u'Another reason'),
 )
+
+LAALAA_PROVIDER_CATEGORIES = Choices(
+    ("aap", "aap", "Claims Against Public Authorities"),
+    ("med", "med", "Clinical negligence"),
+    ("com", "com", "Community care"),
+    ("crm", "crm", "Crime"),
+    ("deb", "deb", "Debt"),
+    ("disc", "disc", "Discrimination"),
+    ("edu", "edu", "Education"),
+    ("mat", "mat", "Family"),
+    ("fmed", "fmed", "Family mediation"),
+    ("hou", "hou", "Housing"),
+    ("immas", "immas", "Immigration or asylum"),
+    ("mhe", "mhe", "Mental health"),
+    ("pl", "pl", "Prison law"),
+    ("pub", "pub", "Public law"),
+    ("wb", "wb", "Welfare benefits"),
+)
