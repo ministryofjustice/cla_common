@@ -7,6 +7,7 @@ class LaaLaaError(Exception):
 
 class LaalaaProviderCategoriesApiClient(object):
     instance = None
+
     def __init__(self, laalaa_base_url, category_translator):
         self.categories = {}
         self.category_translator = category_translator
@@ -24,7 +25,7 @@ class LaalaaProviderCategoriesApiClient(object):
         return self.categories
 
     def _fetch_categories(self):
-        url = "{host}/categories".format(host=self.laalaa_base_url)
+        url = "{host}/categories_of_law".format(host=self.laalaa_base_url)
         try:
             response = requests.get(url)
             return response.json()
