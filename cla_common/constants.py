@@ -264,6 +264,7 @@ CONTACT_SAFETY = Choices(
     # constant, db_id, friendly string
     ('SAFE', 'SAFE', 'Safe to contact'),
     ('DONT_CALL', 'DONT_CALL', 'Not safe to call'),
+    ('NO_MESSAGE', 'NO_MESSAGE', 'Not safe to leave a message'),
 )
 
 EMAIL_SAFETY = Choices(
