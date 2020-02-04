@@ -8,6 +8,21 @@ BANK_HOLIDAYS_URL = 'https://www.gov.uk/bank-holidays/england-and-wales.json'
 SLOT_INTERVAL_MINS = 30
 
 
+class CacheAdapter:
+    _cache_adapter_factory = None
+    @classmethod
+    def set_cache_adapter_factory(cls, cache_adpater_factory):
+        cls._cache_adapter_factory = staticmethod(cache_adpater_factory)
+
+    @classmethod
+    def get_cache_adapter(cls):
+        if cls._cache_adapter_factory:
+            factory = cls._cache_adapter_factory
+            return factory()
+        return None
+
+
+
 def current_datetime():
     # this function is to make unit testing simpler
     return datetime.datetime.now()
@@ -44,8 +59,7 @@ class BankHolidays(object):
         self.init_cache()
 
     def init_cache(self):
-        from django.core.cache import cache
-        self._cache = cache
+        self._cache = CacheAdapter.get_cache_adapter()
 
     @property
     def url(self):
