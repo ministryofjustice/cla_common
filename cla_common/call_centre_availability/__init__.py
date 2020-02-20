@@ -2,25 +2,11 @@ import datetime
 from itertools import ifilter, imap, islice, takewhile
 import requests
 
+from cla_common.services import CacheAdapter
 
 BANK_HOLIDAYS_URL = 'https://www.gov.uk/bank-holidays/england-and-wales.json'
 
 SLOT_INTERVAL_MINS = 30
-
-
-class CacheAdapter:
-    _cache_adapter_factory = None
-    @classmethod
-    def set_cache_adapter_factory(cls, cache_adpater_factory):
-        cls._cache_adapter_factory = staticmethod(cache_adpater_factory)
-
-    @classmethod
-    def get_cache_adapter(cls):
-        if cls._cache_adapter_factory:
-            factory = cls._cache_adapter_factory
-            return factory()
-        return None
-
 
 
 def current_datetime():
