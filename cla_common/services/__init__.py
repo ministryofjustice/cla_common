@@ -16,8 +16,8 @@ class TranslationAdapter(object):
 class CacheAdapter:
 	_cache_adapter_factory = None
 	@classmethod
-	def set_cache_adapter_factory(cls, cache_adpater_factory):
-		cls._cache_adapter_factory = staticmethod(cache_adpater_factory)
+	def set_cache_adapter_factory(cls, cache_adapter_factory):
+		cls._cache_adapter_factory = staticmethod(cache_adapter_factory)
 
 	@classmethod
 	def get_cache_adapter(cls):
