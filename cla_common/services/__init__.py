@@ -1,35 +1,35 @@
-class TranslationAdapter(object):
-    _translation_adapter_factory = None
+class BaseAdapter(object):
+    _instance = None
+    _adapter_factory = None
+    @classmethod
+    def set_adapter_factory(cls, adapter_factory):
+        # The staticmethod for the factory is needed because this will be an unbound callable, Not needed got Python3
+        cls._adapter_factory = staticmethod(adapter_factory)
+        cls._instance = None
 
     @classmethod
-    def set_translation_adapter_factory(cls, translation_adapter_factory):
-        cls._translation_adapter_factory = translation_adapter_factory
+    def get_adapter(cls):
+        if not cls._instance and cls._adapter_factory:
+            cls._instance = cls.get_instance_from_factory(cls._adapter_factory)
+        return cls._instance
 
-    @classmethod
-    def get_translation_adapter(cls):
-        if cls._translation_adapter_factory:
-            factory = cls._translation_adapter_factory
-            return factory()
-        return None
+    @staticmethod
+    def get_instance_from_factory(factory):
+        return factory()
 
 
-class CacheAdapter(object):
-    _cache_adapter_factory = None
+class TranslationAdapter(BaseAdapter):
+    @staticmethod
+    def get_instance_from_factory(factory):
+        return staticmethod(factory())
 
-    @classmethod
-    def set_cache_adapter_factory(cls, cache_adapter_factory):
-        cls._cache_adapter_factory = staticmethod(cache_adapter_factory)
 
-    @classmethod
-    def get_cache_adapter(cls):
-        if cls._cache_adapter_factory:
-            factory = cls._cache_adapter_factory
-            return factory()
-        return None
+class CacheAdapter(BaseAdapter):
+    pass
 
 
 def translate(string):
-    translator = TranslationAdapter.get_translation_adapter()
+    translator = TranslationAdapter.get_adapter()
     if translator:
         return translator(string)
     return string

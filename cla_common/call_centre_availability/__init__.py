@@ -45,7 +45,7 @@ class BankHolidays(object):
         self.init_cache()
 
     def init_cache(self):
-        self._cache = CacheAdapter.get_cache_adapter()
+        self._cache = CacheAdapter.get_adapter()
 
     @property
     def url(self):

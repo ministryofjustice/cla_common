@@ -171,29 +171,3 @@ class CallCentreAvailabilityTestCase(unittest.TestCase):
 
             OH = OpeningHours(**PROVIDER_HOURS)
             self.assertTrue(fake_now in OH)
-
-    def test_setting_cache_adpater(self):
-
-        def cache_adapter_factory(**kwargs):
-            cache = {}
-            def cache_get(name):
-                return cache.get(name)
-            def cache_set(name, value, *args, **kwargs):
-                cache[name] = value
-
-            test_cache = mock.Mock()
-            test_cache.get = mock.Mock(side_effect=cache_get)
-            test_cache.set = mock.Mock(side_effect=cache_set)
-            return test_cache
-
-        CacheAdapter.set_cache_adapter_factory(cache_adapter_factory)
-        bank_holidays = BankHolidays()
-        bank_holidays._load_dates = mock.Mock()
-        bank_holidays._parse_dates = mock.Mock()
-        # Get bank holiday days
-        bank_holidays.dates
-        self.assertTrue(bank_holidays._load_dates.called)
-
-        # Get bank holiday days
-        bank_holidays.dates
-        self.assertEqual(bank_holidays._load_dates.call_count, 1)
