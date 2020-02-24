@@ -10,17 +10,17 @@ class BaseAdapter(object):
     @classmethod
     def get_adapter(cls):
         if not cls._instance and cls._adapter_factory:
-            cls._instance = cls.get_instance_from_factory(cls._adapter_factory)
+            cls._instance = cls._get_instance_from_factory(cls._adapter_factory)
         return cls._instance
 
     @staticmethod
-    def get_instance_from_factory(factory):
+    def _get_instance_from_factory(factory):
         return factory()
 
 
 class TranslationAdapter(BaseAdapter):
     @staticmethod
-    def get_instance_from_factory(factory):
+    def _get_instance_from_factory(factory):
         return staticmethod(factory())
 
 
