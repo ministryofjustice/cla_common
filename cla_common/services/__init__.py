@@ -1,3 +1,4 @@
+from speaklater import make_lazy_string
 class BaseAdapter(object):
     _instance = None
     _adapter_factory = None
@@ -29,7 +30,9 @@ class CacheAdapter(BaseAdapter):
 
 
 def translate(string):
-    translator = TranslationAdapter.get_adapter()
-    if translator:
-        return translator(string)
-    return string
+    def translation_callback(string_in):
+        adapter = TranslationAdapter.get_adapter()
+        if adapter:
+            return adapter(string_in)
+        return string_in
+    return make_lazy_string(translation_callback, string)

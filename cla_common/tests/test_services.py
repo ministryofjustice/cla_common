@@ -2,7 +2,7 @@ from datetime import datetime
 import mock
 
 from cla_common.tests.test_bank_holidays_base import TestBankHolidaysBaseTestCase
-from cla_common.services import CacheAdapter, TranslationAdapter
+from cla_common.services import CacheAdapter, TranslationAdapter, translate
 from cla_common.call_centre_availability import BankHolidays
 
 
@@ -44,3 +44,15 @@ class ServicesTestCase(TestBankHolidaysBaseTestCase):
         TranslationAdapter.set_adapter_factory(translation_adapter_factory)
         adapter = TranslationAdapter.get_adapter()
         self.assertEqual(adapter("foo"), "--foo--")
+
+    def test_lazy_translation(self):
+        TranslationAdapter.set_adapter_factory(None)
+        string = translate("foo")
+        # Untranslated
+        self.assertEqual(string, "foo")
+
+        def translation_adapter_factory():
+            return lambda string_in: "--{}--".format(string_in)
+
+        TranslationAdapter.set_adapter_factory(translation_adapter_factory)
+        self.assertEqual(string, "--foo--")
