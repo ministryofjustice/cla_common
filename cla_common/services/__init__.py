@@ -4,7 +4,7 @@ class BaseAdapter(object):
     _adapter_factory = None
     @classmethod
     def set_adapter_factory(cls, adapter_factory):
-        # The staticmethod for the factory is needed because this will be an unbound callable, Not needed got Python3
+        # The staticmethod for the factory is needed because this will be an unbound callable. Not needed for Python3
         cls._adapter_factory = staticmethod(adapter_factory)
         cls._instance = None
 
