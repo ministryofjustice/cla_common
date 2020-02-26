@@ -1,11 +1,9 @@
 from datetime import datetime, time
 import unittest
-import mock
 from contextlib import contextmanager
 
 from .. import call_centre_availability
-from ..call_centre_availability import available, time_slots, Hours, \
-    OpeningHours, CacheAdapter, BankHolidays
+from ..call_centre_availability import available, time_slots, Hours, OpeningHours
 
 class MonkeyPatch(object):
 
