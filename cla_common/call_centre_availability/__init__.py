@@ -2,6 +2,7 @@ import datetime
 from itertools import ifilter, imap, islice, takewhile
 import requests
 
+from cla_common.services import CacheAdapter
 
 BANK_HOLIDAYS_URL = 'https://www.gov.uk/bank-holidays/england-and-wales.json'
 
@@ -44,8 +45,7 @@ class BankHolidays(object):
         self.init_cache()
 
     def init_cache(self):
-        from django.core.cache import cache
-        self._cache = cache
+        self._cache = CacheAdapter.get_adapter()
 
     @property
     def url(self):

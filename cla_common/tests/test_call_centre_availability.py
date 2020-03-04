@@ -2,13 +2,8 @@ from datetime import datetime, time
 import unittest
 from contextlib import contextmanager
 
-from django.forms import ValidationError
-import django
-
 from .. import call_centre_availability
-from ..call_centre_availability import available, time_slots, Hours, \
-    OpeningHours
-
+from ..call_centre_availability import available, time_slots, Hours, OpeningHours
 
 class MonkeyPatch(object):
 

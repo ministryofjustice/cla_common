@@ -1,7 +1,7 @@
 # coding=utf-8
 from decimal import Decimal
+from cla_common.services import translate
 
-from django.utils.translation import ugettext_lazy as _
 
 TWO_DP = Decimal('.01')
 ZERO_DP = Decimal('1')
@@ -11,13 +11,12 @@ class MoneyInterval(object):
     value = None  # in pennies
     interval_period = None
     per_interval_value = None  # in pennies
-
     # interval_name, user_copy_name, multiply_factor (to get monthly value)
-    _intervals = [('per_week', _('per week'), 52.0 / 12.0),
-                  ('per_2week', _('2 weekly'), 26.0 / 12.0),
-                  ('per_4week', _('4 weekly'), 13.0 / 12.0),
-                  ('per_month', _('per month'), 1.0),
-                  ('per_year', _('per year'), 1.0 / 12.0)
+    _intervals = [('per_week', translate('per week'), 52.0 / 12.0),
+                  ('per_2week', translate('2 weekly'), 26.0 / 12.0),
+                  ('per_4week', translate('4 weekly'), 13.0 / 12.0),
+                  ('per_month', translate('per month'), 1.0),
+                  ('per_year', translate('per year'), 1.0 / 12.0)
     ]
 
     _intervals_dict = {i[0]: {'user_copy_name': i[1], 'multiply_factor': i[2]}
