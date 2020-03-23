@@ -10,7 +10,7 @@ import inspect
 class CollectionChoiceIterator(object):
     def __init__(self, collection=None, pk_attr=None, label_attr=None):
         self.collection = collection
-        self.pk_attr= pk_attr
+        self.pk_attr = pk_attr
         self.label_attr = label_attr
 
     def __iter__(self):
@@ -23,19 +23,20 @@ class CollectionChoiceIterator(object):
     def choice(self, obj):
         return (obj.get(self.pk_attr), obj.get(self.label_attr), obj)
 
+
 class AdvancedCollectionChoiceField(ChoiceField):
     pk_attr = None
     label_attr = None
     collection = None
 
     def __init__(self, *args, **kwargs):
-        self.collection = kwargs.pop('collection', [])
-        self.pk_attr = kwargs.pop('pk_attr')
-        self.label_attr = kwargs.pop('label_attr')
+        self.collection = kwargs.pop("collection", [])
+        self.pk_attr = kwargs.pop("pk_attr")
+        self.label_attr = kwargs.pop("label_attr")
         super(AdvancedCollectionChoiceField, self).__init__(*args, **kwargs)
 
     def _get_choices(self):
-        return CollectionChoiceIterator(collection=self.collection,  pk_attr=self.pk_attr, label_attr=self.label_attr)
+        return CollectionChoiceIterator(collection=self.collection, pk_attr=self.pk_attr, label_attr=self.label_attr)
 
     def valid_value(self, value):
         text_value = force_text(value)
@@ -52,6 +53,7 @@ class AdvancedCollectionChoiceField(ChoiceField):
 
     choices = property(_get_choices, ChoiceField._set_choices)
 
+
 def get_default_form_kwargs(form=BaseForm):
     args, _, _, _ = inspect.getargspec(form.__init__)
     return set(args)
@@ -64,16 +66,13 @@ class MultipleFormsForm(forms.Form):
     formset_list = ()
 
     def __init__(self, *args, **kwargs):
-        initial = kwargs.get('initial', {})
+        initial = kwargs.get("initial", {})
         self.forms = []
         self.formsets = []
 
         for prefix, form_class in self.forms_list:
             form_kwargs = dict(kwargs)
-            form_kwargs.update({
-                'prefix': prefix,
-                'initial': initial.get(prefix, {})
-            })
+            form_kwargs.update({"prefix": prefix, "initial": initial.get(prefix, {})})
             form_kwargs = self.get_form_kwargs(form_class, **form_kwargs)
 
             form = form_class(*args, **form_kwargs)
@@ -81,28 +80,21 @@ class MultipleFormsForm(forms.Form):
 
         for prefix, formset_class in self.formset_list:
             formset_kwargs = dict(kwargs)
-            formset_kwargs.update({
-                'prefix': prefix,
-                'initial': initial.get(prefix, {})
-            })
+            formset_kwargs.update({"prefix": prefix, "initial": initial.get(prefix, {})})
 
             formset = formset_class(**formset_kwargs)
 
             self.formsets.append((prefix, formset))
 
-        super_kwargs = {k: v for k,v in kwargs.items() if k in self.default_kwargs }
+        super_kwargs = {k: v for k, v in kwargs.items() if k in self.default_kwargs}
         super(MultipleFormsForm, self).__init__(*args, **super_kwargs)
 
     def get_form_kwargs(self, form_class, **kwargs):
-        all_kwargs = self.default_kwargs.union(getattr(form_class, 'extra_kwargs', set()))
-        return dict([(k,v) for k,v in kwargs.items() if k in all_kwargs])
+        all_kwargs = self.default_kwargs.union(getattr(form_class, "extra_kwargs", set()))
+        return dict([(k, v) for k, v in kwargs.items() if k in all_kwargs])
 
     def is_valid(self, *args, **kwargs):
-        return all(
-            [form.is_valid(*args, **kwargs) for
-             prefix, form in
-             itertools.chain(self.forms, self.formsets)]
-        )
+        return all([form.is_valid(*args, **kwargs) for prefix, form in itertools.chain(self.forms, self.formsets)])
 
     def get_form_by_prefix(self, prefix):
         for _prefix, form in itertools.chain(self.forms, self.formsets):
@@ -134,7 +126,6 @@ class MultipleFormsForm(forms.Form):
 
     def form_dict(self):
         form_dict = {}
-        form_dict.update({k: v for k,v in self.forms})
-        form_dict.update({k: v for k,v in self.formsets})
+        form_dict.update({k: v for k, v in self.forms})
+        form_dict.update({k: v for k, v in self.formsets})
         return form_dict
-
