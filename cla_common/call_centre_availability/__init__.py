@@ -1,5 +1,5 @@
 import datetime
-from itertools import ifilter, imap, islice, takewhile
+from itertools import ifilter, islice, takewhile
 import requests
 
 from cla_common.services import CacheAdapter
@@ -140,7 +140,6 @@ def time_slots(day=None):
     if not day:
         day = datetime.date(9999, 1, 1)  # a weekday in the future
     start = datetime.datetime.combine(day, datetime.time(9))
-    today = current_datetime()
     same_day = lambda x: x.date() == day
     slots = takewhile(same_day, every_interval(start, minutes=SLOT_INTERVAL_MINS))
     is_available = lambda slot: can_schedule_callback(slot)
@@ -204,7 +203,6 @@ class OpeningHours(object):
         if not day:
             day = datetime.date(9999, 1, 1)  # a weekday in the future
         start = datetime.datetime.combine(day, datetime.time(0))
-        today = current_datetime()
         same_day = lambda dt: dt.date() == day
         available = lambda dt: self.can_schedule_callback(dt)
         return list(ifilter(available, takewhile(same_day, every_interval(start, minutes=SLOT_INTERVAL_MINS))))
