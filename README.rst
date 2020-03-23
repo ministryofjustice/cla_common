@@ -29,6 +29,7 @@ Then use it in a project::
 
 How to make changes
 -------------------
+0. Run `pre-commit install` after checking out project
 1. Create a feature branch
 2. Make your changes
 3. Check if the build job and tests pass on CircleCI

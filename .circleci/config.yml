@@ -28,8 +28,41 @@ jobs:
             source env-ci/bin/activate
             coverage run --source cla_common runtests.py
             coveralls
+  python_lint:
+    docker:
+      - image: circleci/python:3.7
+    steps:
+      - checkout
+      - run:
+          name: Setup Python environment
+          command: |
+            pip install virtualenv
+            virtualenv lint-env
+      - restore_cache:
+          keys:
+            - pip-v1-{{ checksum "requirements-lint.txt" }}
+      - run:
+          name: Install dependencies
+          command: |
+            source lint-env/bin/activate
+            pip install --requirement requirements-lint.txt
+      - save_cache:
+          key: pip-v1-{{ checksum "requirements-lint.txt" }}
+          paths:
+            - "~/.cache/pip"
+      - run:
+          name: Lint with flake8
+          command: |
+            source lint-env/bin/activate
+            flake8 --exit-zero cla_common
+      - run:
+          name: Check formatting with Black
+          command: |
+            source lint-env/bin/activate
+            black --check cla_common
 workflows:
   version: 2
   test:
     jobs:
       - test
+      - python_lint
