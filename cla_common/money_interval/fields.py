@@ -37,7 +37,7 @@ class MoneyIntervalFieldCreator(object):
         elif isinstance(value, dict):
             try:
                 mi = MoneyInterval.from_dict(value)
-            except:
+            except Exception:
                 pass
             return mi
         elif isinstance(value, MoneyInterval):
@@ -208,7 +208,7 @@ try:
                 },
             )
         ],
-        ["^cla_common\.money_interval\.fields\.MoneyIntervalField"],
+        ["^cla_common\.money_interval\.fields\.MoneyIntervalField"],  # noqa W605
     )
 except ImportError:
     pass

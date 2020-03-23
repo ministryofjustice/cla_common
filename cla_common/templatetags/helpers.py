@@ -30,7 +30,7 @@ def in_pounds(value):
 def as_date(date_string):
     try:
         return parser.parse(date_string, dayfirst=True)
-    except:
+    except Exception:
         return None
 
 
