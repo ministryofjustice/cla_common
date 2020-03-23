@@ -1,6 +1,5 @@
 import itertools
 from django import forms
-from django.forms import models
 from django.forms.fields import ChoiceField
 from django.forms.forms import BaseForm
 from django.utils.encoding import force_text
