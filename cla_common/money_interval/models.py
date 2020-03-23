@@ -26,12 +26,12 @@ class MoneyInterval(object):
         if interval_period not in self._intervals_dict.keys():
             raise ValueError("Invalid interval period")
 
-        if (pennies == None and pounds == None) or (pennies != None and pounds != None):
+        if (pennies == None and pounds == None) or (pennies != None and pounds != None):  # noqa E711
             raise ValueError("Amount needs to be set")
 
         self.interval_period = interval_period
 
-        if pennies != None:
+        if pennies != None:  # noqa E711
             self._set_as_pennies(pennies)
         else:
             self._set_as_pennies(int(Decimal(pounds * 100).quantize(ZERO_DP)))
@@ -69,7 +69,7 @@ class MoneyInterval(object):
         }
 
     def __cmp__(self, other):
-        if other == None or not isinstance(other, self.__class__):
+        if other == None or not isinstance(other, self.__class__):  # noqa E711
             return -1
         return self.as_monthly().__cmp__(other.as_monthly())
 
