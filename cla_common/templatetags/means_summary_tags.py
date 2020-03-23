@@ -1,6 +1,6 @@
 from django import template
 from django.utils.translation import ugettext_lazy as _
-
+import re
 from .helpers import in_pounds
 
 
@@ -20,12 +20,12 @@ def text_yesno(value, true_str, false_str, **format_kwargs):
     return _(text.format(**default_format_kwargs))
 
 
-def text_plural(l, singular, plural):
-    if isinstance(l, list):
-        l = len(l)
+def text_plural(value, singular, plural):
+    if isinstance(value, list):
+        value = len(value)
 
-    text = singular if l == 1 else plural
-    return _(text.format(count=l))
+    text = singular if value == 1 else plural
+    return _(text.format(count=value))
 
 
 def text_exists(value, true_str):
@@ -359,9 +359,6 @@ class MeansSummaryNode(template.Node):
         formatter = MeansSummaryFormatter()
         context[self.var_name] = formatter.format(data)
         return ""
-
-
-import re
 
 
 @register.tag
