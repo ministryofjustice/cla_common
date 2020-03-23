@@ -5,7 +5,6 @@ from .. import call_centre_availability
 
 
 class MonkeyPatch(object):
-
     def __init__(self, obj, attr, value):
         self.obj = obj
         self.attr = attr
@@ -26,12 +25,8 @@ def mock_bank_holidays():
 
 
 class TestBankHolidaysBaseTestCase(unittest.TestCase):
-
     def setUp(self):
-        self.bank_holiday_patch = MonkeyPatch(
-            call_centre_availability,
-            'bank_holidays',
-            mock_bank_holidays)
+        self.bank_holiday_patch = MonkeyPatch(call_centre_availability, "bank_holidays", mock_bank_holidays)
 
     def tearDown(self):
         self.bank_holiday_patch.undo()
