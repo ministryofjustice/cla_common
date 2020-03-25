@@ -1,10 +1,10 @@
 import datetime
-from itertools import ifilter, imap, islice, takewhile
+from itertools import ifilter, islice, takewhile
 import requests
 
 from cla_common.services import CacheAdapter
 
-BANK_HOLIDAYS_URL = 'https://www.gov.uk/bank-holidays/england-and-wales.json'
+BANK_HOLIDAYS_URL = "https://www.gov.uk/bank-holidays/england-and-wales.json"
 
 SLOT_INTERVAL_MINS = 30
 
@@ -31,15 +31,14 @@ def on_sunday(time):
 
 
 def parse_date(text):
-    return datetime.datetime.strptime(text, '%Y-%m-%d')
+    return datetime.datetime.strptime(text, "%Y-%m-%d")
 
 
 def get_date(bank_holiday):
-    return parse_date(bank_holiday['date'])
+    return parse_date(bank_holiday["date"])
 
 
 class BankHolidays(object):
-
     def __init__(self):
         self._cache = None
         self.init_cache()
@@ -64,16 +63,16 @@ class BankHolidays(object):
     @property
     def _cached_dates(self):
         if self._cache:
-            return self._cache.get('bank_holidays')
+            return self._cache.get("bank_holidays")
 
     @_cached_dates.setter
     def _cached_dates(self, dates):
         if self._cache:
             one_year = 365 * 24 * 60 * 60
-            self._cache.set('bank_holidays', dates, one_year)
+            self._cache.set("bank_holidays", dates, one_year)
 
     def _load_dates(self):
-        return requests.get(self.url).json()['events']
+        return requests.get(self.url).json()["events"]
 
     def _parse_dates(self, events):
         return map(get_date, events)
@@ -114,9 +113,7 @@ def too_late(time):
 
 def available(dt, ignore_time=False):
     if not (in_the_past(dt) or on_sunday(dt) or on_bank_holiday(dt)):
-        return ignore_time or not (
-            (before_9am(dt) or after_8pm(dt)) or
-            (on_saturday(dt) and after_1230(dt)))
+        return ignore_time or not ((before_9am(dt) or after_8pm(dt)) or (on_saturday(dt) and after_1230(dt)))
     return False
 
 
@@ -143,10 +140,8 @@ def time_slots(day=None):
     if not day:
         day = datetime.date(9999, 1, 1)  # a weekday in the future
     start = datetime.datetime.combine(day, datetime.time(9))
-    today = current_datetime()
     same_day = lambda x: x.date() == day
-    slots = takewhile(
-        same_day, every_interval(start, minutes=SLOT_INTERVAL_MINS))
+    slots = takewhile(same_day, every_interval(start, minutes=SLOT_INTERVAL_MINS))
     is_available = lambda slot: can_schedule_callback(slot)
     return list(ifilter(is_available, slots))
 
@@ -161,7 +156,6 @@ def tomorrow_slots(*args):
 
 
 class Hours(object):
-
     def __init__(self, start, end):
         self.start = start
         self.end = end
@@ -171,24 +165,14 @@ class Hours(object):
 
 
 class OpeningHours(object):
-
-    def __init__(
-            self,
-            weekday=None,
-            saturday=None,
-            sunday=None,
-            bank_holiday=None,
-            **kwargs):
-
+    def __init__(self, weekday=None, saturday=None, sunday=None, bank_holiday=None, **kwargs):
         def date_matcher(key):
-            date = datetime.datetime.strptime(key, '%Y-%m-%d').date()
+            date = datetime.datetime.strptime(key, "%Y-%m-%d").date()
             return lambda dt: dt.date() == date
 
         hours = lambda args: args and Hours(*args)
 
-        self.day_hours = [
-            (date_matcher(key), hours(val)) for key, val in kwargs.iteritems()
-        ]
+        self.day_hours = [(date_matcher(key), hours(val)) for key, val in kwargs.iteritems()]
 
         self.day_hours.append((on_bank_holiday, hours(bank_holiday)))
         self.day_hours.append((on_sunday, hours(sunday)))
@@ -219,11 +203,9 @@ class OpeningHours(object):
         if not day:
             day = datetime.date(9999, 1, 1)  # a weekday in the future
         start = datetime.datetime.combine(day, datetime.time(0))
-        today = current_datetime()
         same_day = lambda dt: dt.date() == day
         available = lambda dt: self.can_schedule_callback(dt)
-        return list(ifilter(available, takewhile(same_day, every_interval(
-            start, minutes=SLOT_INTERVAL_MINS))))
+        return list(ifilter(available, takewhile(same_day, every_interval(start, minutes=SLOT_INTERVAL_MINS))))
 
     def today_slots(self):
         return self.time_slots(current_datetime().date())

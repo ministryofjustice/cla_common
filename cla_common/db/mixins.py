@@ -3,11 +3,13 @@
 
 from django.forms.models import model_to_dict
 
+
 class ModelDiffMixin(object):
     """
     Model mixin that tracks model fields' values and provides some
     useful api that knows what fields have been changed
     """
+
     def __init__(self, *args, **kwargs):
         super(ModelDiffMixin, self).__init__(*args, **kwargs)
         self.__initial = self._dict
@@ -44,5 +46,3 @@ class ModelDiffMixin(object):
     @property
     def _dict(self):
         return model_to_dict(self, fields=[field.name for field in self._meta.fields])
-
-

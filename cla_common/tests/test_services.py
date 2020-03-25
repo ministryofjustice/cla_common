@@ -1,4 +1,3 @@
-from datetime import datetime
 import mock
 
 from cla_common.tests.test_bank_holidays_base import TestBankHolidaysBaseTestCase
@@ -7,9 +6,7 @@ from cla_common.call_centre_availability import BankHolidays
 
 
 class ServicesTestCase(TestBankHolidaysBaseTestCase):
-
     def test_setting_cache_adpater(self):
-
         def cache_adapter_factory(**kwargs):
             cache = {}
 
@@ -37,7 +34,6 @@ class ServicesTestCase(TestBankHolidaysBaseTestCase):
         self.assertEqual(bank_holidays._load_dates.call_count, 1)
 
     def test_setting_translation_adpater(self):
-
         def translation_adapter_factory():
             return lambda string: "--{}--".format(string)
 

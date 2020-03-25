@@ -1,6 +1,7 @@
 *.py[cod]
 venv/
 env/
+lint-env/
 
 # C extensions
 *.so

@@ -7,14 +7,14 @@ from ..laalaa import LaalaaProviderCategoriesApiClient
 def _laalaa_categories_endpoint_response():
     return [
         {"code": "disc", "civil": True, "name": "Discrimination"},
-        {"code": "edu", "civil": True, "name": "Education"}
+        {"code": "edu", "civil": True, "name": "Education"},
     ]
 
 
 class LaaLaaProvidersCategoryApiClientTestCase(unittest.TestCase):
     def test_categories(self):
         api = LaalaaProviderCategoriesApiClient("", lambda s: s)
-        with mock.patch.object(api, '_fetch_categories') as mock_method:
+        with mock.patch.object(api, "_fetch_categories") as mock_method:
             mock_method.return_value = _laalaa_categories_endpoint_response()
             categories = api.get_categories()
             expected_categories = {category["code"]: category["name"] for category in mock_method.return_value}
@@ -22,7 +22,7 @@ class LaaLaaProvidersCategoryApiClientTestCase(unittest.TestCase):
 
     def test_fetch_call_count(self):
         api = LaalaaProviderCategoriesApiClient("", lambda s: s)
-        with mock.patch.object(api, '_fetch_categories') as mock_method:
+        with mock.patch.object(api, "_fetch_categories") as mock_method:
             mock_method.return_value = _laalaa_categories_endpoint_response()
             api.get_categories()
             api.get_categories()
@@ -37,7 +37,7 @@ class LaaLaaProvidersCategoryApiClientTestCase(unittest.TestCase):
             return translations.get(category)
 
         api = LaalaaProviderCategoriesApiClient("", translator)
-        with mock.patch.object(api, '_fetch_categories') as mock_method:
+        with mock.patch.object(api, "_fetch_categories") as mock_method:
             mock_method.return_value = _laalaa_categories_endpoint_response()
             categories = api.get_categories()
 

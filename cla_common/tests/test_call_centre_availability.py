@@ -1,12 +1,11 @@
 from datetime import datetime, time
 import unittest
 from contextlib import contextmanager
-
 from .. import call_centre_availability
 from ..call_centre_availability import available, time_slots, Hours, OpeningHours
 
-class MonkeyPatch(object):
 
+class MonkeyPatch(object):
     def __init__(self, obj, attr, value):
         self.obj = obj
         self.attr = attr
@@ -25,7 +24,7 @@ class MonkeyPatch(object):
 @contextmanager
 def override_current_time(dt):
     override = lambda: dt
-    patch = MonkeyPatch(call_centre_availability, 'current_datetime', override)
+    patch = MonkeyPatch(call_centre_availability, "current_datetime", override)
     yield
     patch.undo()
 
@@ -34,38 +33,28 @@ def mock_bank_holidays():
     return [datetime(2014, 12, 25, 0, 0)]
 
 
-TEST_OPENING_HOURS = OpeningHours(
-    weekday=(time(9, 0), time(20, 0)),
-    saturday=(time(9, 0), time(12, 30)))
+TEST_OPENING_HOURS = OpeningHours(weekday=(time(9, 0), time(20, 0)), saturday=(time(9, 0), time(12, 30)))
 
 
 def pretty(time):
-    return '{0:%a, %d %b %I:%M %p}'.format(time)
+    return "{0:%a, %d %b %I:%M %p}".format(time)
 
 
 class CallCentreAvailabilityTestCase(unittest.TestCase):
-
     def setUp(self):
-        self.bank_holiday_patch = MonkeyPatch(
-            call_centre_availability,
-            'bank_holidays',
-            mock_bank_holidays)
+        self.bank_holiday_patch = MonkeyPatch(call_centre_availability, "bank_holidays", mock_bank_holidays)
         self.now = datetime(2014, 10, 22, 9, 0)
 
     def tearDown(self):
         self.bank_holiday_patch.undo()
 
     def assertAvailable(self, time):
-        fail_msg = '{0} is not available at {1}'.format(
-            pretty(time),
-            pretty(self.now))
+        fail_msg = "{0} is not available at {1}".format(pretty(time), pretty(self.now))
         with override_current_time(self.now):
             self.assertTrue(available(time), fail_msg)
 
     def assertNotAvailable(self, time):
-        fail_msg = '{0} is available at {1}'.format(
-            pretty(time),
-            pretty(self.now))
+        fail_msg = "{0} is available at {1}".format(pretty(time), pretty(self.now))
         with override_current_time(self.now):
             self.assertFalse(available(time), fail_msg)
 
@@ -140,7 +129,8 @@ class CallCentreAvailabilityTestCase(unittest.TestCase):
             # 26th is a sunday
             datetime(2014, 10, 27),
             datetime(2014, 10, 28),
-            datetime(2014, 10, 29)]
+            datetime(2014, 10, 29),
+        ]
 
         with override_current_time(self.now):
             openinghours = TEST_OPENING_HOURS
@@ -149,9 +139,7 @@ class CallCentreAvailabilityTestCase(unittest.TestCase):
                 self.assertDateEqual(expected, actual)
 
     def test_today_slots(self):
-        expected_slots = [
-            datetime(2014, 10, 25, 11, 30),
-            datetime(2014, 10, 25, 12, 0)]
+        expected_slots = [datetime(2014, 10, 25, 11, 30), datetime(2014, 10, 25, 12, 0)]
 
         with override_current_time(datetime(2014, 10, 25, 9, 30)):
             openinghours = TEST_OPENING_HOURS
@@ -163,9 +151,7 @@ class CallCentreAvailabilityTestCase(unittest.TestCase):
     def test_provider_hours(self):
         fake_now = datetime(2099, 1, 1, 12, 0)
         with override_current_time(fake_now):
-            PROVIDER_HOURS = {
-                'weekday': (time(9, 0), time(17, 0))
-            }
+            PROVIDER_HOURS = {"weekday": (time(9, 0), time(17, 0))}
 
             OH = OpeningHours(**PROVIDER_HOURS)
             self.assertTrue(fake_now in OH)
