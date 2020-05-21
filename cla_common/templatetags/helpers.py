@@ -41,11 +41,11 @@ def field_from_name(form, name):
 
 
 @register.filter()
-def any_true(l):
-    if isinstance(l, Iterable):
-        return any(l)
+def any_true(value):
+    if isinstance(value, Iterable):
+        return any(value)
     else:
-        return bool(l)
+        return bool(value)
 
 
 @register.filter()
