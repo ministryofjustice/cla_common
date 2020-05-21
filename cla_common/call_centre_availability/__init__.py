@@ -187,10 +187,10 @@ class OpeningHours(object):
             if on_day(dt):
                 if hours is None:
                     return False
-                if not ignore_time and dt not in hours:
-                    return False
-
-        return True
+                if ignore_time:
+                    return True
+                return dt in hours
+        return False
 
     def can_schedule_callback(self, dt, ignore_time=False):
         if in_the_past(dt):
