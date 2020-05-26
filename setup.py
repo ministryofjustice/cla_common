@@ -34,6 +34,7 @@ setup(
         'python-dateutil',
         'django-extended-choices==0.3.0',
         'requests',
+        'speaklater==1.3',
     ],
     license="MIT",
     zip_safe=False,
