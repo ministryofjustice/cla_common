@@ -22,6 +22,10 @@ def before_9am(time):
     return time.time() < datetime.time(9, 0)
 
 
+def after_5pm(time):
+    return time.time() >= datetime.time(17, 0)
+
+
 def after_8pm(time):
     return time.time() >= datetime.time(20, 0)
 
@@ -112,8 +116,8 @@ def too_late(time):
 
 
 def available(dt, ignore_time=False):
-    if not (in_the_past(dt) or on_sunday(dt) or on_bank_holiday(dt)):
-        return ignore_time or not ((before_9am(dt) or after_8pm(dt)) or (on_saturday(dt) and after_1230(dt)))
+    if not (in_the_past(dt) or on_saturday(dt) or on_sunday(dt) or on_bank_holiday(dt)):
+        return ignore_time or not ((before_9am(dt) or after_5pm(dt)))
     return False
 
 
