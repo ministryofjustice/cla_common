@@ -74,7 +74,7 @@ class CallCentreAvailabilityTestCase(unittest.TestCase):
         self.assertNotAvailable(datetime(2014, 10, 23, 21, 0))
 
     def test_saturday(self):
-        self.assertNotAvailable(datetime(2014, 10, 25, 10, 15))
+        self.assertAvailable(datetime(2014, 10, 25, 10, 15))
         self.assertNotAvailable(datetime(2014, 10, 25, 12, 30))
 
     def test_sunday(self):
