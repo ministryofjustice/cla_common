@@ -8,6 +8,8 @@ BANK_HOLIDAYS_URL = "https://www.gov.uk/bank-holidays/england-and-wales.json"
 
 SLOT_INTERVAL_MINS = 30
 
+BOXING_DAY = datetime.date(year=2020, month=12, day=26)
+
 
 def current_datetime():
     # this function is to make unit testing simpler
@@ -94,6 +96,10 @@ def on_bank_holiday(time):
     return day in bank_holidays()
 
 
+def is_boxing_day_2020(dt):
+    return dt.date() == BOXING_DAY
+
+
 def on_saturday(time):
     return time.weekday() == 5
 
@@ -116,7 +122,7 @@ def too_late(time):
 
 
 def available(dt, ignore_time=False):
-    if not (in_the_past(dt) or on_sunday(dt) or on_bank_holiday(dt)):
+    if not (in_the_past(dt) or on_sunday(dt) or on_bank_holiday(dt) or is_boxing_day_2020(dt)):
         return ignore_time or not ((before_9am(dt) or after_8pm(dt)) or (on_saturday(dt) and after_1230(dt)))
     return False
 
@@ -177,7 +183,7 @@ class OpeningHours(object):
         hours = lambda args: args and Hours(*args)
 
         self.day_hours = [(date_matcher(key), hours(val)) for key, val in kwargs.iteritems()]
-
+        self.day_hours.append((is_boxing_day_2020, None))
         self.day_hours.append((on_bank_holiday, hours(bank_holiday)))
         self.day_hours.append((on_sunday, hours(sunday)))
         self.day_hours.append((on_saturday, hours(saturday)))
