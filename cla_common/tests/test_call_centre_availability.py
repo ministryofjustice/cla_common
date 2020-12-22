@@ -83,6 +83,9 @@ class CallCentreAvailabilityTestCase(unittest.TestCase):
     def test_bank_holiday(self):
         self.assertNotAvailable(datetime(2014, 12, 25, 9, 0))
 
+    def test_boxing_day_2020(self):
+        self.assertNotAvailable(datetime(2020, 12, 26, 9, 0))
+
     def test_time_slots(self):
         with override_current_time(self.now):
             slots = time_slots(datetime(2014, 10, 23).date())
