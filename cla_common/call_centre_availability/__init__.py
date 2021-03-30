@@ -174,8 +174,8 @@ class Hours(object):
         return not (self.start and self.end)
 
     def __nonzero__(self):
-         # py2 support
-         return self.__bool__()
+        # py2 support
+        return self.__bool__()
 
     def __bool__(self):
         return not self.is_empty()
@@ -185,12 +185,19 @@ class Hours(object):
             return False
         return self.start <= dt.time() < self.end
 
+    def __repr__(self):
+        if self.is_empty():
+            return "No hours"
+        return u"{start} - {end}".format(start=self.start, end=self.end)
+
+
 NO_HOURS = Hours(None, None)
 
 
 def date_matcher(date_string):
     date = datetime.datetime.strptime(date_string, "%Y-%m-%d").date()
     return lambda dt: dt.date() == date
+
 
 def day_matcher(day):
     return lambda dt: dt.strftime("%A") == day
@@ -199,14 +206,33 @@ def day_matcher(day):
 class OpeningHours(object):
     day_hours = []
 
-    def __init__(self, monday=None, tuesday=None, wednesday=None, thursday=None, friday=None, weekday=NO_HOURS, saturday=NO_HOURS, sunday=NO_HOURS, bank_holiday=NO_HOURS, **kwargs):
+    def __init__(
+        self,
+        monday=None,
+        tuesday=None,
+        wednesday=None,
+        thursday=None,
+        friday=None,
+        weekday=NO_HOURS,
+        saturday=NO_HOURS,
+        sunday=NO_HOURS,
+        bank_holiday=NO_HOURS,
+        **kwargs
+    ):
         for date_string, hours in kwargs.iteritems():
             self.add_rule(date_matcher(date_string), hours)
 
-        self.add_rule(is_boxing_day_2020, NO_HOURS)
         self.add_rule(on_bank_holiday, bank_holiday)
 
-        for day, hours in [("Monday", monday), ("Tuesday", tuesday), ("Wednesday", wednesday), ("Thursday", thursday), ("Friday", friday), ("Saturday", saturday), ("Sunday", sunday)]:
+        for day, hours in [
+            ("Monday", monday),
+            ("Tuesday", tuesday),
+            ("Wednesday", wednesday),
+            ("Thursday", thursday),
+            ("Friday", friday),
+            ("Saturday", saturday),
+            ("Sunday", sunday),
+        ]:
             self.add_rule(day_matcher(day), hours)
 
         self.add_rule(on_weekday, weekday)
