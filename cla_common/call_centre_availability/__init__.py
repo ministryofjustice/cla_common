@@ -173,6 +173,13 @@ class Hours(object):
     def is_empty(self):
         return not (self.start and self.end)
 
+    def __nonzero__(self):
+         # py2 support
+         return self.__bool__()
+
+    def __bool__(self):
+        return not self.is_empty()
+
     def __contains__(self, dt):
         if self.is_empty():
             return False
@@ -181,49 +188,44 @@ class Hours(object):
 NO_HOURS = Hours(None, None)
 
 
+def date_matcher(date_string):
+    date = datetime.datetime.strptime(date_string, "%Y-%m-%d").date()
+    return lambda dt: dt.date() == date
+
+def day_matcher(day):
+    return lambda dt: dt.strftime("%A") == day
+
+
 class OpeningHours(object):
     day_hours = []
+
     def __init__(self, monday=None, tuesday=None, wednesday=None, thursday=None, friday=None, weekday=NO_HOURS, saturday=NO_HOURS, sunday=NO_HOURS, bank_holiday=NO_HOURS, **kwargs):
-        def date_matcher(date_string):
-            date = datetime.datetime.strptime(date_string, "%Y-%m-%d").date()
-            return lambda dt: dt.date() == date
-
-        def day_name_matcher(day_name):
-            return lambda dt: dt.strftime("%A") == day_name
-
         for date_string, hours in kwargs.iteritems():
-            self.add_rule(hours, func=date_matcher(date_string))
-        self.add_rule(NO_HOURS, func=is_boxing_day_2020)
-        self.add_rule(bank_holiday, func=on_bank_holiday)
-        for day_name, hours in [("Monday", monday), ("Tuesday", tuesday), ("Wednesday", wednesday), ("Thursday", thursday), ("Friday", friday), ("Saturday", saturday), ("Sunday", sunday)]:
-            self.add_rule(bank_holiday, func=on_bank_holiday)
-        self.add_rule(weekday, func=on_weekday)
+            self.add_rule(date_matcher(date_string), hours)
+
+        self.add_rule(is_boxing_day_2020, NO_HOURS)
+        self.add_rule(on_bank_holiday, bank_holiday)
+
+        for day, hours in [("Monday", monday), ("Tuesday", tuesday), ("Wednesday", wednesday), ("Thursday", thursday), ("Friday", friday), ("Saturday", saturday), ("Sunday", sunday)]:
+            self.add_rule(day_matcher(day), hours)
+
+        self.add_rule(on_weekday, weekday)
 
     def __contains__(self, dt):
         return self.available(dt)
 
-    def add_rule(self, hours, day_name=None, func=None):
-        if not day_name or func:
-            ValueError("Rule must specify either a `day_name` or a custom `func` comparison function")
-        if day_name and func:
-            ValueError("Rule cannot specify both `day_name` and a custom `func` comparison function")
-
+    def add_rule(self, func, hours):
         if hours and not isinstance(hours, Hours):
             hours = Hours(*hours)
 
-        if day_name:
-            day_func = lambda dt: dt.now()
-            rule = (day_func, hours)
-        if func:
-            rule = (func, hours)
-        self.day_hours.append(rule)
+        self.day_hours.append((func, hours))
 
     def available(self, dt, ignore_time=False):
         for (on_day, hours) in self.day_hours:
             if on_day(dt):
                 if hours is None:
                     continue
-                if ignore_time:
+                if hours and ignore_time:
                     return True
                 return dt in hours
         return False
