@@ -194,13 +194,19 @@ class Hours(object):
 NO_HOURS = Hours(None, None)
 
 
-def date_matcher(date_string):
-    date = datetime.datetime.strptime(date_string, "%Y-%m-%d").date()
-    return lambda dt: dt.date() == date
+def make_date_matcher(date_string):
+    def date_matcher(dt):
+        date = datetime.datetime.strptime(date_string, "%Y-%m-%d").date()
+        return dt.date() == date
+
+    return date_matcher
 
 
-def day_matcher(day):
-    return lambda dt: dt.strftime("%A") == day
+def make_day_matcher(day):
+    def day_matcher(dt):
+        return dt.strftime("%A") == day
+
+    return day_matcher
 
 
 class OpeningHours(object):
@@ -220,7 +226,7 @@ class OpeningHours(object):
         self.day_hours = []
 
         for date_string, hours in kwargs.iteritems():
-            self.add_rule(date_matcher(date_string), hours)
+            self.add_rule(make_date_matcher(date_string), hours)
 
         self.add_rule(on_bank_holiday, bank_holiday)
 
@@ -233,7 +239,7 @@ class OpeningHours(object):
             ("Saturday", saturday),
             ("Sunday", sunday),
         ]:
-            self.add_rule(day_matcher(day), hours)
+            self.add_rule(make_day_matcher(day), hours)
 
         self.add_rule(on_weekday, weekday)
 
@@ -241,9 +247,10 @@ class OpeningHours(object):
         return self.available(dt)
 
     def add_rule(self, func, hours):
+        if hours is None:
+            return
         if hours and not isinstance(hours, Hours):
             hours = Hours(*hours)
-
         self.day_hours.append((func, hours))
 
     def available(self, dt, ignore_time=False):
