@@ -170,34 +170,95 @@ class Hours(object):
         self.start = start
         self.end = end
 
+    def is_empty(self):
+        return not (self.start and self.end)
+
+    def __nonzero__(self):
+        # py2 support
+        return self.__bool__()
+
+    def __bool__(self):
+        return not self.is_empty()
+
     def __contains__(self, dt):
+        if self.is_empty():
+            return False
         return self.start <= dt.time() < self.end
+
+    def __repr__(self):
+        if self.is_empty():
+            return "No hours"
+        return u"{start} - {end}".format(start=self.start, end=self.end)
+
+
+NO_HOURS = Hours(None, None)
+
+
+def make_date_matcher(date_string):
+    def date_matcher(dt):
+        date = datetime.datetime.strptime(date_string, "%Y-%m-%d").date()
+        return dt.date() == date
+
+    return date_matcher
+
+
+def make_day_matcher(day):
+    def day_matcher(dt):
+        return dt.strftime("%A") == day
+
+    return day_matcher
 
 
 class OpeningHours(object):
-    def __init__(self, weekday=None, saturday=None, sunday=None, bank_holiday=None, **kwargs):
-        def date_matcher(key):
-            date = datetime.datetime.strptime(key, "%Y-%m-%d").date()
-            return lambda dt: dt.date() == date
+    def __init__(
+        self,
+        monday=None,
+        tuesday=None,
+        wednesday=None,
+        thursday=None,
+        friday=None,
+        weekday=NO_HOURS,
+        saturday=NO_HOURS,
+        sunday=NO_HOURS,
+        bank_holiday=NO_HOURS,
+        **kwargs
+    ):
+        self.day_hours = []
 
-        hours = lambda args: args and Hours(*args)
+        for date_string, hours in kwargs.iteritems():
+            self.add_rule(make_date_matcher(date_string), hours)
 
-        self.day_hours = [(date_matcher(key), hours(val)) for key, val in kwargs.iteritems()]
-        self.day_hours.append((is_boxing_day_2020, None))
-        self.day_hours.append((on_bank_holiday, hours(bank_holiday)))
-        self.day_hours.append((on_sunday, hours(sunday)))
-        self.day_hours.append((on_saturday, hours(saturday)))
-        self.day_hours.append((on_weekday, hours(weekday)))
+        self.add_rule(on_bank_holiday, bank_holiday)
+
+        for day, hours in [
+            ("Monday", monday),
+            ("Tuesday", tuesday),
+            ("Wednesday", wednesday),
+            ("Thursday", thursday),
+            ("Friday", friday),
+            ("Saturday", saturday),
+            ("Sunday", sunday),
+        ]:
+            self.add_rule(make_day_matcher(day), hours)
+
+        self.add_rule(on_weekday, weekday)
 
     def __contains__(self, dt):
         return self.available(dt)
+
+    def add_rule(self, func, hours):
+        if hours is None:
+            return
+        if hours and not isinstance(hours, Hours):
+            hours = Hours(*hours)
+        self.day_hours.append((func, hours))
 
     def available(self, dt, ignore_time=False):
         for (on_day, hours) in self.day_hours:
             if on_day(dt):
                 if hours is None:
-                    return False
-                if ignore_time:
+                    continue
+                if hours and ignore_time:
                     return True
                 return dt in hours
         return False

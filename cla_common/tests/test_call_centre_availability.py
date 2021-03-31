@@ -100,6 +100,8 @@ class CallCentreAvailabilityTestCase(unittest.TestCase):
 
     def test_hours_class(self):
         hours = Hours(time(9, 0), time(20, 0))
+        self.assertTrue(hours)
+        self.assertFalse(hours.is_empty())
 
         self.assertTrue(self.now in hours)
 
@@ -108,6 +110,13 @@ class CallCentreAvailabilityTestCase(unittest.TestCase):
 
         before_9am = datetime(2014, 10, 24, 7, 0)
         self.assertFalse(before_9am in hours)
+
+    def test_empty_hours_class(self):
+        hours = Hours(None, None)
+        self.assertFalse(hours)
+        self.assertTrue(hours.is_empty())
+
+        self.assertFalse(self.now in hours)
 
     def test_openinghours_class(self):
         openinghours = TEST_OPENING_HOURS
@@ -158,3 +167,11 @@ class CallCentreAvailabilityTestCase(unittest.TestCase):
 
             OH = OpeningHours(**PROVIDER_HOURS)
             self.assertTrue(fake_now in OH)
+
+    def test_day_override(self):
+        with override_current_time(self.now):
+            opening_hours_no_thurs = OpeningHours(weekday=(time(9, 0), time(17, 0)), thursday=(None, None))
+            self.assertTrue(opening_hours_no_thurs.available(self.now))
+
+            opening_hours_no_weds = OpeningHours(weekday=(time(9, 0), time(17, 0)), wednesday=(None, None))
+            self.assertFalse(opening_hours_no_weds.available(self.now))
