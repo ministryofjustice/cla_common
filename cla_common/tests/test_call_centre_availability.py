@@ -167,3 +167,11 @@ class CallCentreAvailabilityTestCase(unittest.TestCase):
 
             OH = OpeningHours(**PROVIDER_HOURS)
             self.assertTrue(fake_now in OH)
+
+    def test_day_override(self):
+        with override_current_time(self.now):
+            opening_hours_no_thurs = OpeningHours(weekday=(time(9, 0), time(17, 0)), thursday=(None, None))
+            self.assertTrue(opening_hours_no_thurs.available(self.now))
+
+            opening_hours_no_weds = OpeningHours(weekday=(time(9, 0), time(17, 0)), wednesday=(None, None))
+            self.assertFalse(opening_hours_no_weds.available(self.now))
