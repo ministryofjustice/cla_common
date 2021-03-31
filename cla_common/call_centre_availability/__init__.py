@@ -204,8 +204,6 @@ def day_matcher(day):
 
 
 class OpeningHours(object):
-    day_hours = []
-
     def __init__(
         self,
         monday=None,
@@ -219,6 +217,8 @@ class OpeningHours(object):
         bank_holiday=NO_HOURS,
         **kwargs
     ):
+        self.day_hours = []
+
         for date_string, hours in kwargs.iteritems():
             self.add_rule(date_matcher(date_string), hours)
 
