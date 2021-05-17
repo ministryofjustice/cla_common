@@ -13,7 +13,7 @@ class AddressLookup(object):
             raise Exception("OS Places API key required")
         self.key = key
         if not url:
-            url = "https://api.ordnancesurvey.co.uk/places/v1/addresses/postcode"
+            url = "https://api.os.uk/search/places/v1/postcode"
         self.url = url
 
     def by_postcode(self, postcode):
