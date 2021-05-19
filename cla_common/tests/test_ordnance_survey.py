@@ -10,7 +10,7 @@ from cla_common.address_lookup.ordnance_survey import AddressLookup, FormattedAd
 
 
 class TestAddressLookup(unittest.TestCase):
-    os_url = "https://api.ordnancesurvey.co.uk/places/v1/addresses/postcode"
+    os_url = "https://api.os.uk/search/places/v1/postcode"
     api_key = "DUMMY_KEY"
     postcode = "SW1H 9AG"
     prerecorded_api_response = {
