@@ -1,5 +1,6 @@
 import datetime
 from itertools import ifilter, islice, takewhile
+import pytz
 import requests
 
 from cla_common.services import CacheAdapter
@@ -166,9 +167,10 @@ def tomorrow_slots(*args):
 
 
 class Hours(object):
-    def __init__(self, start, end):
+    def __init__(self, start, end, timezone_name):
         self.start = start
         self.end = end
+        self.timezone = pytz.timezone(timezone_name)
 
     def is_empty(self):
         return not (self.start and self.end)
@@ -181,9 +183,17 @@ class Hours(object):
         return not self.is_empty()
 
     def __contains__(self, dt):
+        return self.in_hours(dt, tz_aware=False)
+
+    def in_hours(self, dt, tz_aware=True):
         if self.is_empty():
             return False
-        return self.start <= dt.time() < self.end
+        if tz_aware:
+            tz_start = timezone.localize(dt.combine(dt, self.start))
+            tz_end = timezone.localize(dt.combine(dt, self.end))
+            return tz_start <= dt.time() < tz_end
+        else:
+            return self.start <= dt.time() < self.end
 
     def __repr__(self):
         if self.is_empty():
