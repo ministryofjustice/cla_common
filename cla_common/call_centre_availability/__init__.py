@@ -11,6 +11,15 @@ SLOT_INTERVAL_MINS = 30
 
 BOXING_DAY = datetime.date(year=2020, month=12, day=26)
 
+try:
+    from django.conf import settings
+
+    TIMEZONE_NAME = settings.TIME_ZONE
+except Exception:
+    from flask import current_app
+
+    TIMEZONE_NAME = current_app.config["TIMEZONE"]
+
 
 def current_datetime():
     # this function is to make unit testing simpler
@@ -167,10 +176,10 @@ def tomorrow_slots(*args):
 
 
 class Hours(object):
-    def __init__(self, start, end, timezone_name):
+    def __init__(self, start, end):
         self.start = start
         self.end = end
-        self.timezone = pytz.timezone(timezone_name)
+        self.timezone = pytz.timezone(TIMEZONE_NAME)
 
     def is_empty(self):
         return not (self.start and self.end)
@@ -183,9 +192,9 @@ class Hours(object):
         return not self.is_empty()
 
     def __contains__(self, dt):
-        return self.in_hours(dt, tz_aware=False)
+        return self.in_hours(dt)
 
-    def in_hours(self, dt, tz_aware=True):
+    def in_hours(self, dt, tz_aware=False):
         if self.is_empty():
             return False
         if tz_aware:
