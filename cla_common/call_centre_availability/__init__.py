@@ -11,6 +11,8 @@ SLOT_INTERVAL_MINS = 30
 
 BOXING_DAY = datetime.date(year=2020, month=12, day=26)
 
+TIMEZONE_NAME = None
+
 
 def get_timezone():
     """
