@@ -11,14 +11,27 @@ SLOT_INTERVAL_MINS = 30
 
 BOXING_DAY = datetime.date(year=2020, month=12, day=26)
 
-try:
-    from django.conf import settings
 
-    TIMEZONE_NAME = settings.TIME_ZONE
-except Exception:
-    from flask import current_app
+def get_timezone():
+    """
+    Uses the timezone name to set up a pytz timezone instance
+    Gets the timezone name from either Django settings or Flask conf.
+    Does it within a function so that we don't try to access Django settings
+    before they're ready.
+    Stores it as a constant so that we're not calculating it every time
+    """
+    global TIMEZONE_NAME
+    if not TIMEZONE_NAME:
+        try:
+            from django.conf import settings
 
-    TIMEZONE_NAME = current_app.config["TIMEZONE"]
+            TIMEZONE_NAME = settings.TIME_ZONE
+        except Exception as e:
+            print(e)
+            from flask import current_app
+
+            TIMEZONE_NAME = current_app.config["TIMEZONE"]
+    return pytz.timezone(TIMEZONE_NAME)
 
 
 def current_datetime():
@@ -179,7 +192,6 @@ class Hours(object):
     def __init__(self, start, end):
         self.start = start
         self.end = end
-        self.timezone = pytz.timezone(TIMEZONE_NAME)
 
     def is_empty(self):
         return not (self.start and self.end)
@@ -198,8 +210,8 @@ class Hours(object):
         if self.is_empty():
             return False
         if tz_aware:
-            tz_start = timezone.localize(dt.combine(dt, self.start))
-            tz_end = timezone.localize(dt.combine(dt, self.end))
+            tz_start = get_timezone().localize(dt.combine(dt, self.start))
+            tz_end = get_timezone().localize(dt.combine(dt, self.end))
             return tz_start <= dt.time() < tz_end
         else:
             return self.start <= dt.time() < self.end
