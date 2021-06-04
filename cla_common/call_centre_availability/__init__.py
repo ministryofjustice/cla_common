@@ -204,9 +204,9 @@ class Hours(object):
         return not self.is_empty()
 
     def __contains__(self, dt):
-        return self.in_hours(dt)
+        return self.contains(dt)
 
-    def in_hours(self, dt, tz_aware=False):
+    def contains(self, dt, tz_aware=False):
         if self.is_empty():
             return False
         if tz_aware:
@@ -284,14 +284,14 @@ class OpeningHours(object):
             hours = Hours(*hours)
         self.day_hours.append((func, hours))
 
-    def available(self, dt, ignore_time=False):
+    def available(self, dt, ignore_time=False, tz_aware=False):
         for (on_day, hours) in self.day_hours:
             if on_day(dt):
                 if hours is None:
                     continue
                 if hours and ignore_time:
                     return True
-                return dt in hours
+                return hours.contains(dt, tz_aware=tz_aware)
         return False
 
     def can_schedule_callback(self, dt, ignore_time=False):
