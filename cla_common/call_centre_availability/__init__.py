@@ -214,7 +214,7 @@ class Hours(object):
         if tz_aware:
             tz_start = get_timezone().localize(dt.combine(dt, self.start))
             tz_end = get_timezone().localize(dt.combine(dt, self.end))
-            return tz_start <= dt.time() < tz_end
+            return tz_start <= dt < tz_end
         else:
             return self.start <= dt.time() < self.end
 
