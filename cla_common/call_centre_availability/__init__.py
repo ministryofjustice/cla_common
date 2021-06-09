@@ -1,5 +1,6 @@
 import datetime
 from itertools import ifilter, islice, takewhile
+import pytz
 import requests
 
 from cla_common.services import CacheAdapter
@@ -9,6 +10,30 @@ BANK_HOLIDAYS_URL = "https://www.gov.uk/bank-holidays/england-and-wales.json"
 SLOT_INTERVAL_MINS = 30
 
 BOXING_DAY = datetime.date(year=2020, month=12, day=26)
+
+TIMEZONE_NAME = None
+
+
+def get_timezone():
+    """
+    Uses the timezone name to set up a pytz timezone instance
+    Gets the timezone name from either Django settings or Flask conf.
+    Does it within a function so that we don't try to access Django settings
+    before they're ready.
+    Stores it as a constant so that we're not calculating it every time
+    """
+    global TIMEZONE_NAME
+    if not TIMEZONE_NAME:
+        try:
+            from django.conf import settings
+
+            TIMEZONE_NAME = settings.TIME_ZONE
+        except Exception as e:
+            print(e)
+            from flask import current_app
+
+            TIMEZONE_NAME = current_app.config["TIMEZONE"]
+    return pytz.timezone(TIMEZONE_NAME)
 
 
 def current_datetime():
@@ -181,9 +206,17 @@ class Hours(object):
         return not self.is_empty()
 
     def __contains__(self, dt):
+        return self.contains(dt)
+
+    def contains(self, dt, tz_aware=False):
         if self.is_empty():
             return False
-        return self.start <= dt.time() < self.end
+        if tz_aware:
+            tz_start = get_timezone().localize(dt.combine(dt, self.start))
+            tz_end = get_timezone().localize(dt.combine(dt, self.end))
+            return tz_start <= dt < tz_end
+        else:
+            return self.start <= dt.time() < self.end
 
     def __repr__(self):
         if self.is_empty():
@@ -253,14 +286,14 @@ class OpeningHours(object):
             hours = Hours(*hours)
         self.day_hours.append((func, hours))
 
-    def available(self, dt, ignore_time=False):
+    def available(self, dt, ignore_time=False, tz_aware=False):
         for (on_day, hours) in self.day_hours:
             if on_day(dt):
                 if hours is None:
                     continue
                 if hours and ignore_time:
                     return True
-                return dt in hours
+                return hours.contains(dt, tz_aware=tz_aware)
         return False
 
     def can_schedule_callback(self, dt, ignore_time=False):
