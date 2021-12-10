@@ -452,6 +452,7 @@ SPECIFIC_BENEFITS = Choices(
     ("EMPLOYMENT_SUPPORT", "employment_support", "Income-related Employment and Support Allowance"),
 )
 
+
 DISREGARDS = Choices(
     # constant, db_id, friendly string
     ("INFECTED_BLOOD", "infected_blood", "Infected Blood Support Scheme"),
