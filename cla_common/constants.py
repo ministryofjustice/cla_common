@@ -452,6 +452,17 @@ SPECIFIC_BENEFITS = Choices(
     ("EMPLOYMENT_SUPPORT", "employment_support", "Income-related Employment and Support Allowance"),
 )
 
+DISREGARDS = Choices(
+    # constant, db_id, friendly string
+    ("INFECTED_BLOOD", "infected_blood", "Infected Blood Support Scheme"),
+    ("VACCINE_DAMAGE", "vaccine_damage", "Vaccine Damage Payment"),
+    ("VCJD_TRUST", "vcjd_trust", "vCJD Trust"),
+    ("CRIMINAL_INJURIES", "criminal_injuries", "Criminal Injuries Compensation Scheme"),
+    ("NATIONAL_EMERGENCIES", "national_emergencies", "National Emergencies Trust"),
+    ("LONDON_EMERGENCIES", "london_emergencies", "London Emergencies Trust"),
+    ("LOVE_MANCHESTER", "love_manchester", "We Love Manchester Emergency Fund")
+)
+
 
 EXPRESSIONS_OF_DISSATISFACTION = Choices(
     # constant, db_id, friendly string
