@@ -461,7 +461,7 @@ DISREGARDS = Choices(
     ("CRIMINAL_INJURIES", "criminal_injuries", "Criminal Injuries Compensation Scheme"),
     ("NATIONAL_EMERGENCIES", "national_emergencies", "National Emergencies Trust"),
     ("LONDON_EMERGENCIES", "london_emergencies", "London Emergencies Trust"),
-    ("LOVE_MANCHESTER", "love_manchester", "We Love Manchester Emergency Fund")
+    ("LOVE_MANCHESTER", "love_manchester", "We Love Manchester Emergency Fund"),
 )
 
 
