@@ -1,5 +1,15 @@
 import datetime
-from itertools import ifilter, islice, takewhile
+
+# need to replace ifilter as it cannot be called from python3 code
+try:
+    # Python 2
+    from future_builtins import filter
+except ImportError:
+    # Python 3
+    pass
+# from itertools import ifilter, islice, takewhile
+from itertools import islice, takewhile
+
 import pytz
 import requests
 
@@ -168,7 +178,7 @@ def every_interval(time, days=0, hours=0, minutes=0):
 def available_days(num):
     days = every_interval(current_datetime(), days=1)
     available_day = lambda day: available(day, ignore_time=True)
-    return list(islice(ifilter(available_day, days), num))
+    return list(islice(filter(available_day, days), num))
 
 
 def time_slots(day=None):
@@ -178,7 +188,7 @@ def time_slots(day=None):
     same_day = lambda x: x.date() == day
     slots = takewhile(same_day, every_interval(start, minutes=SLOT_INTERVAL_MINS))
     is_available = lambda slot: can_schedule_callback(slot)
-    return list(ifilter(is_available, slots))
+    return list(filter(is_available, slots))
 
 
 def today_slots(*args):
@@ -309,7 +319,7 @@ class OpeningHours(object):
         start = datetime.datetime.combine(day, datetime.time(0))
         same_day = lambda dt: dt.date() == day
         available = lambda dt: self.can_schedule_callback(dt)
-        return list(ifilter(available, takewhile(same_day, every_interval(start, minutes=SLOT_INTERVAL_MINS))))
+        return list(filter(available, takewhile(same_day, every_interval(start, minutes=SLOT_INTERVAL_MINS))))
 
     def today_slots(self):
         return self.time_slots(current_datetime().date())
@@ -322,4 +332,4 @@ class OpeningHours(object):
         start = current_datetime() + datetime.timedelta(days=1)
         days = every_interval(start, days=1)
         available_day = lambda day: self.can_schedule_callback(day, ignore_time=True)
-        return list(islice(ifilter(available_day, days), num_days))
+        return list(islice(filter(available_day, days), num_days))
