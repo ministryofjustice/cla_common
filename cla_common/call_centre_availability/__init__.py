@@ -9,11 +9,6 @@ except ImportError:
     pass
 # from itertools import ifilter, islice, takewhile
 from itertools import islice, takewhile
-
-# want to use this library in python2 and python3
-# as items() (replacement in python3) is slow in python 2, need to use future version iteritems
-from future.utils import iteritems
-
 import pytz
 import requests
 
@@ -272,9 +267,8 @@ class OpeningHours(object):
     ):
         self.day_hours = []
         # want to use this library in python2 and python3
-        # as items() (replacement for iteritems() in python3) is slow in python 2, need to use future version iteritems
-        # for date_string, hours in kwargs.iteritems():
-        for date_string, hours in iteritems(kwargs):
+        # need to use items() (replacement for iteritems() in python3) but is slow in python 2
+        for date_string, hours in kwargs.items():
             self.add_rule(make_date_matcher(date_string), hours)
 
         self.add_rule(on_bank_holiday, bank_holiday)
