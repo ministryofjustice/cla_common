@@ -10,6 +10,10 @@ except ImportError:
 # from itertools import ifilter, islice, takewhile
 from itertools import islice, takewhile
 
+# want to use this library in python2 and python3
+# as items() (replacement in python3) is slow in python 2, need to use future version iteritems
+from future.utils import iteritems
+
 import pytz
 import requests
 
@@ -231,7 +235,7 @@ class Hours(object):
     def __repr__(self):
         if self.is_empty():
             return "No hours"
-        return u"{start} - {end}".format(start=self.start, end=self.end)
+        return "{start} - {end}".format(start=self.start, end=self.end)
 
 
 NO_HOURS = Hours(None, None)
@@ -267,8 +271,10 @@ class OpeningHours(object):
         **kwargs
     ):
         self.day_hours = []
-
-        for date_string, hours in kwargs.iteritems():
+        # want to use this library in python2 and python3
+        # as items() (replacement for iteritems() in python3) is slow in python 2, need to use future version iteritems
+        # for date_string, hours in kwargs.iteritems():
+        for date_string, hours in iteritems(kwargs):
             self.add_rule(make_date_matcher(date_string), hours)
 
         self.add_rule(on_bank_holiday, bank_holiday)
