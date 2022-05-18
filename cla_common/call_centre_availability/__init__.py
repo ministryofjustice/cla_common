@@ -9,7 +9,6 @@ except ImportError:
     pass
 # from itertools import ifilter, islice, takewhile
 from itertools import islice, takewhile
-
 import pytz
 import requests
 
@@ -231,7 +230,7 @@ class Hours(object):
     def __repr__(self):
         if self.is_empty():
             return "No hours"
-        return u"{start} - {end}".format(start=self.start, end=self.end)
+        return "{start} - {end}".format(start=self.start, end=self.end)
 
 
 NO_HOURS = Hours(None, None)
@@ -267,8 +266,9 @@ class OpeningHours(object):
         **kwargs
     ):
         self.day_hours = []
-
-        for date_string, hours in kwargs.iteritems():
+        # want to use this library in python2 and python3
+        # need to use items() (replacement for iteritems() in python3) but is slow in python 2
+        for date_string, hours in kwargs.items():
             self.add_rule(make_date_matcher(date_string), hours)
 
         self.add_rule(on_bank_holiday, bank_holiday)
