@@ -7,7 +7,6 @@ try:
 except ImportError:
     # Python 3
     pass
-# from itertools import ifilter, islice, takewhile
 from itertools import islice, takewhile
 import pytz
 import requests
