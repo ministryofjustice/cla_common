@@ -92,15 +92,14 @@ class MoneyIntervalField(models.BigIntegerField):
 
     def __init__(self, max_value=9999999999, min_value=0, *args, **kwargs):
         self.max_value, self.min_value = max_value, min_value
-        # kwargs['coerce'] = kwargs.pop('coerce', int)
-        # kwargs['widget'] = forms.NumberInput
-
-        super(MoneyIntervalField, self).__init__(*args, **kwargs)
+        kwargs.setdefault("validators", [])
 
         if max_value is not None:
-            self.validators.append(validators.MaxValueValidator(max_value))
+            kwargs["validators"].append(validators.MaxValueValidator(max_value))
         if min_value is not None:
-            self.validators.append(validators.MinValueValidator(min_value))
+            kwargs["validators"].append(validators.MinValueValidator(min_value))
+
+        super(MoneyIntervalField, self).__init__(*args, **kwargs)
 
     def contribute_to_class(self, cls, name):
         # first, create the hidden fields. It is *crucial* that these
