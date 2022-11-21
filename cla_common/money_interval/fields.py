@@ -95,9 +95,13 @@ class MoneyIntervalField(models.BigIntegerField):
         kwargs.setdefault("validators", [])
 
         if max_value is not None:
-            kwargs["validators"].append(validators.MaxValueValidator(max_value))
+            max_validator = validators.MaxValueValidator(max_value)
+            if max_validator not in kwargs["validators"]:
+                kwargs["validators"].append(max_validator)
         if min_value is not None:
-            kwargs["validators"].append(validators.MinValueValidator(min_value))
+            min_validator = validators.MinValueValidator(min_value)
+            if min_validator not in kwargs["validators"]:
+                kwargs["validators"].append(min_validator)
 
         super(MoneyIntervalField, self).__init__(*args, **kwargs)
 
