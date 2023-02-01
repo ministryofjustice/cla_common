@@ -532,6 +532,8 @@ OPERATOR_HOURS = {
     "weekday": (datetime.time(9, 0), datetime.time(20, 0)),
     "saturday": (datetime.time(9, 0), datetime.time(12, 30)),
     "2021-12-24": (datetime.time(9, 0), datetime.time(17, 00)),
+    "2020-12-24": (datetime.time(9, 0), datetime.time(17, 00)),
+    "2020-12-31": (datetime.time(9, 0), datetime.time(17, 00)),
     "2020-12-26": (None, None),
     "2021-12-31": (datetime.time(9, 0), datetime.time(17, 00)),
 }
