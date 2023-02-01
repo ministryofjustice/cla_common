@@ -462,6 +462,8 @@ DISREGARDS = Choices(
     ("NATIONAL_EMERGENCIES", "national_emergencies", "National Emergencies Trust"),
     ("LONDON_EMERGENCIES", "london_emergencies", "London Emergencies Trust"),
     ("LOVE_MANCHESTER", "love_manchester", "We Love Manchester Emergency Fund"),
+    ("ENERGY_PRICES", "energy_prices", "Energy prices Act 2022"),
+    ("COST_LIVING", "cost_living", "Cost of living payment- Social Security (additional payments) Act 2022"),
 )
 
 
@@ -530,6 +532,8 @@ OPERATOR_HOURS = {
     "weekday": (datetime.time(9, 0), datetime.time(20, 0)),
     "saturday": (datetime.time(9, 0), datetime.time(12, 30)),
     "2021-12-24": (datetime.time(9, 0), datetime.time(17, 00)),
+    "2020-12-24": (datetime.time(9, 0), datetime.time(17, 00)),
+    "2020-12-31": (datetime.time(9, 0), datetime.time(17, 00)),
     "2020-12-26": (None, None),
     "2021-12-31": (datetime.time(9, 0), datetime.time(17, 00)),
 }
