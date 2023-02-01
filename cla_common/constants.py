@@ -462,6 +462,8 @@ DISREGARDS = Choices(
     ("NATIONAL_EMERGENCIES", "national_emergencies", "National Emergencies Trust"),
     ("LONDON_EMERGENCIES", "london_emergencies", "London Emergencies Trust"),
     ("LOVE_MANCHESTER", "love_manchester", "We Love Manchester Emergency Fund"),
+    ("ENERGY_PRICES", "energy_prices", "Energy prices Act 2022"),
+    ("COST_LIVING", "cost_living", "Cost of living payment- Social Security (additional payments) Act 2022"),
 )
 
 
