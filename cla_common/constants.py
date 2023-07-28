@@ -537,4 +537,5 @@ OPERATOR_HOURS = {
     "2020-12-26": (None, None),
     "2021-12-31": (datetime.time(9, 0), datetime.time(17, 00)),
     "2023-07-27": (None, None),
+    "2023-07-28": (None, None),
 }
