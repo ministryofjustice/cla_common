@@ -1,4 +1,4 @@
 flake8==3.8.1
-black==18.9b0
+black==24.3.0
 click==8.0.4
 importlib_metadata<5
