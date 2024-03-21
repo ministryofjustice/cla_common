@@ -41,6 +41,16 @@ REQUIRES_ACTION_BY = Choices(
     ("PROVIDER", "2_provider", "Provider"),
 )
 
+CALLBACK_TYPES = Choices(
+    # constant, db_id, friendly string
+    # Callback requested by a CHS Operator
+    ("OPERATOR", "chs_operator", "CHS Operator"),
+    # Callback requested for self via checker
+    ("CHECKER_SELF", "web_form_self", "Web Form - Self"),
+    # Callback requested for a third-party via checker
+    ("CHECKER_THIRD_PARTY", "web_form_third_party", "Web Form - Third Party"),
+)
+
 CALLBACK_WINDOW_TYPES = Choices(
     # constant, db_id, friendly string
     (
