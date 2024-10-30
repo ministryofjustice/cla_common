@@ -465,7 +465,6 @@ SPECIFIC_BENEFITS = Choices(
 
 DISREGARDS = Choices(
     # constant, db_id, friendly string
-    ("_DISREGARD_SELECTION", '_disregard_selection', "Disregard selection"),
     ("BENEFIT_PAYMENTS", "benefit_payments", "Backdated benefit payments"),
     ("CHILD_MAINTENANCE", "child_maintenance", "Backdated child maintenance payments"),
     ("ENERGY_SUPPORT", "energy_support", "The Energy Support Scheme payments (2022 and 2023)"),
@@ -482,6 +481,14 @@ DISREGARDS = Choices(
     ("CHILD_ABUSE", "child_abuse", "Scotland and Northern Ireland redress schemes for historical child abuse"),
     ("JUSTICE_COMPENSATION", "justice_compensation", "Miscarriage of justice compensation"),
     ("LOVE_MANCHESTER", "love_manchester", "We Love Manchester Emergency Fund"),
+)
+
+DISREGARD_SELECTION = Choices(
+    # This populates the "Have you had a big payment that you do not normally get?" radio button group on cla_frontend
+    # constant, db_id, friendly string
+    ("YES", "yes", "Yes"),
+    ("NO", "no", "No"),
+    ("NOT_SURE", "not_sure", "Not sure"),
 )
 
 
