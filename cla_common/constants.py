@@ -465,6 +465,7 @@ SPECIFIC_BENEFITS = Choices(
 
 DISREGARDS = Choices(
     # constant, db_id, friendly string
+    ("_DISREGARD_SELECTION", '_disregard_selection', "Disregard selection"),
     ("BENEFIT_PAYMENTS", "benefit_payments", "Backdated benefit payments"),
     ("CHILD_MAINTENANCE", "child_maintenance", "Backdated child maintenance payments"),
     ("ENERGY_SUPPORT", "energy_support", "The Energy Support Scheme payments (2022 and 2023)"),
