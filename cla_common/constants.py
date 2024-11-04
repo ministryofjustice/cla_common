@@ -467,7 +467,7 @@ DISREGARDS = Choices(
     # constant, db_id, friendly string
     ("BENEFIT_PAYMENTS", "benefit_payments", "Backdated benefit payments"),
     ("CHILD_MAINTENANCE", "child_maintenance", "Backdated child maintenance payments"),
-    ("ENERGY_SUPPORT", "energy_support", "The Energy Support Scheme payments (2022 and 2023)"),
+    ("ENERGY_PRICES", "energy_prices", "The Energy Support Scheme payments (2022 and 2023)"),
     ("COST_LIVING", "cost_living", "Cost of living payments"),
     ("INFECTED_BLOOD", "infected_blood", "Infected Blood Support Scheme"),
     ("CRIMINAL_INJURIES", "criminal_injuries", "Criminal Injuries Compensation Scheme"),
@@ -475,7 +475,7 @@ DISREGARDS = Choices(
     ("MODERN_SLAVERY", "modern_slavery", "Modern Slavery Victim Care Contract or National Referral Mechanism (NRM)"),
     ("NATIONAL_EMERGENCIES", "national_emergencies", "National Emergencies Trust"),
     ("LONDON_EMERGENCIES", "london_emergencies", "London Emergencies Trust"),
-    ("VCJD_TRUST", "vcjd_trust", "Variant Creutzfeldt-Jakob Disease (vCJD) Trust"),
+    ("VCJD_TRUST", "vcjd_trust", "vCJD Trust"),
     ("VACCINE_DAMAGE", "vaccine_damage", "Vaccine Damage Payment"),
     ("OVERSEAS_TERRORISM", "overseas_terrorism", "Victims of Overseas Terrorism Compensation Scheme (VOTCS)"),
     ("CHILD_ABUSE", "child_abuse", "Scotland and Northern Ireland redress schemes for historical child abuse"),
