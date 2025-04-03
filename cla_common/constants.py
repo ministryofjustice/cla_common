@@ -556,3 +556,23 @@ OPERATOR_HOURS = {
     "2023-07-27": (None, None),
     "2023-07-28": (None, None),
 }
+
+# Represents a users financial eligibility status from check if you can get legal aid
+FINANCIAL_ASSESSMENT_STATUSES = Choices(
+    # constant, db_id, display string
+    ("PASSED", "PASSED", "Passed"),
+    ("FAILED", "FAILED", "Failed"),
+    ("FAST_TRACK", "FAST_TRACK", "Client told to call the helpline for the assessment."),
+    # Operationally fast tracked through the check if you can get legal aid means test
+    # E.g. due to risk of harm, are under 18, have trapped capital etc.
+    ("SKIPPED", "SKIPPED", "No details. Client called the helpline directly.")
+    # The client skipped the financial assessment due to clicking "Contact Us" directly.
+)
+
+# Why the user was fast tracked through the check if you can get legal aid means test
+FAST_TRACK_REASON = Choices(
+    # constant, db_id, display string
+    ("HARM", "HARM", "User has indicated they are at risk of harm"),
+    ("MORE_INFO_REQUIRED", "MORE_INFO_REQUIRED", "Further scoping information is required"),
+    ("OTHER", "OTHER", "Other")
+)
