@@ -535,14 +535,14 @@ EXPRESSIONS_OF_DISSATISFACTION_FLAGS = {
 REASONS_FOR_CONTACTING = Choices(
     # NB: these are duplicated (for translation) in cla_public so change both when necessary!
     # constant, db_id, *english* friendly string
-    ("CANT_ANSWER", "CANT_ANSWER", u"I don’t know how to answer a question"),
-    ("MISSING_PAPERWORK", "MISSING_PAPERWORK", u"I don’t have the paperwork I need"),
-    ("PREFER_SPEAKING", "PREFER_SPEAKING", u"I’d prefer to speak to someone"),
-    ("DIFFICULTY_ONLINE", "DIFFICULTY_ONLINE", u"I have trouble using online services"),
-    ("HOW_SERVICE_HELPS", "HOW_SERVICE_HELPS", u"I don’t understand how this service can help me"),
-    ("AREA_NOT_COVERED", "AREA_NOT_COVERED", u"My problem area isn’t covered"),
-    ("PNS", "PNS", u"I’d prefer not to say"),
-    ("OTHER", "OTHER", u"Another reason"),
+    ("CANT_ANSWER", "CANT_ANSWER", "I don’t know how to answer a question"),
+    ("MISSING_PAPERWORK", "MISSING_PAPERWORK", "I don’t have the paperwork I need"),
+    ("PREFER_SPEAKING", "PREFER_SPEAKING", "I’d prefer to speak to someone"),
+    ("DIFFICULTY_ONLINE", "DIFFICULTY_ONLINE", "I have trouble using online services"),
+    ("HOW_SERVICE_HELPS", "HOW_SERVICE_HELPS", "I don’t understand how this service can help me"),
+    ("AREA_NOT_COVERED", "AREA_NOT_COVERED", "My problem area isn’t covered"),
+    ("PNS", "PNS", "I’d prefer not to say"),
+    ("OTHER", "OTHER", "Another reason"),
 )
 
 OPERATOR_HOURS = {
@@ -574,5 +574,5 @@ FAST_TRACK_REASON = Choices(
     # constant, db_id, display string
     ("HARM", "HARM", "User has indicated they are at risk of harm"),
     ("MORE_INFO_REQUIRED", "MORE_INFO_REQUIRED", "Further scoping information is required"),
-    ("OTHER", "OTHER", "Other")
+    ("OTHER", "OTHER", "Other"),
 )
