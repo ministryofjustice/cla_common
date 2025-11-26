@@ -465,15 +465,22 @@ SPECIFIC_BENEFITS = Choices(
 
 DISREGARDS = Choices(
     # constant, db_id, friendly string
+    ("BENEFIT_PAYMENTS", "benefit_payments", "Backdated benefit payments"),
+    ("CHILD_MAINTENANCE", "child_maintenance", "Backdated child maintenance payments"),
+    ("ENERGY_PRICES", "energy_prices", "The Energy Support Scheme payments (2022 and 2023)"),
+    ("COST_LIVING", "cost_living", "Cost of living payments"),
     ("INFECTED_BLOOD", "infected_blood", "Infected Blood Support Scheme"),
-    ("VACCINE_DAMAGE", "vaccine_damage", "Vaccine Damage Payment"),
-    ("VCJD_TRUST", "vcjd_trust", "vCJD Trust"),
     ("CRIMINAL_INJURIES", "criminal_injuries", "Criminal Injuries Compensation Scheme"),
+    ("GRENFELL_TOWER", "grenfell_tower", "Grenfell Tower compensation"),
+    ("MODERN_SLAVERY", "modern_slavery", "Modern Slavery Victim Care Contract or National Referral Mechanism (NRM)"),
     ("NATIONAL_EMERGENCIES", "national_emergencies", "National Emergencies Trust"),
     ("LONDON_EMERGENCIES", "london_emergencies", "London Emergencies Trust"),
+    ("VCJD_TRUST", "vcjd_trust", "vCJD Trust"),
+    ("VACCINE_DAMAGE", "vaccine_damage", "Vaccine Damage Payment"),
+    ("OVERSEAS_TERRORISM", "overseas_terrorism", "Victims of Overseas Terrorism Compensation Scheme (VOTCS)"),
+    ("CHILD_ABUSE", "child_abuse", "Scotland and Northern Ireland redress schemes for historical child abuse"),
+    ("JUSTICE_COMPENSATION", "justice_compensation", "Miscarriage of justice compensation"),
     ("LOVE_MANCHESTER", "love_manchester", "We Love Manchester Emergency Fund"),
-    ("ENERGY_PRICES", "energy_prices", "Energy prices Act 2022"),
-    ("COST_LIVING", "cost_living", "Cost of living payment- Social Security (additional payments) Act 2022"),
 )
 
 
@@ -549,3 +556,23 @@ OPERATOR_HOURS = {
     "2023-07-27": (None, None),
     "2023-07-28": (None, None),
 }
+
+# Represents a users financial eligibility status from check if you can get legal aid
+FINANCIAL_ASSESSMENT_STATUSES = Choices(
+    # constant, db_id, display string
+    ("PASSED", "PASSED", "Passed"),
+    ("FAILED", "FAILED", "Failed"),
+    ("FAST_TRACK", "FAST_TRACK", "Client told to call the helpline for the assessment."),
+    # Operationally fast tracked through the check if you can get legal aid means test
+    # E.g. due to risk of harm, are under 18, have trapped capital etc.
+    ("SKIPPED", "SKIPPED", "No details. Client called the helpline directly.")
+    # The client skipped the financial assessment due to clicking "Contact Us" directly.
+)
+
+# Why the user was fast tracked through the check if you can get legal aid means test
+FAST_TRACK_REASON = Choices(
+    # constant, db_id, display string
+    ("HARM", "HARM", "User has indicated they are at risk of harm"),
+    ("MORE_INFO_REQUIRED", "MORE_INFO_REQUIRED", "Further scoping information is required"),
+    ("OTHER", "OTHER", "Other"),
+)
