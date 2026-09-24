@@ -2,7 +2,7 @@
 from os import environ as env
 import datetime
 
-from extended_choices import Choices
+from .choices import Choices
 
 
 ELIGIBILITY_STATES = Choices(
