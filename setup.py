@@ -32,7 +32,6 @@ setup(
     include_package_data=True,
     install_requires=[
         "python-dateutil",
-        "django-extended-choices==0.3.0",
         "requests",
         "speaklater==1.3",
         "pytz==2021.1",
